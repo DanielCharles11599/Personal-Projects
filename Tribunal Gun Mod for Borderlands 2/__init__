@@ -4,7 +4,7 @@ import random
 class Tribunal(bl2sdk.BL2MOD):
 	Name = "Tribunal"
 	Description = "Replaces the Skullmasher with Tribunal, a sniper Rifle that slows down time while aiming down sights. Zooming out randomizes your weapons skin."
-	Author = "PRO(ject)Z3R0 - Based on Juso's 'Chronos' mod"
+	Author = "PRO(ject)Z3R0"
 
 	#This function is used to alter the weapons stats and also change its name and red text.
 	def PartChanges(self):

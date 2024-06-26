@@ -6,20 +6,22 @@ class Tribunal(bl2sdk.BL2MOD):
 	Description = "Replaces the Skullmasher with Tribunal, a sniper Rifle that slows down time while aiming down sights. Zooming out randomizes your weapons skin."
 	Author = "PRO(ject)Z3R0"
 
-	#This function is used to alter the weapons stats and also change its name and red text.
+	# This function is used to alter the weapons stats and also change its name and red text.
 	def PartChanges(self):
 		TribunalBarrel = bl2sdk.FindObject("WeaponPartDefinition", "GD_Weap_SniperRifles.Barrel.SR_Barrel_Jakobs_Skullmasher")
 		TribunalTitle = bl2sdk.FindObject("WeaponNamePartDefinition", "GD_Weap_SniperRifles.Name.Title_Jakobs.Title_Legendary_Skullmasher")
 		TribunalRedText = bl2sdk.FindObject("AttributePresentationDefinition", "GD_Weap_SniperRifles.Name.Title_Jakobs.Title_Legendary_Skullmasher:AttributePresentationDefinition_8")
 		TribunalTitle.PartName = "Tribunal"
 		TribunalRedText.NoConstraintText = "Black Hearts, Red Grief, and Prophets of Flesh"
-		#Change the actual weapon stats
+		# Change the actual weapon stats
+		
 		'''
 		ModifierType = 0 -> MT_Scale
 		ModifierType = 1 -> MT_PreAdd
 		ModifierType = 2 -> MT_PostAdd
 		'''
-		#setting the clip size to 1
+		
+		# Setting the clip size to 1
 		ClipSize = bl2sdk.FindObject("AttributeDefinition", "D_Attributes.Weapon.WeaponClipSize")
 		TribunalBarrel.WeaponAttributeEffects[0].AttributeToModify = ClipSize
 		TribunalBarrel.WeaponAttributeEffects[0].ModifierType = 0
@@ -27,9 +29,9 @@ class Tribunal(bl2sdk.BL2MOD):
 		TribunalBarrel.WeaponAttributeEffects[3].AttributeToModify = ClipSize
 		TribunalBarrel.WeaponAttributeEffects[3].ModifierType = 2
 		TribunalBarrel.WeaponAttributeEffects[3].BaseModifierValue.BaseValueConstant = 3.000000
-		#increasing the damage
+		# Increasing the damage
 		TribunalBarrel.WeaponAttributeEffects[1].BaseModifierValue.BaseValueConstant = 1.000000
-		#change shot impulse to crit damage
+		# Change shot impulse to crit damage
 		CritDamage = bl2sdk.FindObject("AttributeDefinition", "D_Attributes.GameplayAttributes.PlayerCriticalHitBonus")
 		TribunalBarrel.WeaponAttributeEffects[2].AttributeToModify = CritDamage
 		TribunalBarrel.WeaponAttributeEffects[2].ModifierType = 0
@@ -38,7 +40,7 @@ class Tribunal(bl2sdk.BL2MOD):
 	def GetPlayerController(self):
 		return bl2sdk.GetEngine().GamePlayers[0].Actor
 
-	#This function contains a list of all Sniper skins in the game, its used to randomly chose any of these skins as a template for Chronos Skin.
+	# This function contains a list of all Sniper skins in the game, its used to randomly chose any of these skins as a template for Chronos Skin.
 	def GetRandomSkin(self):
 		SniperSkins = [
 			"Aster_GunMaterials.Materials.Mati_VladofCommonSR_Patriot",
@@ -90,15 +92,16 @@ class Tribunal(bl2sdk.BL2MOD):
 			]
 		return random.choice(SniperSkins)
 
-	#This function gets called everytime the player unzooms the chronos, it will then randomly change the weapons skin
-	#It uses one random already existing sniper skin as a template. It copys all the values from the template to its own skin.
-	#Search first for the Material of the Skullmasher
+	# This function gets called everytime the player unzooms the Tribunal, it will then randomly change the weapons skin
+	# It uses one random already existing sniper skin as a template. It copys all the values from the template to its own skin.
+	# Search first for the Material of the Skullmasher
 	TribunalMaterial = bl2sdk.FindObject("MaterialInstanceConstant", "Common_GunMaterials.Materials.sniper.Mati_JakobsLegendarySRSkullmasher")
 	def RandomizeWeaponSkin(self):
-		#Find the MaterialInstanceConstant of Random Skin
+
+		# Find the MaterialInstanceConstant of Random Skin
 		RandomMaterial = bl2sdk.FindObject("MaterialInstanceConstant", self.GetRandomSkin())
 
-		#Some skins use a parent skin as a template, in that case copy its values first!
+		# Some skins use a parent skin as a template, in that case copy its values first!
 		if not RandomMaterial.Parent.Name == "Master_Gun":
 			#print("Material Parent:")
 			#print(RandomMaterial.Parent)
@@ -126,15 +129,17 @@ class Tribunal(bl2sdk.BL2MOD):
 	SkullMasherBarrel = bl2sdk.FindObject("WeaponPartDefinition", "GD_Weap_SniperRifles.Barrel.SR_Barrel_Jakobs_Skullmasher")
 
 	def HandleZooming(self, caller, function, params):
-		#Get the speed of the Player Pawn, needs to be increased while aiming
+		# Get the speed of the Player Pawn, needs to be increased while aiming
 		PlayerPawn = self.GetPlayerController().Pawn
 		if caller.Instigator == PlayerPawn:
 			#BaseSpeed = PlayerPawn.GroundSpeed
 			if PlayerPawn.Weapon.DefinitionData.BarrelPartDefinition == self.SkullMasherBarrel:
-				#Get the Current Worlinfo to set the timedilation
+				# Get the Current Worlinfo to set the timedilation
 				WorldInfo = bl2sdk.GetEngine().GetCurrentWorldInfo()
+				
 				#1==Zooming in / 2==Zoomed in / 3==Zooming out / 0==Not Zoomed
-				#Only slow time while zooming in
+				
+				# Only slow time while zooming in
 				if params.NewZoomState in (1, 2):
 					WorldInfo.TimeDilation = 0.4500000
 					#PlayerPawn.GroundSpeed *= 1.5
@@ -147,8 +152,8 @@ class Tribunal(bl2sdk.BL2MOD):
 		else:
 			pass
 
-	#Checks if weapon is zoomed in
-	#Hooks the games SetZoomState function
+	# Checks if weapon is zoomed in
+	# Hooks the games SetZoomState function
 	ZoomHook = "WillowGame.WillowWeapon.SetZoomState"
 	def Enable(self):
 		self.PartChanges()
@@ -159,7 +164,7 @@ class Tribunal(bl2sdk.BL2MOD):
 
 TribunalInstance = Tribunal()
 
-#This function gets called everytime the player starts to change the zoom status
+# This function gets called everytime the player starts to change the zoom status
 def IsZoomingHook(caller: bl2sdk.UObject, function: bl2sdk.UFunction, params: bl2sdk.FStruct) -> bool:
 	TribunalInstance.HandleZooming(caller, function, params)
 	return True

@@ -1,3 +1,5 @@
+# NOTE: This file is a Work in Progress as I learn to incorporate game files into this code
+
 import bl2sdk
 import random
 

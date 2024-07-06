@@ -1,5 +1,8 @@
 # NOTE: This file is a Work in Progress as I learn to incorporate game files into this code
 
+# I am currently trying to fix the magazine size to 1 but this is proving more difficult becasue of the effects (skills and class mods)
+# that increase magazine size for guns
+
 import bl2sdk
 import random
 

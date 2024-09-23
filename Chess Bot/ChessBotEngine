@@ -16,7 +16,7 @@ class Engine:
     def evalFunct(self):
         count = 0
         for i in range(64): # Sums up the material values
-            compt += self.squareResPoints(ch.SQUARES[i])
+            count += self.squareResPoints(ch.SQUARES[i])
         count += self.mateOpportunity() + self.opening() + 0.001*rd.random() # Provides ambiguity to aid Alpha-beta Pruning
         return count
 

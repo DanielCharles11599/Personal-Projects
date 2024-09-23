@@ -14,16 +14,16 @@ class Engine:
 
 
     def evalFunct(self):
-        compt = 0
+        count = 0
         for i in range(64): # Sums up the material values
             compt += self.squareResPoints(ch.SQUARES[i])
-        compt += self.mateOpportunity() + self.opening() + 0.001*rd.random()
-        return compt
+        count += self.mateOpportunity() + self.opening() + 0.001*rd.random() # Provides ambiguity to aid Alpha-beta Pruning
+        return count
 
 
     def mateOpportunity(self):
-        if (self.board.legal_moves.count()==0):
-            if (self.board.turn == self.color):
+        if (self.board.legal_moves.count()==0): # No legal moves means it is checkmate
+            if (self.board.turn == self.color): # This means that the engine is being checkmated
                 return -999
             else:
                 return 999
@@ -91,17 +91,20 @@ class Engine:
 
                 # Basic minmax algorithm:
                 # If maximizing (engine's turn)
-                if(value > newCandidate and depth % 2 != 0):
+                if(value > newCandidate and depth % 2 != 0): # Updates candidate based on the surrounding nodes
 
                     if (depth == 1): # Need to save move played by the engine
                         move = i
                     newCandidate = value
                     
                 # If minimizing (human player's turn)
-                elif(value < newCandidate and depth % 2 == 0):
+                elif(value < newCandidate and depth % 2 == 0): # Updates candidate based on the surrounding nodes
                     newCandidate = value
 
+
+
                 # Alpha-beta prunning cuts: 
+
                 # If previous move was made by the engine
                 if (candidate != None and value < candidate and depth % 2 == 0):
                     self.board.pop()

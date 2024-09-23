@@ -11,7 +11,8 @@ class Main:
         try:
             print(self.board.legal_moves)
             print("""To undo your last move, type "undo".""")
-            play = input("Your move: ") # Gets a human move as an input
+            play = input("\nYour move: ") # Gets a human move as an input
+            print("")
             if (play == "undo"):
                 self.board.pop()
                 self.board.pop()
@@ -30,7 +31,7 @@ class Main:
     def startGame(self):
         color = None # Gets human player's color
         
-        while(color! = "b" and color! = "w"):
+        while(color != "b" and color != "w"):
             color = input("""Play as (type "b" or "w"): """)
 
         maxDepth = None
@@ -40,7 +41,7 @@ class Main:
 
         if color == "b":
             while (self.board.is_checkmate() == False):
-                print("The engine is thinking...")
+                print("\nThe engine is thinking...")
                 self.playEngineMove(maxDepth, ch.WHITE)
                 print(self.board)
                 self.playHumanMove()
@@ -53,7 +54,7 @@ class Main:
                 print(self.board)
                 self.playHumanMove()
                 print(self.board)
-                print("The engine is thinking...")
+                print("\nThe engine is thinking...")
                 self.playEngineMove(maxDepth, ch.BLACK)
             print(self.board)
             print(self.board.outcome())
@@ -64,4 +65,4 @@ class Main:
 # Create an instance and start a game
 newBoard= ch.Board()
 game = Main(newBoard)
-bruh = game.startGame()
+start = game.startGame()

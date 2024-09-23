@@ -1,6 +1,6 @@
 # NOTE: This file is a Work in Progress as I learn to incorporate game files into this code
 
-# I am currently trying to fix the magazine size to 1 but this is proving more difficult becasue of the effects (skills and class mods)
+# I am currently trying to fix the magazine size to 1 but this is proving more difficult because of the effects (skills and class mods)
 # that increase magazine size for guns
 
 import bl2sdk
@@ -42,13 +42,13 @@ class Assassin(bl2sdk.BL2MOD):
             AssassinBarrel.WeaponAttributeEffects[0].ModifierType = 0  # MT_Scale
             AssassinBarrel.WeaponAttributeEffects[0].BaseModifierValue.BaseValueConstant = 1.0
 
-            # Increase critical hit damage by 1,000,000%
+            # Increase critical hit damage by 10000.0%
             AssassinBarrel.WeaponAttributeEffects[1].AttributeToModify = CritDamage
             AssassinBarrel.WeaponAttributeEffects[1].ModifierType = 0  # MT_Scale
             AssassinBarrel.WeaponAttributeEffects[1].BaseModifierValue.BaseValueConstant = 10000.0
 
             # Log confirmation
-            bl2sdk.Log("Assassin Gun: Magazine size set to 1 and critical hit damage increased by 1,000,000%")
+            bl2sdk.Log("Assassin Gun: Magazine size set to 1 and critical hit damage increased by 10000.0%")
 
 
     def GetPlayerController(self):
@@ -106,7 +106,7 @@ class Assassin(bl2sdk.BL2MOD):
     SkullMasherBarrel = bl2sdk.FindObject("WeaponPartDefinition", "GD_Weap_SniperRifles.Barrel.SR_Barrel_Jakobs_Skullmasher")
 
     def HandleZooming(self, caller, function, params):
-        # Get the speed of the Player Pawn, needs to be increased while aiming
+        # Get the speed of the Player, needs to be increased while aiming
         PlayerPawn = self.GetPlayerController().Pawn
 
         if caller.Instigator == PlayerPawn:

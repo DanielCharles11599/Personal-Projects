@@ -109,18 +109,18 @@ def ask_question(question, answers, correct_answer):
 # Function to move the character forward if the answer is correct
 def move_character(correct):
     if correct:
-        character.forward(100)
+        character.forward(100) # Move the character forward
         if character.xcor() >= 250:  # Check if the character reaches the final marker
             display_message("Congratulations! You reached the finish line.")
             return False # Return False to stop showing the next question
+    
     else:
-        character.setx(character.xcor() - 100) #Move the character back
+        character.setx(character.xcor() - 100) # Move the character back
+        if character.xcor() <= -250: # Check if the character reaches the loss marker
+            display_message("Better luck next time!")
+            return False # Return False to stop showing the next question
+
     return True # Return True to continue showing the next question
-
-# Function to move the character back
-def move_character_back():
-    character.back(100)
-
 
 # Main game loop
 random_questions = list(zip(questions, answers, correct_answers))

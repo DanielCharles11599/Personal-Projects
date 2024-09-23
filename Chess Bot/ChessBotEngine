@@ -17,7 +17,7 @@ class Engine:
         compt = 0
         for i in range(64): # Sums up the material values
             compt += self.squareResPoints(ch.SQUARES[i])
-        compt += self.mateOpportunity() + self.openning() + 0.001*rd.random()
+        compt += self.mateOpportunity() + self.opening() + 0.001*rd.random()
         return compt
 
 
@@ -32,7 +32,7 @@ class Engine:
 
 
     # Function to make the engine develop in the first moves
-    def openning(self):
+    def opening(self):
         if (self.board.fullmove_number < 10):
             if (self.board.turn == self.color):
                 return 1/30 * self.board.legal_moves.count()
@@ -65,14 +65,14 @@ class Engine:
     def engine(self, candidate, depth):
         
         # Reached max depth of search or no possible moves
-        if ( depth == self.maxDepth
-        or self.board.legal_moves.count() == 0):
+        if ( depth == self.maxDepth or self.board.legal_moves.count() == 0):
             return self.evalFunct()
         
         else: 
-            moveListe = list(self.board.legal_moves) # Get list of legal moves of the current position
+            moveList = list(self.board.legal_moves) # Get list of legal moves of the current position
             
             newCandidate = None # Initialise newCandidate
+                                # newCandidate will be used as a recursive parameter
 
             # An uneven depth means it's the engine's turn
             if(depth % 2 != 0):
@@ -81,7 +81,7 @@ class Engine:
                 newCandidate = float("inf")
             
             # Analyses the board after deeper moves
-            for i in moveListe:
+            for i in moveList:
 
                 # Play move i
                 self.board.push(i)
@@ -103,16 +103,12 @@ class Engine:
 
                 # Alpha-beta prunning cuts: 
                 # If previous move was made by the engine
-                if (candidate != None
-                 and value < candidate
-                 and depth % 2 == 0):
+                if (candidate != None and value < candidate and depth % 2 == 0):
                     self.board.pop()
                     break
                 
                 # If previous move was made by the human player
-                elif (candidate != None 
-                and value > candidate 
-                and depth % 2 != 0):
+                elif (candidate != None and value > candidate and depth % 2 != 0):
                     self.board.pop()
                     break
                 

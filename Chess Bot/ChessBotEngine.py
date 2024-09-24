@@ -56,7 +56,7 @@ class Engine:
         elif (self.board.piece_type_at(square) == ch.QUEEN):
             pieceValue = 8.8
 
-        if (self.board.color_at(square)!=self.color):
+        if (self.board.color_at(square) != self.color):
             return -pieceValue
         else:
             return pieceValue

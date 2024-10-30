@@ -1,5 +1,0 @@
-What is the capital of France?,Paris,London,Berlin,Tokyo,1
-Who wrote "Hamlet"?,William Shakespeare,Charles Dickens,Mark Twain,Leo Tolstoy,1
-What is 5 + 7?,10,11,12,13,3
-Which of the following is NOT a coding language?,C++,Python,Java,Cobra,4
-What is the largest land mammal on the planet?,African Elephant,Blue Whale,Asian Elephant,Barnacle,1

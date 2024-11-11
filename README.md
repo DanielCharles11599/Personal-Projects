@@ -4,4 +4,4 @@ As my knowledge of various languages and topics improves I will be adding new pe
 
 These projects are NOT a part of my university work and are done in my free time as I become familiar with new concepts and ideas.
 
-The creation of new projects has been temporarily placed on hold as my current focus is on learning ML so that I can transition through to creating a Neural Network for Deep Learning and eventually transitioning into GenAI.
+The creation of new projects has been temporarily placed on hold as my current focus is on learning ML so that I can transition through to creating a Neural Network for Deep Learning and eventually transitioning into GenAI. I will also be looking at ML application for Data Science and Cybersecurity.

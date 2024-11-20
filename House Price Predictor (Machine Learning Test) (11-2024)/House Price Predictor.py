@@ -1,4 +1,4 @@
-# Please note that the lab_utils_uni.py and lab_utils_uni.py files were NOT created by me and were provided by DeepLearning.AI
+# Please note that the lab_utils_uni.py file was NOT created by me and was provided by DeepLearning.AI
 # This project will constantly be updated as I progress further through Machine Learning concepts
 
 import math, copy
@@ -95,8 +95,10 @@ def main():
     # Both input variables and targets are stored as one-dimensional NumpPy arrays
     x_train = np.array([1.0, 1.7, 2.0, 2.5, 3.0, 3.2])
     y_train = np.array([250, 300, 480, 430, 630, 730])
-    print(f"Input Variables (In 100 square meters): {x_train}")
-    print(f"Target Price (In thousands of Rands: {y_train}")
+
+    # Data is measured in feet and dollars to match the functions that display graphs provided by lab_utils_uni.py
+    print(f"Input Variables (In 100 square feet): {x_train}")
+    print(f"Target Price (In thousands of dollars: {y_train}")
     print("")
     print("")
 

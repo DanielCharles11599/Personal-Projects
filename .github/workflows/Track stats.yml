@@ -1,15 +1,10 @@
-# Save this file to: .github/workflows/track-stats.yml  in your repo
-# (GitHub only picks up workflows that live in that exact folder.)
-
 name: Track Brawl Stars Stats
 
 on:
   schedule:
-    # Runs at the top of every hour (UTC). Edit the cron expression to
-    # change frequency -- e.g. "0 */3 * * *" for every 3 hours,
-    # or "0 8,20 * * *" for twice a day at 8am/8pm UTC.
-    - cron: '0 * * * *'
-  workflow_dispatch: {}   # lets you trigger it manually from the Actions tab
+    - cron: '0 10 * * *' # Runs @ 10am SAST
+      timezone: "Africa/Johannesburg"
+  workflow_dispatch: {}
 
 # Prevents two runs from overlapping and racing to push at the same time.
 concurrency:
@@ -24,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'Brawl Stars Tracker'   # <-- files live in this subfolder
+        working-directory: 'Brawl Stars Tracker'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -39,7 +34,7 @@ jobs:
 
       - name: Run tracker
         env:
-          BS_API_TOKEN: ${{ secrets.BS_API_TOKEN }}
+          BS_API_TOKEN: ${{ secrets.BS_API_TOKEN }}    # Uses GitHub Secrets to avoid placing config.json in the repo
           BS_PLAYER_TAG: ${{ secrets.BS_PLAYER_TAG }}
         run: python brawl_tracker.py
 

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brawl Log — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+  :root{
+    --bg:#100D28; --panel:#1B1748; --panel-alt:#221D5C; --line:rgba(255,255,255,0.08);
+    --gold:#FFC94A; --pink:#FF5C82; --teal:#3FE1D0; --text:#F1EEFF; --text-dim:#9C96C9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Rubik',sans-serif; color:var(--text); min-height:100vh;
+    padding:32px 16px 80px;
+    background:
+      radial-gradient(ellipse at top left, rgba(255,92,130,0.12), transparent 45%),
+      radial-gradient(ellipse at bottom right, rgba(63,225,208,0.10), transparent 50%),
+      var(--bg);
+  }
+  .wrap{ max-width:980px; margin:0 auto; }
+  .display{ font-family:'Lilita One', sans-serif; }
+
+  header.top{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:26px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .badge{
+    width:44px; height:44px; border-radius:12px;
+    background:linear-gradient(135deg, var(--gold), #FF9F4A);
+    display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0;
+    box-shadow:0 4px 14px rgba(255,201,74,0.35);
+  }
+  header.top h1{ font-size:26px; margin:0; }
+  header.top p{ margin:2px 0 0; color:var(--text-dim); font-size:13.5px; }
+
+  #statusBar{ font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:10px; }
+  #statusDot{ width:8px; height:8px; border-radius:50%; background:var(--text-dim); flex-shrink:0; }
+  #statusDot.ok{ background:var(--teal); }
+  #statusDot.err{ background:var(--pink); }
+  .btn{ border:none; border-radius:10px; padding:9px 16px; font-weight:600; font-size:13.5px; cursor:pointer; font-family:'Rubik',sans-serif; }
+  .btn.primary{ background:var(--gold); color:#241800; }
+  .btn.primary:hover{ filter:brightness(1.06); }
+  .btn.ghost{ background:transparent; border:1px solid var(--line); color:var(--text-dim); }
+  .btn.ghost:hover{ color:var(--text); border-color:var(--text-dim); }
+
+  #loadError{
+    display:none; background:rgba(255,92,130,0.1); border:1px solid rgba(255,92,130,0.3);
+    color:var(--text); border-radius:14px; padding:16px 18px; margin-bottom:20px; font-size:14px; line-height:1.5;
+  }
+  #loadError code{ background:rgba(0,0,0,0.25); padding:1px 6px; border-radius:6px; }
+
+  .hero{
+    background:linear-gradient(160deg, var(--panel-alt), var(--panel));
+    border:1px solid var(--line); border-radius:20px; padding:26px 22px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;
+  }
+  @media (max-width:760px){ .hero{ grid-template-columns:1fr 1fr; } }
+  .stat-label{ font-size:12px; color:var(--text-dim); margin-bottom:6px; }
+  .stat-value{ font-size:28px; line-height:1; }
+  .stat-value.gold{ color:var(--gold); }
+  .stat-value.teal{ color:var(--teal); }
+  .stat-sub{ font-size:12.5px; margin-top:6px; color:var(--text-dim); }
+  .pill{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:600; }
+  .pill.up{ background:rgba(63,225,208,0.15); color:var(--teal); }
+  .pill.down{ background:rgba(255,92,130,0.15); color:var(--pink); }
+  .pill.flat{ background:rgba(255,255,255,0.08); color:var(--text-dim); }
+
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:22px; margin-bottom:22px; }
+  .card h2{ font-size:18px; margin:0 0 4px; }
+  .card .hint{ color:var(--text-dim); font-size:13px; margin:0 0 16px; }
+  .card-head{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; }
+
+  select{
+    padding:9px 11px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel-alt); color:var(--text); font-family:'Rubik',sans-serif; font-size:14px;
+  }
+  .period-controls{ display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; margin-bottom:16px; }
+  .period-result{ display:flex; gap:24px; flex-wrap:wrap; padding-top:6px; border-top:1px solid var(--line); margin-top:4px; }
+  .period-result .stat-value{ font-size:24px; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th{ text-align:left; font-size:12px; color:var(--text-dim); font-weight:600; padding:0 10px 8px; }
+  td{ padding:9px 10px; font-size:14px; border-top:1px solid var(--line); }
+  tr:hover td{ background:rgba(255,255,255,0.02); }
+  .num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .delta.up{ color:var(--teal); } .delta.down{ color:var(--pink); } .delta.flat{ color:var(--text-dim); }
+  .clickable-row{ cursor:pointer; }
+
+  .empty{ text-align:center; padding:26px 10px; color:var(--text-dim); font-size:14px; }
+  canvas{ max-height:260px; }
+  .footer-note{ text-align:center; color:var(--text-dim); font-size:12.5px; margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div class="badge">🏆</div>
+      <div>
+        <h1 class="display">Brawl Log</h1>
+        <p>Auto-loaded from your local CSVs</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div id="statusBar"><span id="statusDot"></span><span id="statusText">Loading…</span></div>
+      <button class="btn primary" id="refreshBtn">Refresh</button>
+    </div>
+  </header>
+
+  <div id="loadError"></div>
+
+  <div class="hero" id="hero">
+    <div>
+      <div class="stat-label">Total Trophies</div>
+      <div class="stat-value gold display" id="heroTotal">—</div>
+      <div class="stat-sub" id="heroTotalDelta"></div>
+    </div>
+    <div>
+      <div class="stat-label">Highest Trophies</div>
+      <div class="stat-value display" id="heroHighest">—</div>
+      <div class="stat-sub" id="heroHighestSub"></div>
+    </div>
+    <div>
+      <div class="stat-label">Brawlers Unlocked</div>
+      <div class="stat-value teal display" id="heroBrawlers">—</div>
+      <div class="stat-sub" id="heroBrawlersSub"></div>
+    </div>
+    <div>
+      <div class="stat-label">3v3 / Solo / Duo Wins</div>
+      <div class="stat-value display" id="heroVictories" style="font-size:20px;">—</div>
+      <div class="stat-sub" id="heroClub"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Trophy trend</h2>
+    <p class="hint">Every account snapshot logged by the tracker.</p>
+    <div id="chartEmpty" class="empty">No account history yet — waiting on brawl_history.csv.</div>
+    <canvas id="trophyChart" style="display:none;"></canvas>
+  </div>
+
+  <div class="card" id="periodCard">
+    <h2>Trophy gain over a period</h2>
+    <p class="hint">Pick two snapshots to compare.</p>
+    <div class="period-controls">
+      <div><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:5px;">From</label><select id="periodFrom"></select></div>
+      <div><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:5px;">To</label><select id="periodTo"></select></div>
+    </div>
+    <div id="periodEmpty" class="empty">Need at least two snapshots to compare.</div>
+    <div class="period-result" id="periodResult" style="display:none;">
+      <div><div class="stat-label">Trophy gain</div><div class="stat-value display" id="periodGain">—</div></div>
+      <div><div class="stat-label">Time elapsed</div><div class="stat-value display" id="periodDays">—</div></div>
+      <div><div class="stat-label">Avg. per day</div><div class="stat-value display" id="periodRate">—</div></div>
+    </div>
+  </div>
+
+  <div class="card" id="brawlerCard">
+    <div class="card-head">
+      <div>
+        <h2>Per-brawler trophies</h2>
+        <p class="hint">Latest snapshot, with change since the previous one. Click a row to see its trend.</p>
+      </div>
+    </div>
+    <div id="brawlerEmpty" class="empty">No per-brawler data yet — waiting on brawler_history.csv.</div>
+    <table id="brawlerTable" style="display:none;">
+      <thead><tr><th>Brawler</th><th class="num">Trophies</th><th class="num">Change</th><th class="num">Power</th></tr></thead>
+      <tbody id="brawlerTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="card" id="brawlerTrendCard" style="display:none;">
+    <h2 id="brawlerTrendTitle">Brawler trend</h2>
+    <p class="hint">Trophy history for this brawler.</p>
+    <canvas id="brawlerTrendChart" style="max-height:220px;"></canvas>
+  </div>
+
+  <div class="card" id="battleCard">
+    <h2>Recent battles</h2>
+    <p class="hint">Most recent matches captured by the tracker's battle log.</p>
+    <div id="battleEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <table id="battleTable" style="display:none;">
+      <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
+      <tbody id="battleTableBody"></tbody>
+    </table>
+  </div>
+
+  <p class="footer-note">Serve this page from the same folder as your CSVs (e.g. <code>python3 -m http.server</code>) — opening it directly as a file won't be able to load the data.</p>
+</div>
+
+<script>
+let accountRows = [];
+let brawlerRows = [];
+let battleRows = [];
+let trophyChartInstance = null;
+let brawlerTrendChartInstance = null;
+
+function fmtNum(n){
+  if(n === null || n === undefined || n === '' || isNaN(n)) return '—';
+  return Number(n).toLocaleString();
+}
+
+function fmtDateTime(iso){
+  const d = new Date(iso);
+  if(isNaN(d)) return iso;
+  return d.toLocaleString(undefined, { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function hoursBetween(t1, t2){
+  return Math.max(0.01, (new Date(t2) - new Date(t1)) / 3600000);
+}
+
+function fmtElapsed(hours){
+  if(hours < 48) return hours.toFixed(1) + ' hrs';
+  return (hours / 24).toFixed(1) + ' days';
+}
+
+async function loadCsv(filename){
+  const res = await fetch(filename, { cache: 'no-store' });
+  if(!res.ok) throw new Error(`${filename}: HTTP ${res.status}`);
+  const text = await res.text();
+  const parsed = Papa.parse(text, { header: true, dynamicTyping: true, skipEmptyLines: true });
+  return parsed.data;
+}
+
+async function loadAll(){
+  const statusDot = document.getElementById('statusDot');
+  const statusText = document.getElementById('statusText');
+  const errBox = document.getElementById('loadError');
+  statusDot.className = '';
+  statusText.textContent = 'Loading…';
+  errBox.style.display = 'none';
+
+  const results = await Promise.allSettled([
+    loadCsv('brawl_history.csv'),
+    loadCsv('brawler_history.csv'),
+    loadCsv('battle_log.csv'),
+  ]);
+
+  const failures = [];
+  accountRows = results[0].status === 'fulfilled' ? results[0].value.filter(r => r.timestamp) : (failures.push('brawl_history.csv'), []);
+  brawlerRows = results[1].status === 'fulfilled' ? results[1].value.filter(r => r.timestamp) : (failures.push('brawler_history.csv'), []);
+  battleRows  = results[2].status === 'fulfilled' ? results[2].value.filter(r => r.battle_time) : (failures.push('battle_log.csv'), []);
+
+  accountRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+  brawlerRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+  battleRows.sort((a,b) => new Date(b.battle_time) - new Date(a.battle_time));
+
+  if(failures.length === 3){
+    statusDot.className = 'err';
+    statusText.textContent = 'Could not load data';
+    errBox.style.display = 'block';
+    errBox.innerHTML = `Couldn't fetch any CSV files. Make sure this page is being served over HTTP from the same
+      folder as <code>brawl_history.csv</code>, <code>brawler_history.csv</code>, and <code>battle_log.csv</code>
+      (e.g. run <code>python3 -m http.server</code> in that folder and open
+      <code>http://localhost:8000/dashboard.html</code>) — opening this file directly won't work.`;
+  } else if(failures.length > 0){
+    statusDot.className = 'ok';
+    statusText.textContent = `Loaded (missing: ${failures.join(', ')})`;
+    errBox.style.display = 'block';
+    errBox.innerHTML = `Some files didn't load yet: <code>${failures.join('</code>, <code>')}</code>.
+      That's expected if the tracker hasn't run enough times to produce them.`;
+  } else {
+    statusDot.className = 'ok';
+    statusText.textContent = `Loaded — ${accountRows.length} account snapshot(s), last updated ${new Date().toLocaleTimeString()}`;
+  }
+
+  render();
+}
+
+function render(){
+  renderHero();
+  renderTrophyChart();
+  renderPeriodSelectors();
+  renderBrawlerTable();
+  renderBattleTable();
+}
+
+function renderHero(){
+  const totalEl = document.getElementById('heroTotal');
+  const totalDeltaEl = document.getElementById('heroTotalDelta');
+  const highestEl = document.getElementById('heroHighest');
+  const highestSub = document.getElementById('heroHighestSub');
+  const brawlersEl = document.getElementById('heroBrawlers');
+  const brawlersSub = document.getElementById('heroBrawlersSub');
+  const victoriesEl = document.getElementById('heroVictories');
+  const clubEl = document.getElementById('heroClub');
+
+  if(accountRows.length === 0){
+    [totalEl, highestEl, brawlersEl, victoriesEl].forEach(el => el.textContent = '—');
+    [totalDeltaEl, highestSub, brawlersSub, clubEl].forEach(el => el.textContent = '');
+    return;
+  }
+
+  const latest = accountRows[accountRows.length - 1];
+  const prev = accountRows.length > 1 ? accountRows[accountRows.length - 2] : null;
+
+  totalEl.textContent = fmtNum(latest.total_trophies);
+  if(prev){
+    const diff = (latest.total_trophies || 0) - (prev.total_trophies || 0);
+    const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat';
+    const sign = diff > 0 ? '+' : '';
+    totalDeltaEl.innerHTML = `<span class="pill ${cls}">${sign}${fmtNum(diff)} since last run</span>`;
+  }
+
+  highestEl.textContent = fmtNum(latest.highest_trophies);
+  highestSub.textContent = 'All-time best';
+
+  brawlersEl.textContent = fmtNum(latest.brawlers_unlocked);
+  if(prev){
+    const diff = (latest.brawlers_unlocked || 0) - (prev.brawlers_unlocked || 0);
+    brawlersSub.textContent = diff !== 0 ? `${diff > 0 ? '+' : ''}${diff} since last run` : 'No change';
+  }
+
+  victoriesEl.textContent = `${fmtNum(latest['3v3_victories'])} / ${fmtNum(latest.solo_victories)} / ${fmtNum(latest.duo_victories)}`;
+  clubEl.textContent = latest.club_name ? `Club: ${latest.club_name}` : '';
+}
+
+function renderTrophyChart(){
+  const emptyEl = document.getElementById('chartEmpty');
+  const canvas = document.getElementById('trophyChart');
+  if(accountRows.length === 0){
+    emptyEl.style.display = 'block'; canvas.style.display = 'none'; return;
+  }
+  emptyEl.style.display = 'none'; canvas.style.display = 'block';
+
+  const labels = accountRows.map(r => fmtDateTime(r.timestamp));
+  const data = accountRows.map(r => r.total_trophies);
+
+  if(trophyChartInstance) trophyChartInstance.destroy();
+  trophyChartInstance = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets: [{
+      label: 'Total trophies', data,
+      borderColor: '#FFC94A', backgroundColor: 'rgba(255,201,74,0.12)',
+      fill: true, tension: 0.25, pointRadius: labels.length > 60 ? 0 : 3,
+      pointBackgroundColor: '#FFC94A',
+    }]},
+    options: {
+      responsive: true, plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color:'#9C96C9', maxTicksLimit:10 }, grid: { color:'rgba(255,255,255,0.06)' } },
+        y: { ticks: { color:'#9C96C9' }, grid: { color:'rgba(255,255,255,0.06)' } }
+      }
+    }
+  });
+}
+
+function renderPeriodSelectors(){
+  const fromSel = document.getElementById('periodFrom');
+  const toSel = document.getElementById('periodTo');
+  const emptyEl = document.getElementById('periodEmpty');
+  const resultEl = document.getElementById('periodResult');
+
+  if(accountRows.length < 2){
+    emptyEl.style.display = 'block'; resultEl.style.display = 'none';
+    fromSel.innerHTML = ''; toSel.innerHTML = ''; return;
+  }
+  emptyEl.style.display = 'none'; resultEl.style.display = 'flex';
+
+  const options = accountRows.map((r,i) => `<option value="${i}">${fmtDateTime(r.timestamp)} — ${fmtNum(r.total_trophies)}</option>`).join('');
+  fromSel.innerHTML = options; toSel.innerHTML = options;
+  fromSel.value = 0; toSel.value = accountRows.length - 1;
+
+  const update = () => {
+    const from = accountRows[parseInt(fromSel.value)];
+    const to = accountRows[parseInt(toSel.value)];
+    const gain = (to.total_trophies || 0) - (from.total_trophies || 0);
+    const hrs = hoursBetween(from.timestamp, to.timestamp);
+    const rate = gain / (hrs / 24);
+    const cls = gain > 0 ? 'up' : gain < 0 ? 'down' : 'flat';
+    const sign = gain > 0 ? '+' : '';
+
+    document.getElementById('periodGain').innerHTML = `<span class="delta ${cls}">${sign}${fmtNum(gain)}</span>`;
+    document.getElementById('periodDays').textContent = fmtElapsed(hrs);
+    document.getElementById('periodRate').innerHTML = `<span class="delta ${cls}">${sign}${rate.toFixed(1)}</span>`;
+  };
+  fromSel.onchange = update; toSel.onchange = update;
+  update();
+}
+
+function renderBrawlerTable(){
+  const emptyEl = document.getElementById('brawlerEmpty');
+  const table = document.getElementById('brawlerTable');
+  const body = document.getElementById('brawlerTableBody');
+
+  if(brawlerRows.length === 0){
+    emptyEl.style.display = 'block'; table.style.display = 'none'; return;
+  }
+  emptyEl.style.display = 'none'; table.style.display = 'table';
+
+  const latestTs = brawlerRows[brawlerRows.length - 1].timestamp;
+  const latestSnapshot = brawlerRows.filter(r => r.timestamp === latestTs);
+
+  const timestamps = [...new Set(brawlerRows.map(r => r.timestamp))];
+  const prevTs = timestamps.length > 1 ? timestamps[timestamps.length - 2] : null;
+  const prevMap = {};
+  if(prevTs){
+    brawlerRows.filter(r => r.timestamp === prevTs).forEach(r => { prevMap[r.brawler_name] = r.trophies; });
+  }
+
+  const sorted = [...latestSnapshot].sort((a,b) => (b.trophies||0) - (a.trophies||0));
+  body.innerHTML = sorted.map(b => {
+    let deltaHtml = '<span class="delta flat">—</span>';
+    if(prevMap[b.brawler_name] !== undefined){
+      const diff = (b.trophies||0) - prevMap[b.brawler_name];
+      const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat';
+      const sign = diff > 0 ? '+' : '';
+      deltaHtml = `<span class="delta ${cls}">${sign}${fmtNum(diff)}</span>`;
+    }
+    return `<tr class="clickable-row" data-brawler="${b.brawler_name}">
+      <td>${b.brawler_name}</td><td class="num">${fmtNum(b.trophies)}</td>
+      <td class="num">${deltaHtml}</td><td class="num">${fmtNum(b.power)}</td>
+    </tr>`;
+  }).join('');
+
+  body.querySelectorAll('tr[data-brawler]').forEach(row => {
+    row.addEventListener('click', () => showBrawlerTrend(row.dataset.brawler));
+  });
+}
+
+function showBrawlerTrend(name){
+  const card = document.getElementById('brawlerTrendCard');
+  const title = document.getElementById('brawlerTrendTitle');
+  const canvas = document.getElementById('brawlerTrendChart');
+  card.style.display = 'block';
+  title.textContent = `${name} — trophy trend`;
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const rows = brawlerRows.filter(r => r.brawler_name === name);
+  const labels = rows.map(r => fmtDateTime(r.timestamp));
+  const data = rows.map(r => r.trophies);
+
+  if(brawlerTrendChartInstance) brawlerTrendChartInstance.destroy();
+  brawlerTrendChartInstance = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets: [{
+      label: name, data, borderColor: '#3FE1D0', backgroundColor: 'rgba(63,225,208,0.12)',
+      fill: true, tension: 0.25, pointRadius: labels.length > 60 ? 0 : 3, pointBackgroundColor: '#3FE1D0',
+    }]},
+    options: {
+      responsive: true, plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color:'#9C96C9', maxTicksLimit:10 }, grid: { color:'rgba(255,255,255,0.06)' } },
+        y: { ticks: { color:'#9C96C9' }, grid: { color:'rgba(255,255,255,0.06)' } }
+      }
+    }
+  });
+}
+
+function renderBattleTable(){
+  const emptyEl = document.getElementById('battleEmpty');
+  const table = document.getElementById('battleTable');
+  const body = document.getElementById('battleTableBody');
+
+  if(battleRows.length === 0){
+    emptyEl.style.display = 'block'; table.style.display = 'none'; return;
+  }
+  emptyEl.style.display = 'none'; table.style.display = 'table';
+
+  const rows = battleRows.slice(0, 30);
+  body.innerHTML = rows.map(b => {
+    const change = b.trophy_change;
+    let cls = 'flat', sign = '';
+    if(change !== null && change !== '' && !isNaN(change)){
+      if(change > 0){ cls = 'up'; sign = '+'; }
+      else if(change < 0){ cls = 'down'; }
+    }
+    return `<tr>
+      <td>${fmtDateTime(b.battle_time)}</td>
+      <td>${b.mode || '—'}</td>
+      <td>${b.map || '—'}</td>
+      <td class="num">${b.result_or_rank ?? '—'}</td>
+      <td class="num"><span class="delta ${cls}">${change !== null && change !== '' ? sign + change : '—'}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('refreshBtn').addEventListener('click', loadAll);
+loadAll();
+</script>
+</body>
+</html>

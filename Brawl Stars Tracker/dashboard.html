@@ -178,12 +178,41 @@
     <canvas id="brawlerTrendChart" style="max-height:220px;"></canvas>
   </div>
 
+  <div class="card" id="winRateCard">
+    <h2>Win rate</h2>
+    <p class="hint">Computed from every battle the tracker has logged — grows more accurate over time since the API only exposes your last ~25 matches per check.</p>
+    <div id="winRateEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <div id="winRateContent" style="display:none;">
+      <div class="hero" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px;">
+        <div>
+          <div class="stat-label">Versus win rate</div>
+          <div class="stat-value gold display" id="wrOverall">—</div>
+          <div class="stat-sub" id="wrOverallSub"></div>
+        </div>
+        <div>
+          <div class="stat-label">Showdown avg. rank</div>
+          <div class="stat-value teal display" id="wrShowdown">—</div>
+          <div class="stat-sub" id="wrShowdownSub"></div>
+        </div>
+        <div>
+          <div class="stat-label">Battles logged</div>
+          <div class="stat-value display" id="wrTotal">—</div>
+          <div class="stat-sub">since tracking began</div>
+        </div>
+      </div>
+      <table id="brawlerWinTable">
+        <thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Win rate</th><th class="num">Avg. showdown rank</th></tr></thead>
+        <tbody id="brawlerWinTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="card" id="battleCard">
     <h2>Recent battles</h2>
     <p class="hint">Most recent matches captured by the tracker's battle log.</p>
     <div id="battleEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
     <table id="battleTable" style="display:none;">
-      <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
+      <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th>Brawler</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
       <tbody id="battleTableBody"></tbody>
     </table>
   </div>
@@ -226,6 +255,11 @@ async function loadCsv(filename){
   return parsed.data;
 }
 
+function normalizeTimestamp(v){
+  if(v instanceof Date) return v.toISOString();
+  return String(v);
+}
+
 async function loadAll(){
   const statusDot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
@@ -241,9 +275,15 @@ async function loadAll(){
   ]);
 
   const failures = [];
-  accountRows = results[0].status === 'fulfilled' ? results[0].value.filter(r => r.timestamp) : (failures.push('brawl_history.csv'), []);
-  brawlerRows = results[1].status === 'fulfilled' ? results[1].value.filter(r => r.timestamp) : (failures.push('brawler_history.csv'), []);
-  battleRows  = results[2].status === 'fulfilled' ? results[2].value.filter(r => r.battle_time) : (failures.push('battle_log.csv'), []);
+  accountRows = results[0].status === 'fulfilled'
+    ? results[0].value.filter(r => r.timestamp).map(r => ({ ...r, timestamp: normalizeTimestamp(r.timestamp) }))
+    : (failures.push('brawl_history.csv'), []);
+  brawlerRows = results[1].status === 'fulfilled'
+    ? results[1].value.filter(r => r.timestamp).map(r => ({ ...r, timestamp: normalizeTimestamp(r.timestamp) }))
+    : (failures.push('brawler_history.csv'), []);
+  battleRows  = results[2].status === 'fulfilled'
+    ? results[2].value.filter(r => r.battle_time).map(r => ({ ...r, battle_time: normalizeTimestamp(r.battle_time) }))
+    : (failures.push('battle_log.csv'), []);
 
   accountRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
   brawlerRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
@@ -272,11 +312,88 @@ async function loadAll(){
 }
 
 function render(){
-  renderHero();
-  renderTrophyChart();
-  renderPeriodSelectors();
-  renderBrawlerTable();
-  renderBattleTable();
+  const steps = [
+    ['hero', renderHero],
+    ['trophy chart', renderTrophyChart],
+    ['period selectors', renderPeriodSelectors],
+    ['brawler table', renderBrawlerTable],
+    ['win rate', renderWinRate],
+    ['battle table', renderBattleTable],
+  ];
+  const failed = [];
+  for(const [label, fn] of steps){
+    try{ fn(); }
+    catch(err){ failed.push(label); console.error(`Error rendering ${label}:`, err); }
+  }
+  if(failed.length){
+    const errBox = document.getElementById('loadError');
+    errBox.style.display = 'block';
+    errBox.innerHTML = `Rendering failed for: <code>${failed.join('</code>, <code>')}</code>. ` +
+      `Open the browser console (F12) for the exact error.`;
+  }
+}
+
+function renderWinRate(){
+  const emptyEl = document.getElementById('winRateEmpty');
+  const content = document.getElementById('winRateContent');
+
+  const usable = battleRows.filter(b => b.brawler_used);
+  if(usable.length === 0){
+    emptyEl.style.display = 'block'; content.style.display = 'none'; return;
+  }
+  emptyEl.style.display = 'none'; content.style.display = 'block';
+
+  const versus = usable.filter(b => b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw');
+  const wins = versus.filter(b => b.outcome === 'victory').length;
+  const losses = versus.filter(b => b.outcome === 'defeat').length;
+  const draws = versus.filter(b => b.outcome === 'draw').length;
+  const versusTotal = versus.length;
+  const winPct = (wins + losses) > 0 ? (wins / (wins + losses) * 100) : null;
+
+  document.getElementById('wrOverall').textContent = winPct !== null ? winPct.toFixed(0) + '%' : '—';
+  document.getElementById('wrOverallSub').textContent = versusTotal > 0
+    ? `${wins}W – ${losses}L – ${draws}D across versus modes`
+    : 'No versus-mode battles logged yet';
+
+  const showdown = usable.filter(b => b.rank !== null && b.rank !== '' && !isNaN(b.rank));
+  const avgRank = showdown.length > 0
+    ? (showdown.reduce((sum, b) => sum + Number(b.rank), 0) / showdown.length)
+    : null;
+  document.getElementById('wrShowdown').textContent = avgRank !== null ? avgRank.toFixed(1) : '—';
+  document.getElementById('wrShowdownSub').textContent = showdown.length > 0
+    ? `across ${showdown.length} showdown match(es)`
+    : 'No showdown battles logged yet';
+
+  document.getElementById('wrTotal').textContent = fmtNum(usable.length);
+
+  const byBrawler = {};
+  usable.forEach(b => {
+    const name = b.brawler_used;
+    if(!byBrawler[name]) byBrawler[name] = { wins:0, losses:0, draws:0, ranks:[] };
+    if(b.outcome === 'victory') byBrawler[name].wins++;
+    else if(b.outcome === 'defeat') byBrawler[name].losses++;
+    else if(b.outcome === 'draw') byBrawler[name].draws++;
+    if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)) byBrawler[name].ranks.push(Number(b.rank));
+  });
+
+  const rows = Object.entries(byBrawler)
+    .map(([name, s]) => {
+      const total = s.wins + s.losses + s.draws + s.ranks.length;
+      const decided = s.wins + s.losses;
+      const pct = decided > 0 ? (s.wins / decided * 100) : null;
+      const avgR = s.ranks.length > 0 ? (s.ranks.reduce((a,b)=>a+b,0) / s.ranks.length) : null;
+      return { name, total, pct, avgR };
+    })
+    .sort((a,b) => b.total - a.total);
+
+  document.getElementById('brawlerWinTableBody').innerHTML = rows.map(r => `
+    <tr>
+      <td>${r.name}</td>
+      <td class="num">${r.total}</td>
+      <td class="num">${r.pct !== null ? r.pct.toFixed(0) + '%' : '—'}</td>
+      <td class="num">${r.avgR !== null ? r.avgR.toFixed(1) : '—'}</td>
+    </tr>
+  `).join('');
 }
 
 function renderHero(){
@@ -469,11 +586,15 @@ function renderBattleTable(){
       if(change > 0){ cls = 'up'; sign = '+'; }
       else if(change < 0){ cls = 'down'; }
     }
+    let resultLabel = '—';
+    if(b.outcome){ resultLabel = b.outcome.charAt(0).toUpperCase() + b.outcome.slice(1); }
+    else if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){ resultLabel = `Rank ${b.rank}`; }
     return `<tr>
       <td>${fmtDateTime(b.battle_time)}</td>
       <td>${b.mode || '—'}</td>
       <td>${b.map || '—'}</td>
-      <td class="num">${b.result_or_rank ?? '—'}</td>
+      <td>${b.brawler_used || '—'}</td>
+      <td class="num">${resultLabel}</td>
       <td class="num"><span class="delta ${cls}">${change !== null && change !== '' ? sign + change : '—'}</span></td>
     </tr>`;
   }).join('');

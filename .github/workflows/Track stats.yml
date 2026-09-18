@@ -1,9 +1,11 @@
+# Save this file to: .github/workflows/track-stats.yml  in your repo
+# (GitHub only picks up workflows that live in that exact folder.)
+
 name: Track Brawl Stars Stats
 
 on:
   schedule:
-    - cron: '0 8 * * *'
-      timezone: "Africa/Johannesburg"
+    - cron: '0 8 * * *' # Runs at 10am SAST
   workflow_dispatch: {}   # lets you trigger it manually from the Actions tab
 
 # Prevents two runs from overlapping and racing to push at the same time.
@@ -13,6 +15,8 @@ concurrency:
 
 permissions:
   contents: write   # needed so the workflow can commit the updated CSVs back
+  pages: write       # needed to publish to GitHub Pages
+  id-token: write    # needed for the official Pages deploy action
 
 jobs:
   track:
@@ -42,7 +46,7 @@ jobs:
         run: |
           git config user.name "brawl-tracker-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add brawl_history.csv brawler_history.csv battle_log.csv
+          git add brawl_history.csv brawler_history.csv battle_log.csv catalog.json
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
@@ -50,3 +54,33 @@ jobs:
             git pull --rebase
             git push
           fi
+
+  deploy-pages:
+    needs: track           # only runs once the tracker job above has finished
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        # No ref specified -- this checks out the default branch's latest
+        # commit, which by now includes whatever the track job just pushed.
+
+      - name: Assemble the site
+        run: |
+          mkdir -p _site
+          cp "Brawl Stars Tracker/dashboard.html" _site/index.html
+          cp "Brawl Stars Tracker/brawl_history.csv" _site/ 2>/dev/null || true
+          cp "Brawl Stars Tracker/brawler_history.csv" _site/ 2>/dev/null || true
+          cp "Brawl Stars Tracker/battle_log.csv" _site/ 2>/dev/null || true
+          cp "Brawl Stars Tracker/catalog.json" _site/ 2>/dev/null || true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

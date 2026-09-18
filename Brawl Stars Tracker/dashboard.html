@@ -45,6 +45,7 @@
   .btn.primary:hover{ filter:brightness(1.06); }
   .btn.ghost{ background:transparent; border:1px solid var(--line); color:var(--text-dim); }
   .btn.ghost:hover{ color:var(--text); border-color:var(--text-dim); }
+  .btn.small{ padding:6px 12px; font-size:13px; }
 
   #loadError{
     display:none; background:rgba(255,92,130,0.1); border:1px solid rgba(255,92,130,0.3);
@@ -113,27 +114,128 @@
 
   <div id="loadError"></div>
 
-  <div class="hero" id="hero">
-    <div>
-      <div class="stat-label">Total Trophies</div>
-      <div class="stat-value gold display" id="heroTotal">—</div>
-      <div class="stat-sub" id="heroTotalDelta"></div>
+  <div class="card">
+    <h2>General Stats</h2>
+    <p class="hint">Your current standing, refreshed every run.</p>
+    <div class="hero" id="generalStats" style="margin-bottom:0;">
+      <div>
+        <div class="stat-label">Trophy Count</div>
+        <div class="stat-value gold display" id="gsTrophies">—</div>
+        <div class="stat-sub" id="gsTrophiesSub"></div>
+      </div>
+      <div>
+        <div class="stat-label">Ranked Trophies</div>
+        <div class="stat-value display" id="gsRanked">—</div>
+        <div class="stat-sub">Not exposed by the API</div>
+      </div>
+      <div>
+        <div class="stat-label">Highest Trophy Brawler</div>
+        <div class="stat-value display" id="gsTopBrawler" style="font-size:19px;">—</div>
+        <div class="stat-sub" id="gsTopBrawlerSub"></div>
+      </div>
+      <div>
+        <div class="stat-label">Club</div>
+        <div class="stat-value display" id="gsClub" style="font-size:19px;">—</div>
+        <div class="stat-sub">Account level <span id="gsLevel">—</span></div>
+      </div>
+      <div>
+        <div class="stat-label">Avg. Brawler Level</div>
+        <div class="stat-value teal display" id="gsAvgPower">—</div>
+        <div class="stat-sub">across unlocked brawlers</div>
+      </div>
+      <div>
+        <div class="stat-label">Total Hours Played</div>
+        <div class="stat-value display" id="gsHours">—</div>
+        <div class="stat-sub">Not exposed by the API</div>
+      </div>
+      <div>
+        <div class="stat-label">3v3 Victories</div>
+        <div class="stat-value display" id="gs3v3">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Solo Victories</div>
+        <div class="stat-value display" id="gsSolo">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Duo Victories</div>
+        <div class="stat-value display" id="gsDuo">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Ranked Victories</div>
+        <div class="stat-value display" id="gsRankedVic">—</div>
+        <div class="stat-sub">Not tracked separately by the API</div>
+      </div>
     </div>
-    <div>
-      <div class="stat-label">Highest Trophies</div>
-      <div class="stat-value display" id="heroHighest">—</div>
-      <div class="stat-sub" id="heroHighestSub"></div>
+  </div>
+
+  <div class="card">
+    <h2>Personal Records</h2>
+    <p class="hint">Your all-time bests.</p>
+    <div class="hero" id="personalRecords" style="margin-bottom:0;">
+      <div>
+        <div class="stat-label">Highest Trophies</div>
+        <div class="stat-value gold display" id="prHighest">—</div>
+      </div>
+      <div>
+        <div class="stat-label">All-Time Top Brawler</div>
+        <div class="stat-value display" id="prTopBrawler" style="font-size:19px;">—</div>
+        <div class="stat-sub" id="prTopBrawlerSub"></div>
+      </div>
+      <div>
+        <div class="stat-label">Highest Rank Achieved</div>
+        <div class="stat-value teal display" id="prRank">—</div>
+        <div class="stat-sub">brawler trophy-rank badge (1–35)</div>
+      </div>
+      <div>
+        <div class="stat-label">Longest Win Streak</div>
+        <div class="stat-value display" id="prStreak">—</div>
+        <div class="stat-sub">since tracking began</div>
+      </div>
     </div>
-    <div>
-      <div class="stat-label">Brawlers Unlocked</div>
-      <div class="stat-value teal display" id="heroBrawlers">—</div>
-      <div class="stat-sub" id="heroBrawlersSub"></div>
+  </div>
+
+  <div class="card">
+    <h2>Progression</h2>
+    <p class="hint">Completion toward a fully maxed account, measured against the game's current roster.</p>
+    <div class="hero" id="progression" style="margin-bottom:0;">
+      <div>
+        <div class="stat-label">Brawlers Unlocked</div>
+        <div class="stat-value gold display" id="pgBrawlers">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Power 11 Brawlers</div>
+        <div class="stat-value display" id="pgPower11">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Fully Maxed Brawlers</div>
+        <div class="stat-value display" id="pgMaxed">—</div>
+        <div class="stat-sub">Power 11 + all gadgets + all star powers</div>
+      </div>
+      <div>
+        <div class="stat-label">Gadgets Owned</div>
+        <div class="stat-value teal display" id="pgGadgets">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Star Powers Owned</div>
+        <div class="stat-value teal display" id="pgStarPowers">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Hypercharges Owned</div>
+        <div class="stat-value display" id="pgHyper">—</div>
+        <div class="stat-sub" id="pgHyperSub"></div>
+      </div>
+      <div>
+        <div class="stat-label">Power Points to Max</div>
+        <div class="stat-value display" id="pgPP">—</div>
+        <div class="stat-sub">for currently owned brawlers*</div>
+      </div>
+      <div>
+        <div class="stat-label">Gold to Max</div>
+        <div class="stat-value display" id="pgGold">—</div>
+        <div class="stat-sub">for currently owned brawlers*</div>
+      </div>
     </div>
-    <div>
-      <div class="stat-label">3v3 / Solo / Duo Wins</div>
-      <div class="stat-value display" id="heroVictories" style="font-size:20px;">—</div>
-      <div class="stat-sub" id="heroClub"></div>
-    </div>
+    <p class="hint" style="margin:14px 0 0;">*Uses Supercell's standard, long-stable per-level cost table. Not fetched live — if they ever rebalance it, this stays slightly off until updated.</p>
   </div>
 
   <div class="card">
@@ -208,13 +310,20 @@
   </div>
 
   <div class="card" id="battleCard">
-    <h2>Recent battles</h2>
-    <p class="hint">Most recent matches captured by the tracker's battle log.</p>
-    <div id="battleEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
-    <table id="battleTable" style="display:none;">
-      <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th>Brawler</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
-      <tbody id="battleTableBody"></tbody>
-    </table>
+    <div class="card-head">
+      <div>
+        <h2>Recent battles</h2>
+        <p class="hint">Most recent matches first, from your battle log.</p>
+      </div>
+      <button class="btn ghost small" id="battleToggle">Hide</button>
+    </div>
+    <div id="battleCollapseWrap">
+      <div id="battleEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+      <table id="battleTable" style="display:none;">
+        <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th>Brawler</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
+        <tbody id="battleTableBody"></tbody>
+      </table>
+    </div>
   </div>
 
   <p class="footer-note">Serve this page from the same folder as your CSVs (e.g. <code>python3 -m http.server</code>) — opening it directly as a file won't be able to load the data.</p>
@@ -224,8 +333,25 @@
 let accountRows = [];
 let brawlerRows = [];
 let battleRows = [];
+let catalogData = null;
 let trophyChartInstance = null;
 let brawlerTrendChartInstance = null;
+
+// Supercell's standard, long-stable power-level cost table (Power Points, Coins
+// needed to reach that level from the previous one). If they ever rebalance
+// this, update the numbers here.
+const POWER_LEVEL_COSTS = {
+  2:[20,20], 3:[30,35], 4:[50,75], 5:[80,140], 6:[130,290],
+  7:[210,480], 8:[340,800], 9:[550,1250], 10:[890,1875], 11:[1440,2800],
+};
+function costToMax(currentPower){
+  let pp = 0, gold = 0;
+  for(let lvl = currentPower + 1; lvl <= 11; lvl++){
+    const c = POWER_LEVEL_COSTS[lvl];
+    if(c){ pp += c[0]; gold += c[1]; }
+  }
+  return { pp, gold };
+}
 
 function fmtNum(n){
   if(n === null || n === undefined || n === '' || isNaN(n)) return '—';
@@ -255,6 +381,38 @@ async function loadCsv(filename){
   return parsed.data;
 }
 
+async function loadJson(filename){
+  const res = await fetch(filename, { cache: 'no-store' });
+  if(!res.ok) throw new Error(`${filename}: HTTP ${res.status}`);
+  return await res.json();
+}
+
+function getLatestBrawlerSnapshot(){
+  if(brawlerRows.length === 0) return [];
+  const latestTs = brawlerRows[brawlerRows.length - 1].timestamp;
+  return brawlerRows.filter(r => r.timestamp === latestTs);
+}
+
+function getPrevBrawlerSnapshot(){
+  const timestamps = [...new Set(brawlerRows.map(r => r.timestamp))];
+  if(timestamps.length < 2) return [];
+  const prevTs = timestamps[timestamps.length - 2];
+  return brawlerRows.filter(r => r.timestamp === prevTs);
+}
+
+function computeWinStreaks(){
+  const versus = battleRows
+    .filter(b => b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw')
+    .slice()
+    .sort((a,b) => new Date(a.battle_time) - new Date(b.battle_time)); // chronological
+  let current = 0, best = 0;
+  versus.forEach(b => {
+    if(b.outcome === 'victory'){ current++; best = Math.max(best, current); }
+    else { current = 0; }
+  });
+  return { current, best };
+}
+
 function normalizeTimestamp(v){
   if(v instanceof Date) return v.toISOString();
   return String(v);
@@ -272,6 +430,7 @@ async function loadAll(){
     loadCsv('brawl_history.csv'),
     loadCsv('brawler_history.csv'),
     loadCsv('battle_log.csv'),
+    loadJson('catalog.json'),
   ]);
 
   const failures = [];
@@ -284,12 +443,15 @@ async function loadAll(){
   battleRows  = results[2].status === 'fulfilled'
     ? results[2].value.filter(r => r.battle_time).map(r => ({ ...r, battle_time: normalizeTimestamp(r.battle_time) }))
     : (failures.push('battle_log.csv'), []);
+  catalogData = results[3].status === 'fulfilled' ? results[3].value : null;
+  if(!catalogData) failures.push('catalog.json');
 
   accountRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
   brawlerRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
   battleRows.sort((a,b) => new Date(b.battle_time) - new Date(a.battle_time));
 
-  if(failures.length === 3){
+  const coreFailures = failures.filter(f => f !== 'catalog.json');
+  if(coreFailures.length === 3){
     statusDot.className = 'err';
     statusText.textContent = 'Could not load data';
     errBox.style.display = 'block';
@@ -302,7 +464,8 @@ async function loadAll(){
     statusText.textContent = `Loaded (missing: ${failures.join(', ')})`;
     errBox.style.display = 'block';
     errBox.innerHTML = `Some files didn't load yet: <code>${failures.join('</code>, <code>')}</code>.
-      That's expected if the tracker hasn't run enough times to produce them.`;
+      That's expected if the tracker hasn't run enough times to produce them
+      (catalog.json needs at least one run with the updated script).`;
   } else {
     statusDot.className = 'ok';
     statusText.textContent = `Loaded — ${accountRows.length} account snapshot(s), last updated ${new Date().toLocaleTimeString()}`;
@@ -313,7 +476,9 @@ async function loadAll(){
 
 function render(){
   const steps = [
-    ['hero', renderHero],
+    ['general stats', renderGeneralStats],
+    ['personal records', renderPersonalRecords],
+    ['progression', renderProgression],
     ['trophy chart', renderTrophyChart],
     ['period selectors', renderPeriodSelectors],
     ['brawler table', renderBrawlerTable],
@@ -396,44 +561,101 @@ function renderWinRate(){
   `).join('');
 }
 
-function renderHero(){
-  const totalEl = document.getElementById('heroTotal');
-  const totalDeltaEl = document.getElementById('heroTotalDelta');
-  const highestEl = document.getElementById('heroHighest');
-  const highestSub = document.getElementById('heroHighestSub');
-  const brawlersEl = document.getElementById('heroBrawlers');
-  const brawlersSub = document.getElementById('heroBrawlersSub');
-  const victoriesEl = document.getElementById('heroVictories');
-  const clubEl = document.getElementById('heroClub');
+function renderGeneralStats(){
+  const latest = accountRows.length ? accountRows[accountRows.length - 1] : null;
+  const latestBrawlers = getLatestBrawlerSnapshot();
 
-  if(accountRows.length === 0){
-    [totalEl, highestEl, brawlersEl, victoriesEl].forEach(el => el.textContent = '—');
-    [totalDeltaEl, highestSub, brawlersSub, clubEl].forEach(el => el.textContent = '');
-    return;
-  }
-
-  const latest = accountRows[accountRows.length - 1];
-  const prev = accountRows.length > 1 ? accountRows[accountRows.length - 2] : null;
-
-  totalEl.textContent = fmtNum(latest.total_trophies);
-  if(prev){
+  document.getElementById('gsTrophies').textContent = latest ? fmtNum(latest.total_trophies) : '—';
+  if(accountRows.length > 1){
+    const prev = accountRows[accountRows.length - 2];
     const diff = (latest.total_trophies || 0) - (prev.total_trophies || 0);
     const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat';
     const sign = diff > 0 ? '+' : '';
-    totalDeltaEl.innerHTML = `<span class="pill ${cls}">${sign}${fmtNum(diff)} since last run</span>`;
+    document.getElementById('gsTrophiesSub').innerHTML = `<span class="pill ${cls}">${sign}${fmtNum(diff)} since last run</span>`;
   }
 
-  highestEl.textContent = fmtNum(latest.highest_trophies);
-  highestSub.textContent = 'All-time best';
+  document.getElementById('gsClub').textContent = latest ? (latest.club_name || 'No club') : '—';
+  document.getElementById('gsLevel').textContent = latest ? fmtNum(latest.exp_level) : '—';
+  document.getElementById('gs3v3').textContent = latest ? fmtNum(latest['3v3_victories']) : '—';
+  document.getElementById('gsSolo').textContent = latest ? fmtNum(latest.solo_victories) : '—';
+  document.getElementById('gsDuo').textContent = latest ? fmtNum(latest.duo_victories) : '—';
 
-  brawlersEl.textContent = fmtNum(latest.brawlers_unlocked);
-  if(prev){
-    const diff = (latest.brawlers_unlocked || 0) - (prev.brawlers_unlocked || 0);
-    brawlersSub.textContent = diff !== 0 ? `${diff > 0 ? '+' : ''}${diff} since last run` : 'No change';
+  if(latestBrawlers.length){
+    const top = [...latestBrawlers].sort((a,b) => (b.trophies||0) - (a.trophies||0))[0];
+    document.getElementById('gsTopBrawler').textContent = top.brawler_name;
+    document.getElementById('gsTopBrawlerSub').textContent = `${fmtNum(top.trophies)} trophies`;
+
+    const powers = latestBrawlers.map(b => Number(b.power) || 0);
+    const avgPower = powers.reduce((a,b) => a+b, 0) / powers.length;
+    document.getElementById('gsAvgPower').textContent = avgPower.toFixed(1);
+  }
+}
+
+function renderPersonalRecords(){
+  const latest = accountRows.length ? accountRows[accountRows.length - 1] : null;
+  document.getElementById('prHighest').textContent = latest ? fmtNum(latest.highest_trophies) : '—';
+
+  const latestBrawlers = getLatestBrawlerSnapshot();
+  if(latestBrawlers.length){
+    const topAllTime = [...latestBrawlers].sort((a,b) => (b.highest_trophies||0) - (a.highest_trophies||0))[0];
+    document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
+    document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
+
+    const maxRank = Math.max(...latestBrawlers.map(b => Number(b.rank) || 0));
+    document.getElementById('prRank').textContent = maxRank > 0 ? maxRank : '—';
   }
 
-  victoriesEl.textContent = `${fmtNum(latest['3v3_victories'])} / ${fmtNum(latest.solo_victories)} / ${fmtNum(latest.duo_victories)}`;
-  clubEl.textContent = latest.club_name ? `Club: ${latest.club_name}` : '';
+  const streaks = computeWinStreaks();
+  document.getElementById('prStreak').textContent = streaks.best > 0 ? streaks.best : '—';
+}
+
+function renderProgression(){
+  const latestBrawlers = getLatestBrawlerSnapshot();
+  const brawlersUnlocked = latestBrawlers.length;
+  const totalBrawlers = catalogData ? catalogData.total_brawlers : null;
+
+  document.getElementById('pgBrawlers').textContent = totalBrawlers
+    ? `${brawlersUnlocked} / ${totalBrawlers}` : fmtNum(brawlersUnlocked);
+
+  const power11 = latestBrawlers.filter(b => Number(b.power) === 11).length;
+  document.getElementById('pgPower11').textContent = fmtNum(power11);
+
+  let gadgetsOwned = 0, starPowersOwned = 0, hyperOwned = 0, maxedCount = 0;
+  let ppNeeded = 0, goldNeeded = 0;
+
+  latestBrawlers.forEach(b => {
+    const g = Number(b.gadgets_owned) || 0;
+    const sp = Number(b.star_powers_owned) || 0;
+    const hc = Number(b.hypercharge_owned) || 0;
+    gadgetsOwned += g; starPowersOwned += sp; hyperOwned += hc;
+
+    const cat = catalogData?.brawlers?.[String(b.brawler_id)];
+    const isPower11 = Number(b.power) === 11;
+    const hasAllGadgets = cat ? g >= cat.gadgets : false;
+    const hasAllStarPowers = cat ? sp >= cat.starPowers : false;
+    if(isPower11 && hasAllGadgets && hasAllStarPowers) maxedCount++;
+
+    const cost = costToMax(Number(b.power) || 1);
+    ppNeeded += cost.pp;
+    goldNeeded += cost.gold;
+  });
+
+  document.getElementById('pgMaxed').textContent = fmtNum(maxedCount);
+  document.getElementById('pgGadgets').textContent = catalogData
+    ? `${gadgetsOwned} / ${catalogData.total_gadgets}` : fmtNum(gadgetsOwned);
+  document.getElementById('pgStarPowers').textContent = catalogData
+    ? `${starPowersOwned} / ${catalogData.total_star_powers}` : fmtNum(starPowersOwned);
+
+  if(catalogData && catalogData.hypercharge_data_available){
+    document.getElementById('pgHyper').textContent = `${hyperOwned} / ${catalogData.total_hypercharges}`;
+    document.getElementById('pgHyperSub').textContent = '';
+  } else {
+    document.getElementById('pgHyper').textContent = '—';
+    document.getElementById('pgHyperSub').textContent = 'Not available via the API';
+  }
+
+  document.getElementById('pgPP').textContent = latestBrawlers.length ? fmtNum(ppNeeded) : '—';
+  document.getElementById('pgGold').textContent = latestBrawlers.length ? fmtNum(goldNeeded) : '—';
 }
 
 function renderTrophyChart(){
@@ -599,6 +821,13 @@ function renderBattleTable(){
     </tr>`;
   }).join('');
 }
+
+document.getElementById('battleToggle').addEventListener('click', (e) => {
+  const wrap = document.getElementById('battleCollapseWrap');
+  const collapsed = wrap.style.display === 'none';
+  wrap.style.display = collapsed ? 'block' : 'none';
+  e.target.textContent = collapsed ? 'Hide' : 'Show';
+});
 
 document.getElementById('refreshBtn').addEventListener('click', loadAll);
 loadAll();

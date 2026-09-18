@@ -28,24 +28,23 @@ SETUP
 5. Run it once manually to test:
    python3 brawl_tracker.py
 
-6. Schedule it to run automatically, e.g. every hour:
-   - Linux/Mac (cron):   crontab -e   then add:
-       0 * * * * /usr/bin/python3 /full/path/to/brawl_tracker.py
-   - Windows: Task Scheduler > Create Basic Task > trigger hourly > action:
-       run "python.exe" with argument "C:\\full\\path\\to\\brawl_tracker.py"
-   - GitHub Actions: schedule a workflow with a cron trigger that checks out
-     the repo, runs this script, and commits the updated CSVs back.
+6. Schedule it to run automatically (see GitHub Actions workflow, or cron /
+   Task Scheduler on your own machine).
 
 WHAT IT LOGS
 ------------
-- brawl_history.csv       one row per run: timestamp, total trophies,
-                           brawlers unlocked, highest trophies, etc.
-- brawler_history.csv     one row per brawler per run: timestamp, brawler
-                           name, trophies, highest trophies, power level.
-- battle_log.csv          recent matches with their trophy change, deduped
-                           by battle time -- this is how we backfill whatever
-                           recent history the API still has (usually your
-                           last ~25 battles) the very first time you run it.
+- brawl_history.csv       one row per run: account-level snapshot (trophies,
+                           brawlers unlocked, victories, account level, etc).
+- brawler_history.csv     one row per brawler per run: trophies, power, the
+                           game's own rank badge, and gadget/star power/
+                           hypercharge counts owned for that brawler.
+- battle_log.csv          recent matches with brawler used, outcome, and
+                           trophy change, deduped by battle time.
+- catalog.json            NOT historical -- overwritten every run with the
+                           current full game catalog (every brawler, and how
+                           many gadgets/star powers/hypercharges each one
+                           has), used by the dashboard to compute "X out of
+                           total" completion stats.
 """
 
 import csv
@@ -118,11 +117,58 @@ def append_csv(path, header, row):
         writer.writerow(row)
 
 
+def fetch_catalog(token):
+    """
+    Pull the full game catalog (every brawler currently in the game) so the
+    dashboard can compute "X out of total" completion stats. Overwritten
+    fresh every run -- not historical.
+    """
+    data = api_get("/brawlers", token)
+    catalog = {}
+    total_gadgets = 0
+    total_star_powers = 0
+    total_hypercharges = 0
+
+    for b in data.get("items", []):
+        gadgets = b.get("gadgets", []) or []
+        star_powers = b.get("starPowers", []) or []
+        # Hypercharges aren't confirmed in the official /brawlers schema as of
+        # this script's writing. Checked defensively under both possible key
+        # spellings -- if Supercell has added this, it'll just start working.
+        hypercharges = b.get("hyperCharges") or b.get("hypercharges") or []
+
+        catalog[str(b.get("id"))] = {
+            "name": b.get("name"),
+            "gadgets": len(gadgets),
+            "starPowers": len(star_powers),
+            "hyperCharges": len(hypercharges),
+        }
+        total_gadgets += len(gadgets)
+        total_star_powers += len(star_powers)
+        total_hypercharges += len(hypercharges)
+
+    return {
+        "total_brawlers": len(data.get("items", [])),
+        "total_gadgets": total_gadgets,
+        "total_star_powers": total_star_powers,
+        "total_hypercharges": total_hypercharges,
+        "hypercharge_data_available": total_hypercharges > 0,
+        "brawlers": catalog,
+    }
+
+
+def write_catalog(catalog):
+    path = SCRIPT_DIR / "catalog.json"
+    path.write_text(json.dumps(catalog, indent=2))
+    print(f"Catalog updated: {catalog['total_brawlers']} brawlers, "
+          f"{catalog['total_gadgets']} gadgets, {catalog['total_star_powers']} star powers.")
+
+
 def log_player_snapshot(player, now_iso):
     path = SCRIPT_DIR / "brawl_history.csv"
     header = [
         "timestamp", "total_trophies", "highest_trophies",
-        "brawlers_unlocked", "3v3_victories", "solo_victories",
+        "brawlers_unlocked", "exp_level", "3v3_victories", "solo_victories",
         "duo_victories", "club_name",
     ]
     row = [
@@ -130,6 +176,7 @@ def log_player_snapshot(player, now_iso):
         player.get("trophies"),
         player.get("highestTrophies"),
         len(player.get("brawlers", [])),
+        player.get("expLevel"),
         player.get("3vs3Victories"),
         player.get("soloVictories"),
         player.get("duoVictories"),
@@ -140,12 +187,52 @@ def log_player_snapshot(player, now_iso):
           f"across {len(player.get('brawlers', []))} brawlers.")
 
 
-def log_brawler_snapshots(player, now_iso):
+def log_brawler_snapshots(player, now_iso, catalog):
     path = SCRIPT_DIR / "brawler_history.csv"
-    header = ["timestamp", "brawler_name", "trophies", "highest_trophies", "power"]
+    header = [
+        "timestamp", "brawler_id", "brawler_name", "trophies", "highest_trophies",
+        "power", "rank", "gadgets_owned", "star_powers_owned", "hypercharge_owned",
+    ]
     for b in player.get("brawlers", []):
-        row = [now_iso, b.get("name"), b.get("trophies"), b.get("highestTrophies"), b.get("power")]
+        gadgets_owned = len(b.get("gadgets", []) or [])
+        star_powers_owned = len(b.get("starPowers", []) or [])
+        hyper = b.get("hyperCharges") or b.get("hypercharges")
+        hypercharge_owned = len(hyper) if isinstance(hyper, list) else 0
+
+        row = [
+            now_iso, b.get("id"), b.get("name"), b.get("trophies"), b.get("highestTrophies"),
+            b.get("power"), b.get("rank"), gadgets_owned, star_powers_owned, hypercharge_owned,
+        ]
         append_csv(path, header, row)
+
+
+def find_own_brawler(battle, own_tag):
+    """Look through a battle's teams/players for our own tag and return the brawler we used."""
+    own_tag = own_tag.upper()
+    entries = []
+    for team in battle.get("teams", []) or []:
+        entries.extend(team)
+    entries.extend(battle.get("players", []) or [])
+
+    for p in entries:
+        if (p.get("tag") or "").upper() == own_tag:
+            return (p.get("brawler") or {}).get("name", "")
+    return ""
+
+
+def determine_outcome(battle):
+    """
+    Normalize the result of a battle into a consistent outcome column.
+    - Versus modes (3v3, duels, etc.) report battle['result']: victory/defeat/draw.
+    - Showdown modes (solo/duo) report battle['rank'] instead -- there's no official
+      win/loss label for these, so we keep the raw rank in its own column and leave
+      'outcome' blank.
+    """
+    if "result" in battle:
+        return battle.get("result", ""), ""
+    if "rank" in battle:
+        return "", battle.get("rank", "")
+    return "", ""
 
 
 def log_battle_log(tag, token):
@@ -159,7 +246,7 @@ def log_battle_log(tag, token):
                 seen_times.add(row["battle_time"])
 
     data = api_get(f"/players/{requests.utils.quote(tag)}/battlelog", token)
-    header = ["battle_time", "mode", "map", "result_or_rank", "trophy_change"]
+    header = ["battle_time", "mode", "map", "brawler_used", "outcome", "rank", "trophy_change"]
 
     new_count = 0
     for item in data.get("items", []):
@@ -167,11 +254,14 @@ def log_battle_log(tag, token):
         if battle_time in seen_times:
             continue
         battle = item.get("battle", {})
+        outcome, rank = determine_outcome(battle)
         row = [
             battle_time,
             battle.get("mode", ""),
             item.get("event", {}).get("map", ""),
-            battle.get("result") or battle.get("rank", ""),
+            find_own_brawler(battle, tag),
+            outcome,
+            rank,
             battle.get("trophyChange", ""),
         ]
         append_csv(path, header, row)
@@ -189,8 +279,11 @@ def main():
     now_iso = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     player = api_get(f"/players/{requests.utils.quote(tag)}", token)
+    catalog = fetch_catalog(token)
+
     log_player_snapshot(player, now_iso)
-    log_brawler_snapshots(player, now_iso)
+    log_brawler_snapshots(player, now_iso, catalog)
+    write_catalog(catalog)
     log_battle_log(tag, token)
 
 

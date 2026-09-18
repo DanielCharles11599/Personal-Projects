@@ -1,0 +1,657 @@
+{
+  "total_brawlers": 108,
+  "total_gadgets": 216,
+  "total_star_powers": 216,
+  "total_hypercharges": 106,
+  "hypercharge_data_available": true,
+  "brawlers": {
+    "16000000": {
+      "name": "SHELLY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000001": {
+      "name": "COLT",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000002": {
+      "name": "BULL",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000003": {
+      "name": "BROCK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000004": {
+      "name": "RICO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000005": {
+      "name": "SPIKE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000006": {
+      "name": "BARLEY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000007": {
+      "name": "JESSIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000008": {
+      "name": "NITA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000009": {
+      "name": "DYNAMIKE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000010": {
+      "name": "EL PRIMO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000011": {
+      "name": "MORTIS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000012": {
+      "name": "CROW",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000013": {
+      "name": "POCO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000014": {
+      "name": "BO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000015": {
+      "name": "PIPER",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000016": {
+      "name": "PAM",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000017": {
+      "name": "TARA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000018": {
+      "name": "DARRYL",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000019": {
+      "name": "PENNY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000020": {
+      "name": "FRANK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000021": {
+      "name": "GENE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000022": {
+      "name": "TICK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000023": {
+      "name": "LEON",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000024": {
+      "name": "ROSA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000025": {
+      "name": "CARL",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000026": {
+      "name": "BIBI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000027": {
+      "name": "8-BIT",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000028": {
+      "name": "SANDY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000029": {
+      "name": "BEA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000030": {
+      "name": "EMZ",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000031": {
+      "name": "MR. P",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000032": {
+      "name": "MAX",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000034": {
+      "name": "JACKY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000035": {
+      "name": "GALE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000036": {
+      "name": "NANI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000037": {
+      "name": "SPROUT",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000038": {
+      "name": "SURGE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000039": {
+      "name": "COLETTE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000040": {
+      "name": "AMBER",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000041": {
+      "name": "LOU",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000042": {
+      "name": "BYRON",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000043": {
+      "name": "EDGAR",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000044": {
+      "name": "RUFFS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000045": {
+      "name": "STU",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000046": {
+      "name": "BELLE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000047": {
+      "name": "SQUEAK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000048": {
+      "name": "GROM",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000049": {
+      "name": "BUZZ",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000050": {
+      "name": "GRIFF",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000051": {
+      "name": "ASH",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000052": {
+      "name": "MEG",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000053": {
+      "name": "LOLA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000054": {
+      "name": "FANG",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000056": {
+      "name": "EVE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000057": {
+      "name": "JANET",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000058": {
+      "name": "BONNIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000059": {
+      "name": "OTIS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000060": {
+      "name": "SAM",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000061": {
+      "name": "GUS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000062": {
+      "name": "BUSTER",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000063": {
+      "name": "CHESTER",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000064": {
+      "name": "GRAY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000065": {
+      "name": "MANDY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000066": {
+      "name": "R-T",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000067": {
+      "name": "WILLOW",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000068": {
+      "name": "MAISIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000069": {
+      "name": "HANK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000070": {
+      "name": "CORDELIUS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000071": {
+      "name": "DOUG",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000072": {
+      "name": "PEARL",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000073": {
+      "name": "CHUCK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000074": {
+      "name": "CHARLIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000075": {
+      "name": "MICO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000076": {
+      "name": "KIT",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000077": {
+      "name": "LARRY & LAWRIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000078": {
+      "name": "MELODIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000079": {
+      "name": "ANGELO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000080": {
+      "name": "DRACO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000081": {
+      "name": "LILY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000082": {
+      "name": "BERRY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000083": {
+      "name": "CLANCY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000084": {
+      "name": "MOE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000085": {
+      "name": "KENJI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000086": {
+      "name": "SHADE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000087": {
+      "name": "JUJU",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000089": {
+      "name": "MEEPLE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000090": {
+      "name": "OLLIE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000091": {
+      "name": "LUMI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000092": {
+      "name": "FINX",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000093": {
+      "name": "JAE-YONG",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000094": {
+      "name": "KAZE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000095": {
+      "name": "ALLI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000096": {
+      "name": "TRUNK",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000097": {
+      "name": "MINA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000098": {
+      "name": "ZIGGY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000099": {
+      "name": "PIERCE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000100": {
+      "name": "GIGI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000101": {
+      "name": "GLOWY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000102": {
+      "name": "SIRIUS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000103": {
+      "name": "NAJIA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000104": {
+      "name": "DAMIAN",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000105": {
+      "name": "STARR NOVA",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000106": {
+      "name": "BOLT",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000107": {
+      "name": "NORI",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000108": {
+      "name": "WENDY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 1
+    },
+    "16000109": {
+      "name": "COSMO",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 0
+    },
+    "16000110": {
+      "name": "VINCE",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 0
+    }
+  }
+}

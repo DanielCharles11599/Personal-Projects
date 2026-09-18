@@ -1,51 +1,4 @@
 #!/usr/bin/env python3
-"""
-Brawl Stars automated stat tracker.
-
-Run this on a schedule (cron, Windows Task Scheduler, or GitHub Actions) and it
-appends your current stats to CSV files every time it runs. Over time this
-builds the exact history you want -- starting from whenever you first run it.
-
-SETUP
------
-1. Get an API token:
-   - Go to https://developer.brawlstars.com, log in, create a new key.
-   - When asked to whitelist an IP, enter exactly: 128.128.128.128
-     (This is not a mistake -- it's RoyaleAPI's proxy IP. Using their proxy
-     endpoint below lets you call the API from ANY machine/IP without
-     re-whitelisting every time your home IP or a cloud runner's IP changes.)
-   - Copy the generated token.
-
-2. Find your player tag in-game (Settings > top of profile, looks like #2ABC123).
-
-3. Fill in config.json (created next to this script on first run) with your
-   token and tag, OR set the environment variables BS_API_TOKEN and
-   BS_PLAYER_TAG instead (useful for GitHub Actions secrets).
-
-4. Install the one dependency:
-   pip install requests --break-system-packages   (or just: pip install requests)
-
-5. Run it once manually to test:
-   python3 brawl_tracker.py
-
-6. Schedule it to run automatically (see GitHub Actions workflow, or cron /
-   Task Scheduler on your own machine).
-
-WHAT IT LOGS
-------------
-- brawl_history.csv       one row per run: account-level snapshot (trophies,
-                           brawlers unlocked, victories, account level, etc).
-- brawler_history.csv     one row per brawler per run: trophies, power, the
-                           game's own rank badge, and gadget/star power/
-                           hypercharge counts owned for that brawler.
-- battle_log.csv          recent matches with brawler used, outcome, and
-                           trophy change, deduped by battle time.
-- catalog.json            NOT historical -- overwritten every run with the
-                           current full game catalog (every brawler, and how
-                           many gadgets/star powers/hypercharges each one
-                           has), used by the dashboard to compute "X out of
-                           total" completion stats.
-"""
 
 import csv
 import json
@@ -120,8 +73,7 @@ def append_csv(path, header, row):
 def fetch_catalog(token):
     """
     Pull the full game catalog (every brawler currently in the game) so the
-    dashboard can compute "X out of total" completion stats. Overwritten
-    fresh every run -- not historical.
+    dashboard can compute "X out of total" completion stats.
     """
     data = api_get("/brawlers", token)
     catalog = {}
@@ -132,9 +84,11 @@ def fetch_catalog(token):
     for b in data.get("items", []):
         gadgets = b.get("gadgets", []) or []
         star_powers = b.get("starPowers", []) or []
-        # Hypercharges aren't confirmed in the official /brawlers schema as of
-        # this script's writing. Checked defensively under both possible key
-        # spellings -- if Supercell has added this, it'll just start working.
+        '''
+        Hypercharges aren't confirmed in the official /brawlers schema as of
+        this script's writing. Checked defensively under both possible key
+        spellings -- if Supercell has add this in the future, it will start working.
+        '''
         hypercharges = b.get("hyperCharges") or b.get("hypercharges") or []
 
         catalog[str(b.get("id"))] = {
@@ -207,7 +161,7 @@ def log_brawler_snapshots(player, now_iso, catalog):
 
 
 def find_own_brawler(battle, own_tag):
-    """Look through a battle's teams/players for our own tag and return the brawler we used."""
+    # Look through a battle's teams/players for our own tag and return the brawler we used.
     own_tag = own_tag.upper()
     entries = []
     for team in battle.get("teams", []) or []:

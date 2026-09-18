@@ -124,11 +124,6 @@
         <div class="stat-sub" id="gsTrophiesSub"></div>
       </div>
       <div>
-        <div class="stat-label">Ranked Trophies</div>
-        <div class="stat-value display" id="gsRanked">—</div>
-        <div class="stat-sub">Not exposed by the API</div>
-      </div>
-      <div>
         <div class="stat-label">Highest Trophy Brawler</div>
         <div class="stat-value display" id="gsTopBrawler" style="font-size:19px;">—</div>
         <div class="stat-sub" id="gsTopBrawlerSub"></div>
@@ -160,11 +155,6 @@
         <div class="stat-label">Duo Victories</div>
         <div class="stat-value display" id="gsDuo">—</div>
       </div>
-      <div>
-        <div class="stat-label">Ranked Victories</div>
-        <div class="stat-value display" id="gsRankedVic">—</div>
-        <div class="stat-sub">Not tracked separately by the API</div>
-      </div>
     </div>
   </div>
 
@@ -180,11 +170,6 @@
         <div class="stat-label">All-Time Top Brawler</div>
         <div class="stat-value display" id="prTopBrawler" style="font-size:19px;">—</div>
         <div class="stat-sub" id="prTopBrawlerSub"></div>
-      </div>
-      <div>
-        <div class="stat-label">Highest Rank Achieved</div>
-        <div class="stat-value teal display" id="prRank">—</div>
-        <div class="stat-sub">brawler trophy-rank badge (1–35)</div>
       </div>
       <div>
         <div class="stat-label">Longest Win Streak</div>
@@ -323,6 +308,9 @@
         <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th>Brawler</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
         <tbody id="battleTableBody"></tbody>
       </table>
+      <div style="text-align:center; margin-top:14px;">
+        <button class="btn ghost small" id="battleLoadMore" style="display:none;">Load more</button>
+      </div>
     </div>
   </div>
 
@@ -418,6 +406,21 @@ function normalizeTimestamp(v){
   return String(v);
 }
 
+/**
+ * Supercell's battlelog API returns battleTime in a compact, non-standard
+ * format: "20260916T192031.000Z" (no dashes or colons). Native JS Date
+ * parsing of this string is unreliable across browsers, which silently broke
+ * sorting/streak calculations. This parses it explicitly and returns a
+ * proper ISO 8601 string.
+ */
+function parseSupercellTime(v){
+  const s = String(v);
+  const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/.exec(s);
+  if(!m) return normalizeTimestamp(v); // fallback for anything unexpected
+  const [, y, mo, d, h, mi, se] = m;
+  return new Date(Date.UTC(+y, +mo - 1, +d, +h, +mi, +se)).toISOString();
+}
+
 async function loadAll(){
   const statusDot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
@@ -441,7 +444,7 @@ async function loadAll(){
     ? results[1].value.filter(r => r.timestamp).map(r => ({ ...r, timestamp: normalizeTimestamp(r.timestamp) }))
     : (failures.push('brawler_history.csv'), []);
   battleRows  = results[2].status === 'fulfilled'
-    ? results[2].value.filter(r => r.battle_time).map(r => ({ ...r, battle_time: normalizeTimestamp(r.battle_time) }))
+    ? results[2].value.filter(r => r.battle_time).map(r => ({ ...r, battle_time: parseSupercellTime(r.battle_time) }))
     : (failures.push('battle_log.csv'), []);
   catalogData = results[3].status === 'fulfilled' ? results[3].value : null;
   if(!catalogData) failures.push('catalog.json');
@@ -600,9 +603,6 @@ function renderPersonalRecords(){
     const topAllTime = [...latestBrawlers].sort((a,b) => (b.highest_trophies||0) - (a.highest_trophies||0))[0];
     document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
     document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
-
-    const maxRank = Math.max(...latestBrawlers.map(b => Number(b.rank) || 0));
-    document.getElementById('prRank').textContent = maxRank > 0 ? maxRank : '—';
   }
 
   const streaks = computeWinStreaks();
@@ -790,17 +790,23 @@ function showBrawlerTrend(name){
   });
 }
 
+let battleDisplayCount = 20;
+const BATTLE_PAGE_SIZE = 20;
+
 function renderBattleTable(){
   const emptyEl = document.getElementById('battleEmpty');
   const table = document.getElementById('battleTable');
   const body = document.getElementById('battleTableBody');
+  const loadMoreBtn = document.getElementById('battleLoadMore');
 
   if(battleRows.length === 0){
-    emptyEl.style.display = 'block'; table.style.display = 'none'; return;
+    emptyEl.style.display = 'block'; table.style.display = 'none';
+    loadMoreBtn.style.display = 'none';
+    return;
   }
   emptyEl.style.display = 'none'; table.style.display = 'table';
 
-  const rows = battleRows.slice(0, 30);
+  const rows = battleRows.slice(0, battleDisplayCount);
   body.innerHTML = rows.map(b => {
     const change = b.trophy_change;
     let cls = 'flat', sign = '';
@@ -820,7 +826,14 @@ function renderBattleTable(){
       <td class="num"><span class="delta ${cls}">${change !== null && change !== '' ? sign + change : '—'}</span></td>
     </tr>`;
   }).join('');
+
+  loadMoreBtn.style.display = battleRows.length > battleDisplayCount ? 'inline-block' : 'none';
 }
+
+document.getElementById('battleLoadMore').addEventListener('click', () => {
+  battleDisplayCount += BATTLE_PAGE_SIZE;
+  renderBattleTable();
+});
 
 document.getElementById('battleToggle').addEventListener('click', (e) => {
   const wrap = document.getElementById('battleCollapseWrap');
@@ -829,7 +842,10 @@ document.getElementById('battleToggle').addEventListener('click', (e) => {
   e.target.textContent = collapsed ? 'Hide' : 'Show';
 });
 
-document.getElementById('refreshBtn').addEventListener('click', loadAll);
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  battleDisplayCount = BATTLE_PAGE_SIZE;
+  loadAll();
+});
 loadAll();
 </script>
 </body>

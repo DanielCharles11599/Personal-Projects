@@ -633,9 +633,6 @@ function renderPersonalRecords(){
     document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
     document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
   }
-
-  const streaks = computeWinStreaks();
-  document.getElementById('prStreak').textContent = streaks.best > 0 ? streaks.best : '—';
 }
 
 function renderProgression(){

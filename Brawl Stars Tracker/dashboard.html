@@ -11,7 +11,7 @@
 <style>
   :root{
     --bg: #0B0D17; --panel: #121625; --panel-alt: #191E30; --line:rgba(255,255,255,0.08);
-    --gold:#FFC94A; --pink:#FF5C82; --teal:#009888; --text:#F1EEFF; --text-dim:#9C96C9; --purple: #7f4Fc9; --green: #32c132; --yellow: #ffcd00;
+    --gold:#FFC94A; --pink:#FF5C82; --teal:#009888; --text:#F1EEFF; --text-dim:#9C96C9; --purple: #7f4Fc9; --green: #32c132; --yellow: #ffcd00; --red: #ff3b3b;
   }
 
   *{box-sizing:border-box;}
@@ -59,8 +59,11 @@
     border:1px solid var(--line); border-radius:20px; padding:26px 22px;
     display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;
   }
+
   @media (max-width:760px){ .hero{ grid-template-columns:1fr 1fr; } }
+
   .stat-label{ font-size:12px; color:var(--text-dim); margin-bottom:6px; }
+
   .stat-value{ font-size:28px; line-height:1; }
   .stat-value.gold{ color:var(--gold); }
   .stat-value.teal{ color:var(--teal); }
@@ -68,8 +71,16 @@
   .stat-value.purple{ color:var(--purple); }
   .stat-value.green{ color:var(--green); }
   .stat-value.yellow{ color:var(--yellow); }
+
   .stat-sub{ font-size:12.5px; margin-top:6px; color:var(--text-dim); }
   .stat-sub.pink{ color:var(--pink); }
+
+  .stat-percentage {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
   .pill{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:600; }
   .pill.up{ background:rgba(63,225,208,0.15); color:var(--teal); }
   .pill.down{ background:rgba(255,92,130,0.15); color:var(--pink); }
@@ -103,14 +114,14 @@
   .rainbow-label {
     background: linear-gradient(
         90deg,
-        #ff3b3b,
-        #ff9f1c,
-        #ffe600,
-        #32c132,
-        #00c9ff,
-        #7f4fc9,
-        #ff5c82,
-        #ff3b3b
+        var(--red),
+        var(--gold),
+        var(--yellow),
+        var(--green),
+        var(--teal),
+        var(--purple),
+        var(--pink),
+        var(--red)
     );
 
     background-size: 300% 100%;
@@ -122,7 +133,7 @@
     color: transparent;
 
     animation: rainbowText 5s linear infinite;
-}
+  }
 
 @keyframes rainbowText {
     0% {
@@ -216,19 +227,22 @@
       <div>
         <div class="stat-label">Brawlers Unlocked</div>
         <div class="stat-value display" id="pgBrawlers">—</div>
-        <div class="stat-value display" id="pgBrawlersSub"></div>
+        <div class="stat-percentage" id="pgBrawlersSub"></div>
       </div>
       <div>
         <div class="stat-label">Gadgets Owned</div>
         <div class="stat-value green display" id="pgGadgets">—</div>
+        <div class="stat-percentage" id="pgGadgetsPct">—</div>
       </div>
       <div>
         <div class="stat-label">Star Powers Owned</div>
         <div class="stat-value yellow display" id="pgStarPowers">—</div>
+        <div class="stat-percentage" id="pgStarPowersPct">—</div>
       </div>
       <div>
         <div class="stat-label">Hypercharges Owned</div>
         <div class="stat-value purple display" id="pgHyper">—</div>
+        <div class="stat-percentage" id="pgHyperPct">—</div>
         <div class="stat-sub" id="pgHyperSub"></div>
       </div>
       <div>
@@ -298,7 +312,7 @@
 
   <div class="card" id="winRateCard">
     <h2>Win rate</h2>
-    <p class="hint">Computed from every battle the tracker has logged — grows more accurate over time since the API only exposes your last ~25 matches per check.</p>
+    <p class="hint">Computed from every battle the tracker has logged — grows more accurate over time.</p>
     <div id="winRateEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
     <div id="winRateContent" style="display:none;">
       <div class="hero" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px;">
@@ -643,6 +657,9 @@ function renderProgression(){
   document.getElementById('pgBrawlers').textContent = totalBrawlers
     ? `${brawlersUnlocked} / ${totalBrawlers}` : fmtNum(brawlersUnlocked);
 
+  document.getElementById('pgBrawlersSub').textContent = totalBrawlers
+    ? `(${Math.round((brawlersUnlocked / totalBrawlers) * 100)}%)` : '—';
+
   const power11 = latestBrawlers.filter(b => Number(b.power) === 11).length;
   document.getElementById('pgPower11').textContent = fmtNum(power11);
 
@@ -667,18 +684,34 @@ function renderProgression(){
   });
 
   document.getElementById('pgMaxed').textContent = fmtNum(maxedCount);
+
   document.getElementById('pgGadgets').textContent = catalogData
     ? `${gadgetsOwned} / ${catalogData.total_gadgets}` : fmtNum(gadgetsOwned);
+
+  document.getElementById('pgGadgetsPct').textContent =
+    catalogData
+        ? `(${Math.round((gadgetsOwned / catalogData.total_gadgets) * 100)}%)`
+        : '—';
+
   document.getElementById('pgStarPowers').textContent = catalogData
     ? `${starPowersOwned} / ${catalogData.total_star_powers}` : fmtNum(starPowersOwned);
 
+  document.getElementById('pgStarPowersPct').textContent =
+    catalogData
+        ? `(${Math.round((starPowersOwned / catalogData.total_star_powers) * 100)}%)`
+        : '—';
+
   if(catalogData && catalogData.hypercharge_data_available){
-    document.getElementById('pgHyper').textContent = `${hyperOwned} / ${catalogData.total_hypercharges}`;
-    document.getElementById('pgHyperSub').textContent = '';
-  } else {
+    document.getElementById('pgHyper').textContent =
+        `${hyperOwned} / ${catalogData.total_hypercharges}`;
+    document.getElementById('pgHyperPct').textContent =
+        `(${Math.round((hyperOwned / catalogData.total_hypercharges) * 100)}%)`;
+    document.getElementById('pgHyperSub').textContent = '';} else {
     document.getElementById('pgHyper').textContent = '—';
-    document.getElementById('pgHyperSub').textContent = 'Not available via the API';
-  }
+    document.getElementById('pgHyperPct').textContent = '';
+    document.getElementById('pgHyperSub').textContent =
+        'Not available via the API';
+    }
 
   document.getElementById('pgPP').textContent = latestBrawlers.length ? fmtNum(ppNeeded) : '—';
   document.getElementById('pgGold').textContent = latestBrawlers.length ? fmtNum(goldNeeded) : '—';
@@ -715,35 +748,65 @@ function renderTrophyChart(){
 }
 
 function renderPeriodSelectors(){
+
   const fromSel = document.getElementById('periodFrom');
   const toSel = document.getElementById('periodTo');
   const emptyEl = document.getElementById('periodEmpty');
   const resultEl = document.getElementById('periodResult');
 
   if(accountRows.length < 2){
-    emptyEl.style.display = 'block'; resultEl.style.display = 'none';
-    fromSel.innerHTML = ''; toSel.innerHTML = ''; return;
-  }
-  emptyEl.style.display = 'none'; resultEl.style.display = 'flex';
+    emptyEl.style.display = 'block';
+    resultEl.style.display = 'none';
 
-  const options = accountRows.map((r,i) => `<option value="${i}">${fmtDateTime(r.timestamp)} — ${fmtNum(r.total_trophies)}</option>`).join('');
-  fromSel.innerHTML = options; toSel.innerHTML = options;
-  fromSel.value = 0; toSel.value = accountRows.length - 1;
+    fromSel.innerHTML = '';
+    toSel.innerHTML = '';
+
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  resultEl.style.display = 'flex';
+
+  // FROM: oldest snapshot first
+  const fromOptions = accountRows
+    .map((r, i) => `<option value="${i}">${fmtDateTime(r.timestamp)} — ${fmtNum(r.total_trophies)}</option>`)
+    .join('');
+
+  // TO: most recent snapshot first
+  const toOptions = [...accountRows]
+    .map((r, i) => `<option value="${i}">${fmtDateTime(r.timestamp)} — ${fmtNum(r.total_trophies)}</option>`)
+    .reverse()
+    .join('');
+
+  fromSel.innerHTML = fromOptions;
+  toSel.innerHTML = toOptions;
+
+  fromSel.value = 0;
+  toSel.value = accountRows.length - 1;
 
   const update = () => {
     const from = accountRows[parseInt(fromSel.value)];
     const to = accountRows[parseInt(toSel.value)];
+
     const gain = (to.total_trophies || 0) - (from.total_trophies || 0);
+
     const hrs = hoursBetween(from.timestamp, to.timestamp);
     const rate = gain / (hrs / 24);
+
     const cls = gain > 0 ? 'up' : gain < 0 ? 'down' : 'flat';
     const sign = gain > 0 ? '+' : '';
 
-    document.getElementById('periodGain').innerHTML = `<span class="delta ${cls}">${sign}${fmtNum(gain)}</span>`;
-    document.getElementById('periodDays').textContent = fmtElapsed(hrs);
-    document.getElementById('periodRate').innerHTML = `<span class="delta ${cls}">${sign}${rate.toFixed(1)}</span>`;
+    document.getElementById('periodGain').innerHTML =
+      `<span class="delta ${cls}">${sign}${fmtNum(gain)}</span>`;
+    document.getElementById('periodDays').textContent =
+      fmtElapsed(hrs);
+    document.getElementById('periodRate').innerHTML =
+      `<span class="delta ${cls}">${sign}${rate.toFixed(1)}</span>`;
   };
-  fromSel.onchange = update; toSel.onchange = update;
+
+  fromSel.onchange = update;
+  toSel.onchange = update;
+
   update();
 }
 
@@ -872,6 +935,7 @@ document.getElementById('refreshBtn').addEventListener('click', () => {
   battleDisplayCount = BATTLE_PAGE_SIZE;
   loadAll();
 });
+
 loadAll();
 </script>
 </body>

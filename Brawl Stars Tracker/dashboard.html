@@ -10,9 +10,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
   :root{
-    --bg:#100D28; --panel:#1B1748; --panel-alt:#221D5C; --line:rgba(255,255,255,0.08);
-    --gold:#FFC94A; --pink:#FF5C82; --teal:#3FE1D0; --text:#F1EEFF; --text-dim:#9C96C9;
+    --bg: #0B0D17; --panel: #121625; --panel-alt: #191E30; --line:rgba(255,255,255,0.08);
+    --gold:#FFC94A; --pink:#FF5C82; --teal:#009888; --text:#F1EEFF; --text-dim:#9C96C9; --purple: #7f4Fc9; --green: #32c132; --yellow: #ffcd00;
   }
+
   *{box-sizing:border-box;}
   body{
     margin:0; font-family:'Rubik',sans-serif; color:var(--text); min-height:100vh;
@@ -63,7 +64,12 @@
   .stat-value{ font-size:28px; line-height:1; }
   .stat-value.gold{ color:var(--gold); }
   .stat-value.teal{ color:var(--teal); }
+  .stat-value.pink{ color:var(--pink); }
+  .stat-value.purple{ color:var(--purple); }
+  .stat-value.green{ color:var(--green); }
+  .stat-value.yellow{ color:var(--yellow); }
   .stat-sub{ font-size:12.5px; margin-top:6px; color:var(--text-dim); }
+  .stat-sub.pink{ color:var(--pink); }
   .pill{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:600; }
   .pill.up{ background:rgba(63,225,208,0.15); color:var(--teal); }
   .pill.down{ background:rgba(255,92,130,0.15); color:var(--pink); }
@@ -93,6 +99,40 @@
   .empty{ text-align:center; padding:26px 10px; color:var(--text-dim); font-size:14px; }
   canvas{ max-height:260px; }
   .footer-note{ text-align:center; color:var(--text-dim); font-size:12.5px; margin-top:10px; }
+
+  .rainbow-label {
+    background: linear-gradient(
+        90deg,
+        #ff3b3b,
+        #ff9f1c,
+        #ffe600,
+        #32c132,
+        #00c9ff,
+        #7f4fc9,
+        #ff5c82,
+        #ff3b3b
+    );
+
+    background-size: 300% 100%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    animation: rainbowText 5s linear infinite;
+}
+
+@keyframes rainbowText {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
 </style>
 </head>
 <body>
@@ -116,7 +156,7 @@
 
   <div class="card">
     <h2>General Stats</h2>
-    <p class="hint">Your current standing, refreshed every run.</p>
+    <p class="hint">Your current standing, refreshed daily.</p>
     <div class="hero" id="generalStats" style="margin-bottom:0;">
       <div>
         <div class="stat-label">Trophy Count</div>
@@ -135,7 +175,7 @@
       </div>
       <div>
         <div class="stat-label">Avg. Brawler Level</div>
-        <div class="stat-value teal display" id="gsAvgPower">—</div>
+        <div class="stat-value pink display" id="gsAvgPower">—</div>
         <div class="stat-sub">across unlocked brawlers</div>
       </div>
       <div>
@@ -175,7 +215,21 @@
     <div class="hero" id="progression" style="margin-bottom:0;">
       <div>
         <div class="stat-label">Brawlers Unlocked</div>
-        <div class="stat-value gold display" id="pgBrawlers">—</div>
+        <div class="stat-value display" id="pgBrawlers">—</div>
+        <div class="stat-value display" id="pgBrawlersSub"></div>
+      </div>
+      <div>
+        <div class="stat-label">Gadgets Owned</div>
+        <div class="stat-value green display" id="pgGadgets">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Star Powers Owned</div>
+        <div class="stat-value yellow display" id="pgStarPowers">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Hypercharges Owned</div>
+        <div class="stat-value purple display" id="pgHyper">—</div>
+        <div class="stat-sub" id="pgHyperSub"></div>
       </div>
       <div>
         <div class="stat-label">Power 11 Brawlers</div>
@@ -183,30 +237,17 @@
       </div>
       <div>
         <div class="stat-label">Fully Maxed Brawlers</div>
-        <div class="stat-value display" id="pgMaxed">—</div>
+        <div class="stat-value display rainbow-label" id="pgMaxed">—</div>
         <div class="stat-sub">Power 11 + all gadgets + all star powers</div>
       </div>
       <div>
-        <div class="stat-label">Gadgets Owned</div>
-        <div class="stat-value teal display" id="pgGadgets">—</div>
-      </div>
-      <div>
-        <div class="stat-label">Star Powers Owned</div>
-        <div class="stat-value teal display" id="pgStarPowers">—</div>
-      </div>
-      <div>
-        <div class="stat-label">Hypercharges Owned</div>
-        <div class="stat-value display" id="pgHyper">—</div>
-        <div class="stat-sub" id="pgHyperSub"></div>
-      </div>
-      <div>
         <div class="stat-label">Power Points to Max</div>
-        <div class="stat-value display" id="pgPP">—</div>
+        <div class="stat-value pink display" id="pgPP">—</div>
         <div class="stat-sub">for currently owned brawlers*</div>
       </div>
       <div>
         <div class="stat-label">Gold to Max</div>
-        <div class="stat-value display" id="pgGold">—</div>
+        <div class="stat-value gold display" id="pgGold">—</div>
         <div class="stat-sub">for currently owned brawlers*</div>
       </div>
     </div>

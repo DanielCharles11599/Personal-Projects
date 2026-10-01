@@ -263,16 +263,6 @@
         <div class="stat-value display" id="pgPower11">—</div>
       </div>
       <div>
-        <div class="stat-label">Total Prestige Levels</div>
-        <div class="stat-value teal display" id="pgPrestige">—</div>
-        <div class="stat-sub">summed across all brawlers</div>
-      </div>
-      <div>
-        <div class="stat-label">Brawlers With an Active Buffy</div>
-        <div class="stat-value pink display" id="pgBuffies">—</div>
-        <div class="stat-sub">buffies rotate — this is a snapshot, not a collection</div>
-      </div>
-      <div>
         <div class="stat-label">Fully Maxed Brawlers</div>
         <div class="stat-value display rainbow-label" id="pgMaxed">—</div>
         <div class="stat-sub">Power 11 + all gadgets + all star powers</div>
@@ -752,15 +742,11 @@ function renderProgression(){
   const power11 = latestBrawlers.filter(b => Number(b.power) === 11).length;
   document.getElementById('pgPower11').textContent = fmtNum(power11);
 
-  document.getElementById('pgPrestige').textContent = latest && latest.total_prestige_level !== undefined
-    ? fmtNum(latest.total_prestige_level) : '—';
-
   const activeBuffyCount = latestBrawlers.filter(b =>
     b.buffy_gadget === true || b.buffy_gadget === 'True' || b.buffy_gadget === 'true' ||
     b.buffy_star_power === true || b.buffy_star_power === 'True' || b.buffy_star_power === 'true' ||
     b.buffy_hyper_charge === true || b.buffy_hyper_charge === 'True' || b.buffy_hyper_charge === 'true'
   ).length;
-  document.getElementById('pgBuffies').textContent = fmtNum(activeBuffyCount);
 
   let gadgetsOwned = 0, starPowersOwned = 0, hyperOwned = 0, maxedCount = 0;
   let ppNeeded = 0, goldNeeded = 0;

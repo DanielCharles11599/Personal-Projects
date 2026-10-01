@@ -12,7 +12,15 @@
   :root{
     --bg: #0B0D17; --panel: #121625; --panel-alt: #191E30; --line:rgba(255,255,255,0.08);
     --gold:#FFC94A; --pink:#FF5C82; --teal:#009888; --text:#F1EEFF; --text-dim:#9C96C9; --purple: #7f4Fc9; --green: #32c132; --yellow: #ffcd00; --red: #ff3b3b;
+    --brown:#8B5E34; --copper:#B87333; --silver-badge:#C7CCD1;
   }
+
+  .brawler-name-cell{ display:flex; align-items:center; gap:8px; }
+  .rank-badge{
+    display:inline-block; width:12px; height:12px; border-radius:50%; flex-shrink:0;
+  }
+  .rank-badge.two-tone{ border:2px solid #000; }
+  .load-more-row{ text-align:center; margin-top:14px; }
 
   *{box-sizing:border-box;}
   body{
@@ -217,6 +225,11 @@
         <div class="stat-value display" id="prTopBrawler" style="font-size:19px;">—</div>
         <div class="stat-sub" id="prTopBrawlerSub"></div>
       </div>
+      <div>
+        <div class="stat-label">Longest Win Streak</div>
+        <div class="stat-value teal display" id="prStreak">—</div>
+        <div class="stat-sub" id="prStreakSub"></div>
+      </div>
     </div>
   </div>
 
@@ -248,6 +261,16 @@
       <div>
         <div class="stat-label">Power 11 Brawlers</div>
         <div class="stat-value display" id="pgPower11">—</div>
+      </div>
+      <div>
+        <div class="stat-label">Total Prestige Levels</div>
+        <div class="stat-value teal display" id="pgPrestige">—</div>
+        <div class="stat-sub">summed across all brawlers</div>
+      </div>
+      <div>
+        <div class="stat-label">Brawlers With an Active Buffy</div>
+        <div class="stat-value pink display" id="pgBuffies">—</div>
+        <div class="stat-sub">buffies rotate — this is a snapshot, not a collection</div>
       </div>
       <div>
         <div class="stat-label">Fully Maxed Brawlers</div>
@@ -302,6 +325,9 @@
       <thead><tr><th>Brawler</th><th class="num">Trophies</th><th class="num">Change</th><th class="num">Power</th></tr></thead>
       <tbody id="brawlerTableBody"></tbody>
     </table>
+    <div class="load-more-row">
+      <button class="btn ghost small" id="brawlerLoadMore" style="display:none;">Load more</button>
+    </div>
   </div>
 
   <div class="card" id="brawlerTrendCard" style="display:none;">
@@ -315,7 +341,7 @@
     <p class="hint">Computed from every battle the tracker has logged — grows more accurate over time.</p>
     <div id="winRateEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
     <div id="winRateContent" style="display:none;">
-      <div class="hero" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px;">
+      <div class="hero" style="grid-template-columns:repeat(4,1fr); margin-bottom:20px;">
         <div>
           <div class="stat-label">Versus win rate</div>
           <div class="stat-value gold display" id="wrOverall">—</div>
@@ -327,15 +353,23 @@
           <div class="stat-sub" id="wrShowdownSub"></div>
         </div>
         <div>
+          <div class="stat-label">Star Player</div>
+          <div class="stat-value yellow display" id="wrStarPlayer">—</div>
+          <div class="stat-sub" id="wrStarPlayerSub"></div>
+        </div>
+        <div>
           <div class="stat-label">Battles logged</div>
           <div class="stat-value display" id="wrTotal">—</div>
           <div class="stat-sub">since tracking began</div>
         </div>
       </div>
       <table id="brawlerWinTable">
-        <thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Win rate</th><th class="num">Avg. showdown rank</th></tr></thead>
+        <thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Use rate</th><th class="num">Win rate</th><th class="num">Avg. showdown rank</th></tr></thead>
         <tbody id="brawlerWinTableBody"></tbody>
       </table>
+      <div class="load-more-row">
+        <button class="btn ghost small" id="winRateLoadMore" style="display:none;">Load more</button>
+      </div>
     </div>
   </div>
 
@@ -367,6 +401,44 @@ let battleRows = [];
 let catalogData = null;
 let trophyChartInstance = null;
 let brawlerTrendChartInstance = null;
+
+const PAGE_SIZE = 25;
+let brawlerDisplayCount = PAGE_SIZE;
+let winRateDisplayCount = PAGE_SIZE;
+
+/**
+ * Trophy-rank badge color per the brawler's current trophy count.
+ * Two-tone tiers (1000+) get a black ring to approximate the in-game look.
+ */
+function getRankBadge(trophies){
+  const t = Number(trophies) || 0;
+  if(t >= 3000) return { color: 'var(--yellow)', twoTone: true };
+  if(t >= 2000) return { color: 'var(--red)', twoTone: true };
+  if(t >= 1000) return { color: 'var(--purple)', twoTone: true };
+  if(t >= 750)  return { color: 'var(--gold)', twoTone: false };
+  if(t >= 500)  return { color: 'var(--silver-badge)', twoTone: false };
+  if(t >= 250)  return { color: 'var(--copper)', twoTone: false };
+  return { color: 'var(--brown)', twoTone: false };
+}
+
+function rankBadgeHtml(trophies){
+  const b = getRankBadge(trophies);
+  return `<span class="rank-badge${b.twoTone ? ' two-tone' : ''}" style="background:${b.color};"></span>`;
+}
+
+function isBrawlerMaxed(row){
+  const cat = catalogData?.brawlers?.[String(row.brawler_id)];
+  if(!cat) return false;
+  const isPower11 = Number(row.power) === 11;
+  const hasAllGadgets = Number(row.gadgets_owned) >= cat.gadgets;
+  const hasAllStarPowers = Number(row.star_powers_owned) >= cat.starPowers;
+  return isPower11 && hasAllGadgets && hasAllStarPowers;
+}
+
+function brawlerNameCellHtml(row){
+  const nameClass = isBrawlerMaxed(row) ? 'rainbow-label' : '';
+  return `<span class="brawler-name-cell">${rankBadgeHtml(row.trophies)}<span class="${nameClass}">${row.brawler_name}</span></span>`;
+}
 
 // Supercell's standard, long-stable power-level cost table (Power Points, Coins
 // needed to reach that level from the previous one). If they ever rebalance
@@ -429,19 +501,6 @@ function getPrevBrawlerSnapshot(){
   if(timestamps.length < 2) return [];
   const prevTs = timestamps[timestamps.length - 2];
   return brawlerRows.filter(r => r.timestamp === prevTs);
-}
-
-function computeWinStreaks(){
-  const versus = battleRows
-    .filter(b => b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw')
-    .slice()
-    .sort((a,b) => new Date(a.battle_time) - new Date(b.battle_time)); // chronological
-  let current = 0, best = 0;
-  versus.forEach(b => {
-    if(b.outcome === 'victory'){ current++; best = Math.max(best, current); }
-    else { current = 0; }
-  });
-  return { current, best };
 }
 
 function normalizeTimestamp(v){
@@ -548,25 +607,26 @@ function renderWinRate(){
   const emptyEl = document.getElementById('winRateEmpty');
   const content = document.getElementById('winRateContent');
 
-  const usable = battleRows.filter(b => b.brawler_used);
-  if(usable.length === 0){
+  if(battleRows.length === 0){
     emptyEl.style.display = 'block'; content.style.display = 'none'; return;
   }
   emptyEl.style.display = 'none'; content.style.display = 'block';
 
-  const versus = usable.filter(b => b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw');
+  // Overall stats use ALL logged battles with a valid outcome/rank -- they
+  // don't depend on knowing which brawler was used, so a gap in brawler_used
+  // data doesn't blank these out.
+  const versus = battleRows.filter(b => b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw');
   const wins = versus.filter(b => b.outcome === 'victory').length;
   const losses = versus.filter(b => b.outcome === 'defeat').length;
   const draws = versus.filter(b => b.outcome === 'draw').length;
-  const versusTotal = versus.length;
   const winPct = (wins + losses) > 0 ? (wins / (wins + losses) * 100) : null;
 
   document.getElementById('wrOverall').textContent = winPct !== null ? winPct.toFixed(0) + '%' : '—';
-  document.getElementById('wrOverallSub').textContent = versusTotal > 0
+  document.getElementById('wrOverallSub').textContent = versus.length > 0
     ? `${wins}W – ${losses}L – ${draws}D across versus modes`
     : 'No versus-mode battles logged yet';
 
-  const showdown = usable.filter(b => b.rank !== null && b.rank !== '' && !isNaN(b.rank));
+  const showdown = battleRows.filter(b => b.rank !== null && b.rank !== '' && !isNaN(b.rank));
   const avgRank = showdown.length > 0
     ? (showdown.reduce((sum, b) => sum + Number(b.rank), 0) / showdown.length)
     : null;
@@ -575,36 +635,59 @@ function renderWinRate(){
     ? `across ${showdown.length} showdown match(es)`
     : 'No showdown battles logged yet';
 
-  document.getElementById('wrTotal').textContent = fmtNum(usable.length);
+  const starCount = battleRows.filter(b => b.was_star_player === true || b.was_star_player === 'True' || b.was_star_player === 'true').length;
+  document.getElementById('wrStarPlayer').textContent = fmtNum(starCount);
+  document.getElementById('wrStarPlayerSub').textContent = `out of ${battleRows.length} logged battles`;
+
+  document.getElementById('wrTotal').textContent = fmtNum(battleRows.length);
+
+  // Per-brawler breakdown needs to know which brawler was used, so only
+  // battles with that field populated contribute here.
+  const usable = battleRows.filter(b => b.brawler_used);
+  const latestBrawlers = getLatestBrawlerSnapshot();
+  const brawlerInfo = {};
+  latestBrawlers.forEach(b => { brawlerInfo[b.brawler_name] = b; });
 
   const byBrawler = {};
   usable.forEach(b => {
     const name = b.brawler_used;
-    if(!byBrawler[name]) byBrawler[name] = { wins:0, losses:0, draws:0, ranks:[] };
+    if(!byBrawler[name]) byBrawler[name] = { wins:0, losses:0, draws:0, ranks:[], used:0 };
+    byBrawler[name].used++;
     if(b.outcome === 'victory') byBrawler[name].wins++;
     else if(b.outcome === 'defeat') byBrawler[name].losses++;
     else if(b.outcome === 'draw') byBrawler[name].draws++;
     if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)) byBrawler[name].ranks.push(Number(b.rank));
   });
 
-  const rows = Object.entries(byBrawler)
-    .map(([name, s]) => {
-      const total = s.wins + s.losses + s.draws + s.ranks.length;
-      const decided = s.wins + s.losses;
-      const pct = decided > 0 ? (s.wins / decided * 100) : null;
-      const avgR = s.ranks.length > 0 ? (s.ranks.reduce((a,b)=>a+b,0) / s.ranks.length) : null;
-      return { name, total, pct, avgR };
-    })
-    .sort((a,b) => b.total - a.total);
+  const totalLogged = usable.length;
+  const rows = Object.entries(byBrawler).map(([name, s]) => {
+    const decided = s.wins + s.losses;
+    const pct = decided > 0 ? (s.wins / decided * 100) : null;
+    const avgR = s.ranks.length > 0 ? (s.ranks.reduce((a,b)=>a+b,0) / s.ranks.length) : null;
+    const useRate = totalLogged > 0 ? (s.used / totalLogged * 100) : 0;
+    return { name, total: s.used, pct, avgR, useRate, info: brawlerInfo[name] };
+  });
 
-  document.getElementById('brawlerWinTableBody').innerHTML = rows.map(r => `
+  // Highest win rate first; brawlers with no decided versus battles (pct===null) sort last.
+  rows.sort((a, b) => {
+    if(a.pct === null && b.pct === null) return b.total - a.total;
+    if(a.pct === null) return 1;
+    if(b.pct === null) return -1;
+    return b.pct - a.pct;
+  });
+
+  const visible = rows.slice(0, winRateDisplayCount);
+  document.getElementById('brawlerWinTableBody').innerHTML = visible.map(r => `
     <tr>
-      <td>${r.name}</td>
+      <td>${r.info ? brawlerNameCellHtml(r.info) : r.name}</td>
       <td class="num">${r.total}</td>
+      <td class="num">${r.useRate.toFixed(1)}%</td>
       <td class="num">${r.pct !== null ? r.pct.toFixed(0) + '%' : '—'}</td>
       <td class="num">${r.avgR !== null ? r.avgR.toFixed(1) : '—'}</td>
     </tr>
   `).join('');
+
+  document.getElementById('winRateLoadMore').style.display = rows.length > winRateDisplayCount ? 'inline-block' : 'none';
 }
 
 function renderGeneralStats(){
@@ -646,10 +729,16 @@ function renderPersonalRecords(){
     const topAllTime = [...latestBrawlers].sort((a,b) => (b.highest_trophies||0) - (a.highest_trophies||0))[0];
     document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
     document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
+
+    const topStreak = [...latestBrawlers].sort((a,b) => (Number(b.max_win_streak)||0) - (Number(a.max_win_streak)||0))[0];
+    const streakVal = Number(topStreak.max_win_streak) || 0;
+    document.getElementById('prStreak').textContent = streakVal > 0 ? streakVal : '—';
+    document.getElementById('prStreakSub').textContent = streakVal > 0 ? `on ${topStreak.brawler_name}` : '';
   }
 }
 
 function renderProgression(){
+  const latest = accountRows.length ? accountRows[accountRows.length - 1] : null;
   const latestBrawlers = getLatestBrawlerSnapshot();
   const brawlersUnlocked = latestBrawlers.length;
   const totalBrawlers = catalogData ? catalogData.total_brawlers : null;
@@ -662,6 +751,16 @@ function renderProgression(){
 
   const power11 = latestBrawlers.filter(b => Number(b.power) === 11).length;
   document.getElementById('pgPower11').textContent = fmtNum(power11);
+
+  document.getElementById('pgPrestige').textContent = latest && latest.total_prestige_level !== undefined
+    ? fmtNum(latest.total_prestige_level) : '—';
+
+  const activeBuffyCount = latestBrawlers.filter(b =>
+    b.buffy_gadget === true || b.buffy_gadget === 'True' || b.buffy_gadget === 'true' ||
+    b.buffy_star_power === true || b.buffy_star_power === 'True' || b.buffy_star_power === 'true' ||
+    b.buffy_hyper_charge === true || b.buffy_hyper_charge === 'True' || b.buffy_hyper_charge === 'true'
+  ).length;
+  document.getElementById('pgBuffies').textContent = fmtNum(activeBuffyCount);
 
   let gadgetsOwned = 0, starPowersOwned = 0, hyperOwned = 0, maxedCount = 0;
   let ppNeeded = 0, goldNeeded = 0;
@@ -814,9 +913,12 @@ function renderBrawlerTable(){
   const emptyEl = document.getElementById('brawlerEmpty');
   const table = document.getElementById('brawlerTable');
   const body = document.getElementById('brawlerTableBody');
+  const loadMoreBtn = document.getElementById('brawlerLoadMore');
 
   if(brawlerRows.length === 0){
-    emptyEl.style.display = 'block'; table.style.display = 'none'; return;
+    emptyEl.style.display = 'block'; table.style.display = 'none';
+    loadMoreBtn.style.display = 'none';
+    return;
   }
   emptyEl.style.display = 'none'; table.style.display = 'table';
 
@@ -831,7 +933,9 @@ function renderBrawlerTable(){
   }
 
   const sorted = [...latestSnapshot].sort((a,b) => (b.trophies||0) - (a.trophies||0));
-  body.innerHTML = sorted.map(b => {
+  const visible = sorted.slice(0, brawlerDisplayCount);
+
+  body.innerHTML = visible.map(b => {
     let deltaHtml = '<span class="delta flat">—</span>';
     if(prevMap[b.brawler_name] !== undefined){
       const diff = (b.trophies||0) - prevMap[b.brawler_name];
@@ -840,7 +944,7 @@ function renderBrawlerTable(){
       deltaHtml = `<span class="delta ${cls}">${sign}${fmtNum(diff)}</span>`;
     }
     return `<tr class="clickable-row" data-brawler="${b.brawler_name}">
-      <td>${b.brawler_name}</td><td class="num">${fmtNum(b.trophies)}</td>
+      <td>${brawlerNameCellHtml(b)}</td><td class="num">${fmtNum(b.trophies)}</td>
       <td class="num">${deltaHtml}</td><td class="num">${fmtNum(b.power)}</td>
     </tr>`;
   }).join('');
@@ -848,6 +952,8 @@ function renderBrawlerTable(){
   body.querySelectorAll('tr[data-brawler]').forEach(row => {
     row.addEventListener('click', () => showBrawlerTrend(row.dataset.brawler));
   });
+
+  loadMoreBtn.style.display = sorted.length > brawlerDisplayCount ? 'inline-block' : 'none';
 }
 
 function showBrawlerTrend(name){
@@ -919,6 +1025,16 @@ function renderBattleTable(){
   loadMoreBtn.style.display = battleRows.length > battleDisplayCount ? 'inline-block' : 'none';
 }
 
+document.getElementById('brawlerLoadMore').addEventListener('click', () => {
+  brawlerDisplayCount += PAGE_SIZE;
+  renderBrawlerTable();
+});
+
+document.getElementById('winRateLoadMore').addEventListener('click', () => {
+  winRateDisplayCount += PAGE_SIZE;
+  renderWinRate();
+});
+
 document.getElementById('battleLoadMore').addEventListener('click', () => {
   battleDisplayCount += BATTLE_PAGE_SIZE;
   renderBattleTable();
@@ -933,9 +1049,10 @@ document.getElementById('battleToggle').addEventListener('click', (e) => {
 
 document.getElementById('refreshBtn').addEventListener('click', () => {
   battleDisplayCount = BATTLE_PAGE_SIZE;
+  brawlerDisplayCount = PAGE_SIZE;
+  winRateDisplayCount = PAGE_SIZE;
   loadAll();
 });
-
 loadAll();
 </script>
 </body>

@@ -333,7 +333,7 @@
     <div id="winRateContent" style="display:none;">
       <div class="hero" style="grid-template-columns:repeat(4,1fr); margin-bottom:20px;">
         <div>
-          <div class="stat-label">Versus win rate</div>
+          <div class="stat-label">Win rate</div>
           <div class="stat-value gold display" id="wrOverall">—</div>
           <div class="stat-sub" id="wrOverallSub"></div>
         </div>
@@ -480,6 +480,41 @@ async function loadJson(filename){
   return await res.json();
 }
 
+/**
+ * The API only labels win/loss/draw for versus modes (outcome field).
+ * Showdown modes only report a placement (rank), with no official win/loss
+ * concept -- so we derive one from placement:
+ *   - Solo Showdown: 4th place or better counts as a win.
+ *   - Duo/Trio Showdown: 2nd place or better counts as a win.
+ * Anything else with a rank but an unrecognized mode name is left
+ * unclassified rather than guessed at.
+ */
+function classifyBattle(b){
+  if(b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw'){
+    return b.outcome;
+  }
+  if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){
+    const r = Number(b.rank);
+    const m = (b.mode || '').toLowerCase();
+    if(m === 'soloshowdown') return r <= 4 ? 'victory' : 'defeat';
+    if(m === 'duoshowdown' || m === 'trioshowdown') return r <= 2 ? 'victory' : 'defeat';
+  }
+  return null;
+}
+
+/**
+ * Star Player has no equivalent in Showdown modes via the API, so 1st place
+ * in any showdown counts as the equivalent achievement.
+ */
+function wasEffectiveStarPlayer(b){
+  if(b.was_star_player === true || b.was_star_player === 'True' || b.was_star_player === 'true') return true;
+  if(b.rank !== null && b.rank !== '' && !isNaN(b.rank) && Number(b.rank) === 1){
+    const m = (b.mode || '').toLowerCase();
+    if(m === 'soloshowdown' || m === 'duoshowdown' || m === 'trioshowdown') return true;
+  }
+  return false;
+}
+
 function getLatestBrawlerSnapshot(){
   if(brawlerRows.length === 0) return [];
   const latestTs = brawlerRows[brawlerRows.length - 1].timestamp;
@@ -602,19 +637,20 @@ function renderWinRate(){
   }
   emptyEl.style.display = 'none'; content.style.display = 'block';
 
-  // Overall stats use ALL logged battles with a valid outcome/rank -- they
-  // don't depend on knowing which brawler was used, so a gap in brawler_used
-  // data doesn't blank these out.
-  const versus = battleRows.filter(b => b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw');
-  const wins = versus.filter(b => b.outcome === 'victory').length;
-  const losses = versus.filter(b => b.outcome === 'defeat').length;
-  const draws = versus.filter(b => b.outcome === 'draw').length;
+  // Overall stats use ALL logged battles with a classifiable outcome -- versus
+  // modes use the API's own outcome field, showdown modes use placement
+  // thresholds via classifyBattle(). Doesn't depend on brawler_used, so a gap
+  // there doesn't blank these out.
+  const classified = battleRows.map(b => classifyBattle(b)).filter(c => c !== null);
+  const wins = classified.filter(c => c === 'victory').length;
+  const losses = classified.filter(c => c === 'defeat').length;
+  const draws = classified.filter(c => c === 'draw').length;
   const winPct = (wins + losses) > 0 ? (wins / (wins + losses) * 100) : null;
 
   document.getElementById('wrOverall').textContent = winPct !== null ? winPct.toFixed(0) + '%' : '—';
-  document.getElementById('wrOverallSub').textContent = versus.length > 0
-    ? `${wins}W – ${losses}L – ${draws}D across versus modes`
-    : 'No versus-mode battles logged yet';
+  document.getElementById('wrOverallSub').textContent = classified.length > 0
+    ? `${wins}W – ${losses}L – ${draws}D (versus modes by result, Showdown by placement)`
+    : 'No classifiable battles logged yet';
 
   const showdown = battleRows.filter(b => b.rank !== null && b.rank !== '' && !isNaN(b.rank));
   const avgRank = showdown.length > 0
@@ -625,9 +661,9 @@ function renderWinRate(){
     ? `across ${showdown.length} showdown match(es)`
     : 'No showdown battles logged yet';
 
-  const starCount = battleRows.filter(b => b.was_star_player === true || b.was_star_player === 'True' || b.was_star_player === 'true').length;
+  const starCount = battleRows.filter(wasEffectiveStarPlayer).length;
   document.getElementById('wrStarPlayer').textContent = fmtNum(starCount);
-  document.getElementById('wrStarPlayerSub').textContent = `out of ${battleRows.length} logged battles`;
+  document.getElementById('wrStarPlayerSub').textContent = `out of ${battleRows.length} logged battles (incl. 1st-place Showdown finishes)`;
 
   document.getElementById('wrTotal').textContent = fmtNum(battleRows.length);
 
@@ -643,9 +679,10 @@ function renderWinRate(){
     const name = b.brawler_used;
     if(!byBrawler[name]) byBrawler[name] = { wins:0, losses:0, draws:0, ranks:[], used:0 };
     byBrawler[name].used++;
-    if(b.outcome === 'victory') byBrawler[name].wins++;
-    else if(b.outcome === 'defeat') byBrawler[name].losses++;
-    else if(b.outcome === 'draw') byBrawler[name].draws++;
+    const cls = classifyBattle(b);
+    if(cls === 'victory') byBrawler[name].wins++;
+    else if(cls === 'defeat') byBrawler[name].losses++;
+    else if(cls === 'draw') byBrawler[name].draws++;
     if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)) byBrawler[name].ranks.push(Number(b.rank));
   });
 

@@ -184,6 +184,9 @@ def fetch_catalog(token):
             "gadgets": len(gadgets),
             "starPowers": len(star_powers),
             "hyperCharges": len(hypercharges),
+            "gadgetNames": [g.get("name", "") for g in gadgets],
+            "starPowerNames": [s.get("name", "") for s in star_powers],
+            "hyperChargeNames": [h.get("name", "") for h in hypercharges],
         }
         total_gadgets += len(gadgets)
         total_star_powers += len(star_powers)
@@ -211,7 +214,7 @@ def log_player_snapshot(player, now_iso):
     header = [
         "timestamp", "total_trophies", "highest_trophies",
         "brawlers_unlocked", "exp_level", "total_prestige_level",
-        "3v3_victories", "solo_victories", "duo_victories", "club_name",
+        "3v3_victories", "solo_victories", "duo_victories", "club_name", "synthetic",
     ]
     ensure_header(path, header)
     row = [
@@ -225,6 +228,7 @@ def log_player_snapshot(player, now_iso):
         player.get("soloVictories"),
         player.get("duoVictories"),
         (player.get("club") or {}).get("name", ""),
+        False,  # every row this script writes going forward is real, not backfilled
     ]
     append_csv(path, header, row)
     print(f"Logged account snapshot: {player.get('trophies')} trophies "

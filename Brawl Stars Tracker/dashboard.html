@@ -22,6 +22,15 @@
   .rank-badge.two-tone{ border:2px solid #000; }
   .load-more-row{ text-align:center; margin-top:14px; }
 
+  .detail-groups{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-bottom:20px; }
+  @media (max-width:640px){ .detail-groups{ grid-template-columns:1fr; } }
+  .detail-group h4{ font-size:12.5px; color:var(--text-dim); margin:0 0 8px; text-transform:uppercase; letter-spacing:0.5px; }
+  .detail-item{ display:flex; align-items:center; gap:8px; font-size:14px; padding:3px 0; }
+  .detail-item .mark{ width:16px; text-align:center; flex-shrink:0; font-weight:700; }
+  .detail-item.owned .mark{ color:var(--teal); }
+  .detail-item.missing .mark{ color:var(--text-dim); opacity:0.5; }
+  .detail-item.missing{ color:var(--text-dim); }
+
   *{box-sizing:border-box;}
   body{
     margin:0; font-family:'Rubik',sans-serif; color:var(--text); min-height:100vh;
@@ -225,6 +234,11 @@
         <div class="stat-value display" id="prTopBrawler" style="font-size:19px;">—</div>
         <div class="stat-sub" id="prTopBrawlerSub"></div>
       </div>
+      <div>
+        <div class="stat-label">Longest Win Streak</div>
+        <div class="stat-value teal display" id="prStreak">—</div>
+        <div class="stat-sub" id="prStreakSub"></div>
+      </div>
     </div>
   </div>
 
@@ -281,6 +295,7 @@
     <p class="hint">Every account snapshot logged by the tracker.</p>
     <div id="chartEmpty" class="empty">No account history yet — waiting on brawl_history.csv.</div>
     <canvas id="trophyChart" style="display:none;"></canvas>
+    <p class="hint" id="chartSyntheticNote" style="display:none; margin:12px 0 0;">The dashed, dimmer segment is an estimated backfill prior to when tracking actually began — not real logged data.</p>
   </div>
 
   <div class="card" id="periodCard">
@@ -318,7 +333,8 @@
   <div class="card" id="brawlerTrendCard" style="display:none;">
     <h2 id="brawlerTrendTitle">Brawler trend</h2>
     <p class="hint">Trophy history and current loadout for this brawler.</p>
-    <div class="hero" id="brawlerDetailGrid" style="grid-template-columns:repeat(4,1fr); margin-bottom:18px;"></div>
+    <div class="hero" id="brawlerDetailGrid" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px;"></div>
+    <div class="detail-groups" id="brawlerDetailGroups"></div>
     <canvas id="brawlerTrendChart" style="max-height:220px;"></canvas>
   </div>
 
@@ -436,6 +452,49 @@ let brawlerDisplayCount = PAGE_SIZE;
 let winRateDisplayCount = PAGE_SIZE;
 let mapDisplayCount = PAGE_SIZE;
 let activityChartInstance = null;
+
+const MODE_NAMES = {
+  soloShowdown: 'Solo Showdown',
+  duoShowdown: 'Duo Showdown',
+  trioShowdown: 'Trio Showdown',
+  gemGrab: 'Gem Grab',
+  brawlBall: 'Brawl Ball',
+  bounty: 'Bounty',
+  heist: 'Heist',
+  hotZone: 'Hot Zone',
+  knockout: 'Knockout',
+  duels: 'Duels',
+  wipeout: 'Wipeout',
+  siege: 'Siege',
+  bigGame: 'Big Game',
+  bossFight: 'Boss Fight',
+  roboRumble: 'Robo Rumble',
+  takedown: 'Takedown',
+  presentPlunder: 'Present Plunder',
+  pumpkinPlunder: 'Pumpkin Plunder',
+  holdTheTrophy: 'Hold the Trophy',
+  payload: 'Payload',
+  volleyBrawl: 'Volley Brawl',
+  basketBrawl: 'Basket Brawl',
+  brawlBall5v5: '5v5 Brawl Ball',
+  knockout5v5: '5v5 Knockout',
+  gemGrab5v5: '5v5 Gem Grab',
+  bounty5v5: '5v5 Bounty',
+  wipeout5v5: '5v5 Wipeout',
+  unknown: 'Unknown',
+};
+
+/**
+ * Known modes map to their real display name. Anything not in the list
+ * (a new mode added to the game after this was written, say) falls back to a
+ * generic camelCase -> Title Case conversion rather than breaking or showing
+ * the raw API key.
+ */
+function formatModeName(mode){
+  if(!mode) return '—';
+  if(MODE_NAMES[mode]) return MODE_NAMES[mode];
+  return mode.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
+}
 
 function formatHourLabel(h){
   const period = h < 12 ? 'AM' : 'PM';
@@ -806,6 +865,11 @@ function renderPersonalRecords(){
     const topAllTime = [...latestBrawlers].sort((a,b) => (b.highest_trophies||0) - (a.highest_trophies||0))[0];
     document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
     document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
+
+    const topStreak = [...latestBrawlers].sort((a,b) => (Number(b.max_win_streak)||0) - (Number(a.max_win_streak)||0))[0];
+    const streakVal = Number(topStreak.max_win_streak) || 0;
+    document.getElementById('prStreak').textContent = streakVal > 0 ? streakVal : '—';
+    document.getElementById('prStreakSub').textContent = streakVal > 0 ? `on ${topStreak.brawler_name}` : '';
   }
 }
 
@@ -894,6 +958,8 @@ function renderTrophyChart(){
 
   const labels = accountRows.map(r => fmtDateTime(r.timestamp));
   const data = accountRows.map(r => r.total_trophies);
+  const hasSynthetic = accountRows.some(r => isTrue(r.synthetic));
+  document.getElementById('chartSyntheticNote').style.display = hasSynthetic ? 'block' : 'none';
 
   if(trophyChartInstance) trophyChartInstance.destroy();
   trophyChartInstance = new Chart(canvas.getContext('2d'), {
@@ -902,7 +968,11 @@ function renderTrophyChart(){
       label: 'Total trophies', data,
       borderColor: '#FFC94A', backgroundColor: 'rgba(255,201,74,0.12)',
       fill: true, tension: 0.25, pointRadius: labels.length > 60 ? 0 : 3,
-      pointBackgroundColor: '#FFC94A',
+      pointBackgroundColor: accountRows.map(r => isTrue(r.synthetic) ? '#6b6b85' : '#FFC94A'),
+      segment: {
+        borderDash: ctx => (isTrue(accountRows[ctx.p0DataIndex]?.synthetic) || isTrue(accountRows[ctx.p1DataIndex]?.synthetic)) ? [6, 4] : undefined,
+        borderColor: ctx => (isTrue(accountRows[ctx.p0DataIndex]?.synthetic) && isTrue(accountRows[ctx.p1DataIndex]?.synthetic)) ? 'rgba(255,201,74,0.45)' : undefined,
+      },
     }]},
     options: {
       responsive: true, plugins: { legend: { display: false } },
@@ -1034,32 +1104,59 @@ function isTrue(v){
   return v === true || v === 'True' || v === 'true';
 }
 
+function buildDetailGroup(title, allNames, ownedSet){
+  if(!allNames || allNames.length === 0){
+    return `<div class="detail-group"><h4>${title}</h4><div class="detail-item missing"><span class="mark">—</span>None exist for this brawler</div></div>`;
+  }
+  const items = allNames.map(name => {
+    const owned = ownedSet.has(name);
+    return `<div class="detail-item ${owned ? 'owned' : 'missing'}"><span class="mark">${owned ? '✓' : '✗'}</span>${name}</div>`;
+  }).join('');
+  return `<div class="detail-group"><h4>${title}</h4>${items}</div>`;
+}
+
 function renderBrawlerDetail(row){
   const grid = document.getElementById('brawlerDetailGrid');
-  if(!row){ grid.innerHTML = ''; return; }
+  const groupsEl = document.getElementById('brawlerDetailGroups');
+  if(!row){ grid.innerHTML = ''; groupsEl.innerHTML = ''; return; }
 
   const maxed = isBrawlerMaxed(row);
-  const activeBuffies = [];
-  if(isTrue(row.buffy_gadget)) activeBuffies.push('Gadget');
-  if(isTrue(row.buffy_star_power)) activeBuffies.push('Star Power');
-  if(isTrue(row.buffy_hyper_charge)) activeBuffies.push('Hypercharge');
-
   const tiles = [
     { label: 'Power Level', value: row.power !== undefined && row.power !== '' ? row.power : '—' },
     { label: 'Prestige Level', value: row.prestige_level !== undefined && row.prestige_level !== '' ? row.prestige_level : '—' },
     { label: 'Fully Maxed', value: maxed ? 'Yes' : 'No' },
-    { label: 'Active Buffy', value: activeBuffies.length ? activeBuffies.join(', ') : 'None active' },
-    { label: 'Gadgets', value: listOrNone(row.gadget_names), full: true },
-    { label: 'Star Powers', value: listOrNone(row.star_power_names), full: true },
-    { label: 'Hypercharge', value: listOrNone(row.hypercharge_names), full: true },
   ];
-
   grid.innerHTML = tiles.map(t => `
-    <div${t.full ? ' style="grid-column: span 2;"' : ''}>
+    <div>
       <div class="stat-label">${t.label}</div>
       <div class="stat-value display" style="font-size:17px;">${t.value}</div>
     </div>
   `).join('');
+
+  const cat = catalogData?.brawlers?.[String(row.brawler_id)];
+  const ownedGadgets = new Set((row.gadget_names || '').split(';').map(s => s.trim()).filter(Boolean));
+  const ownedStarPowers = new Set((row.star_power_names || '').split(';').map(s => s.trim()).filter(Boolean));
+  const ownedHypercharges = new Set((row.hypercharge_names || '').split(';').map(s => s.trim()).filter(Boolean));
+
+  let groupsHtml = '';
+  if(cat){
+    groupsHtml += buildDetailGroup('Gadgets', cat.gadgetNames, ownedGadgets);
+    groupsHtml += buildDetailGroup('Star Powers', cat.starPowerNames, ownedStarPowers);
+    groupsHtml += buildDetailGroup('Hypercharge', cat.hyperChargeNames, ownedHypercharges);
+  } else {
+    groupsHtml += `<div class="detail-group"><h4>Loadout</h4><div class="detail-item missing"><span class="mark">—</span>Catalog data unavailable</div></div>`;
+  }
+
+  const buffyItems = [
+    { name: 'Gadget Buffy', active: isTrue(row.buffy_gadget) },
+    { name: 'Star Power Buffy', active: isTrue(row.buffy_star_power) },
+    { name: 'Hypercharge Buffy', active: isTrue(row.buffy_hyper_charge) },
+  ];
+  groupsHtml += `<div class="detail-group"><h4>Buffies (currently active)</h4>${
+    buffyItems.map(b => `<div class="detail-item ${b.active ? 'owned' : 'missing'}"><span class="mark">${b.active ? '✓' : '✗'}</span>${b.name}</div>`).join('')
+  }</div>`;
+
+  groupsEl.innerHTML = groupsHtml;
 }
 
 function showBrawlerTrend(name){
@@ -1207,7 +1304,7 @@ function renderMapPerformance(){
   document.getElementById('mapTableBody').innerHTML = visible.map(r => `
     <tr>
       <td>${r.map}</td>
-      <td>${r.mode || '—'}</td>
+      <td>${formatModeName(r.mode)}</td>
       <td class="num">${r.battles}</td>
       <td class="num">${r.winPct !== null ? r.winPct.toFixed(0) + '%' : '—'}</td>
       <td>${r.best ? `${r.best.name} (${r.best.pct.toFixed(0)}%)` : 'Not enough data'}</td>
@@ -1244,7 +1341,7 @@ function renderBattleTable(){
     else if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){ resultLabel = `Rank ${b.rank}`; }
     return `<tr>
       <td>${fmtDateTime(b.battle_time)}</td>
-      <td>${b.mode || '—'}</td>
+      <td>${formatModeName(b.mode)}</td>
       <td>${b.map || '—'}</td>
       <td>${b.brawler_used || '—'}</td>
       <td class="num">${resultLabel}</td>

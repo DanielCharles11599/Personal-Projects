@@ -9,649 +9,1833 @@
       "name": "SHELLY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FAST FORWARD",
+        "CLAY PIGEONS"
+      ],
+      "starPowerNames": [
+        "SHELL SHOCK",
+        "BAND-AID"
+      ],
+      "hyperChargeNames": [
+        "DOUBLE BARREL"
+      ]
     },
     "16000001": {
       "name": "COLT",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPEEDLOADER",
+        "SILVER BULLET"
+      ],
+      "starPowerNames": [
+        "SLICK BOOTS",
+        "MAGNUM SPECIAL"
+      ],
+      "hyperChargeNames": [
+        "DUAL WIELDING"
+      ]
     },
     "16000002": {
       "name": "BULL",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "T-BONE MISSILE",
+        "STOMPER"
+      ],
+      "starPowerNames": [
+        "BERSERKER",
+        "TOUGH GUY"
+      ],
+      "hyperChargeNames": [
+        "JAWS OF STEEL"
+      ]
     },
     "16000003": {
       "name": "BROCK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "ROCKET LACES",
+        "ROCKET FUEL"
+      ],
+      "starPowerNames": [
+        "MORE ROCKETS!",
+        "ROCKET NO. 4"
+      ],
+      "hyperChargeNames": [
+        "ROCKET BARRAGE"
+      ]
     },
     "16000004": {
       "name": "RICO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "MULTIBALL LAUNCHER",
+        "MULTIBALL"
+      ],
+      "starPowerNames": [
+        "SUPER BOUNCY",
+        "ROBO RETREAT"
+      ],
+      "hyperChargeNames": [
+        "TRICK SHOT KING"
+      ]
     },
     "16000005": {
       "name": "SPIKE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "POPPING PINCUSHION",
+        "LIFE PLANT"
+      ],
+      "starPowerNames": [
+        "FERTILIZE",
+        "CURVEBALL"
+      ],
+      "hyperChargeNames": [
+        "BLOOMING SEASON"
+      ]
     },
     "16000006": {
       "name": "BARLEY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "STICKY SYRUP MIXER",
+        "HERBAL TONIC"
+      ],
+      "starPowerNames": [
+        "MEDICAL USE",
+        "EXTRA NOXIOUS"
+      ],
+      "hyperChargeNames": [
+        "BOTTLED-UP RAGE"
+      ]
     },
     "16000007": {
       "name": "JESSIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPARK PLUG",
+        "RECOIL SPRING"
+      ],
+      "starPowerNames": [
+        "ENERGIZE",
+        "SHOCKY"
+      ],
+      "hyperChargeNames": [
+        "SCRAPPY 2.0"
+      ]
     },
     "16000008": {
       "name": "NITA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "BEAR PAWS",
+        "FAUX FUR"
+      ],
+      "starPowerNames": [
+        "BEAR WITH ME",
+        "HYPER BEAR"
+      ],
+      "hyperChargeNames": [
+        "HYPERBEARING"
+      ]
     },
     "16000009": {
       "name": "DYNAMIKE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FIDGET SPINNER",
+        "SATCHEL CHARGE"
+      ],
+      "starPowerNames": [
+        "DYNA-JUMP",
+        "DEMOLITION"
+      ],
+      "hyperChargeNames": [
+        "BOOMER"
+      ]
     },
     "16000010": {
       "name": "EL PRIMO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SUPLEX SUPPLEMENT",
+        "ASTEROID BELT"
+      ],
+      "starPowerNames": [
+        "EL FUEGO",
+        "METEOR RUSH"
+      ],
+      "hyperChargeNames": [
+        "GRAVITY LEAP"
+      ]
     },
     "16000011": {
       "name": "MORTIS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "COMBO SPINNER",
+        "CREATURE OF THE NIGHT"
+      ],
+      "starPowerNames": [
+        "CREEPY HARVEST",
+        "COILED SNAKE"
+      ],
+      "hyperChargeNames": [
+        "BLOOD BOOMERANG"
+      ]
     },
     "16000012": {
       "name": "CROW",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "INSTAPOISON",
+        "SLOWING TOXIN"
+      ],
+      "starPowerNames": [
+        "EXTRA TOXIC",
+        "CARRION CROW"
+      ],
+      "hyperChargeNames": [
+        "UTILITY KNIVES"
+      ]
     },
     "16000013": {
       "name": "POCO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "TUNING FORK",
+        "PROTECTIVE TUNES"
+      ],
+      "starPowerNames": [
+        "DA CAPO!",
+        "SCREECHING SOLO"
+      ],
+      "hyperChargeNames": [
+        "MEDIC'S MELODY"
+      ]
     },
     "16000014": {
       "name": "BO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SUPER TOTEM",
+        "TRIPWIRE"
+      ],
+      "starPowerNames": [
+        "CIRCLING EAGLE",
+        "SNARE A BEAR"
+      ],
+      "hyperChargeNames": [
+        "CATCH A BEAR"
+      ]
     },
     "16000015": {
       "name": "PIPER",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "AUTO AIMER",
+        "HOMEMADE RECIPE"
+      ],
+      "starPowerNames": [
+        "AMBUSH",
+        "SNAPPY SNIPING"
+      ],
+      "hyperChargeNames": [
+        "BOPPIN'"
+      ]
     },
     "16000016": {
       "name": "PAM",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "PULSE MODULATOR",
+        "SCRAPSUCKER"
+      ],
+      "starPowerNames": [
+        "MAMA'S HUG",
+        "MAMA'S SQUEEZE"
+      ],
+      "hyperChargeNames": [
+        "MAMA'S LOVE"
+      ]
     },
     "16000017": {
       "name": "TARA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "PSYCHIC ENHANCER",
+        "SUPPORT FROM BEYOND"
+      ],
+      "starPowerNames": [
+        "BLACK PORTAL",
+        "HEALING SHADE"
+      ],
+      "hyperChargeNames": [
+        "SUPERMASSIVE"
+      ]
     },
     "16000018": {
       "name": "DARRYL",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "RECOILING ROTATOR",
+        "TAR BARREL"
+      ],
+      "starPowerNames": [
+        "STEEL HOOPS",
+        "ROLLING RELOAD"
+      ],
+      "hyperChargeNames": [
+        "BARREL O' BULLETS"
+      ]
     },
     "16000019": {
       "name": "PENNY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SALTY BARREL",
+        "TRUSTY SPYGLASS"
+      ],
+      "starPowerNames": [
+        "HEAVY COFFERS",
+        "MASTER BLASTER"
+      ],
+      "hyperChargeNames": [
+        "NEW LOBBER"
+      ]
     },
     "16000020": {
       "name": "FRANK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "ACTIVE NOISE CANCELING",
+        "IRRESISTIBLE ATTRACTION"
+      ],
+      "starPowerNames": [
+        "POWER GRAB",
+        "SPONGE"
+      ],
+      "hyperChargeNames": [
+        "SEISMIC SMASH"
+      ]
     },
     "16000021": {
       "name": "GENE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "LAMP BLOWOUT",
+        "VENGEFUL SPIRITS"
+      ],
+      "starPowerNames": [
+        "MAGIC PUFFS",
+        "SPIRIT SLAP"
+      ],
+      "hyperChargeNames": [
+        "HYPER HANDS"
+      ]
     },
     "16000022": {
       "name": "TICK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "MINE MANIA",
+        "LAST HURRAH"
+      ],
+      "starPowerNames": [
+        "WELL OILED",
+        "AUTOMA-TICK RELOAD"
+      ],
+      "hyperChargeNames": [
+        "HEADSTRONG"
+      ]
     },
     "16000023": {
       "name": "LEON",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CLONE PROJECTOR",
+        "LOLLIPOP DROP"
+      ],
+      "starPowerNames": [
+        "SMOKE TRAILS",
+        "INVISIHEAL"
+      ],
+      "hyperChargeNames": [
+        "LIMBO"
+      ]
     },
     "16000024": {
       "name": "ROSA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "GROW LIGHT",
+        "UNFRIENDLY BUSHES"
+      ],
+      "starPowerNames": [
+        "PLANT LIFE",
+        "THORNY GLOVES"
+      ],
+      "hyperChargeNames": [
+        "GRASPING ROOTS"
+      ]
     },
     "16000025": {
       "name": "CARL",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "HEAT EJECTOR",
+        "FLYING HOOK"
+      ],
+      "starPowerNames": [
+        "POWER THROW",
+        "PROTECTIVE PIROUETTE"
+      ],
+      "hyperChargeNames": [
+        "FLAMESPIN"
+      ]
     },
     "16000026": {
       "name": "BIBI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "VITAMIN BOOSTER",
+        "EXTRA STICKY"
+      ],
+      "starPowerNames": [
+        "HOME RUN",
+        "BATTING STANCE"
+      ],
+      "hyperChargeNames": [
+        "OUT OF BOUNDS"
+      ]
     },
     "16000027": {
       "name": "8-BIT",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CHEAT CARTRIDGE",
+        "EXTRA CREDITS"
+      ],
+      "starPowerNames": [
+        "BOOSTED BOOSTER",
+        "PLUGGED IN"
+      ],
+      "hyperChargeNames": [
+        "AIMBOT"
+      ]
     },
     "16000028": {
       "name": "SANDY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SLEEP STIMULATOR",
+        "SWEET DREAMS"
+      ],
+      "starPowerNames": [
+        "RUDE SANDS",
+        "HEALING WINDS"
+      ],
+      "hyperChargeNames": [
+        "SWIFT WINDS"
+      ]
     },
     "16000029": {
       "name": "BEA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "HONEY MOLASSES",
+        "RATTLED HIVE"
+      ],
+      "starPowerNames": [
+        "INSTA BEALOAD",
+        "HONEYCOMB"
+      ],
+      "hyperChargeNames": [
+        "PROTECT THE QUEEN"
+      ]
     },
     "16000030": {
       "name": "EMZ",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FRIENDZONER",
+        "ACID SPRAY"
+      ],
+      "starPowerNames": [
+        "BAD KARMA",
+        "HYPE"
+      ],
+      "hyperChargeNames": [
+        "OVERHYPED HAZE"
+      ]
     },
     "16000031": {
       "name": "MR. P",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SERVICE BELL",
+        "PORTER REINFORCEMENTS"
+      ],
+      "starPowerNames": [
+        "HANDLE WITH CARE",
+        "REVOLVING DOOR"
+      ],
+      "hyperChargeNames": [
+        "SUPER PORTERS! ASSEMBLE!"
+      ]
     },
     "16000032": {
       "name": "MAX",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "PHASE SHIFTER",
+        "SNEAKY SNEAKERS"
+      ],
+      "starPowerNames": [
+        "SUPER CHARGED",
+        "RUN N GUN"
+      ],
+      "hyperChargeNames": [
+        "UNLIMITED ENERGY"
+      ]
     },
     "16000034": {
       "name": "JACKY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "PNEUMATIC BOOSTER",
+        "REBUILD"
+      ],
+      "starPowerNames": [
+        "COUNTER CRUSH",
+        "HARDY HARD HAT"
+      ],
+      "hyperChargeNames": [
+        "SEISMIC EVENT"
+      ]
     },
     "16000035": {
       "name": "GALE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPRING EJECTOR",
+        "TWISTER"
+      ],
+      "starPowerNames": [
+        "BLUSTERY BLOW",
+        "FREEZING SNOW"
+      ],
+      "hyperChargeNames": [
+        "BLIZZARD"
+      ]
     },
     "16000036": {
       "name": "NANI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WARPIN' TIME",
+        "RETURN TO SENDER"
+      ],
+      "starPowerNames": [
+        "AUTOFOCUS",
+        "TEMPERED STEEL"
+      ],
+      "hyperChargeNames": [
+        "BIG PEEP"
+      ]
     },
     "16000037": {
       "name": "SPROUT",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "GARDEN MULCHER",
+        "TRANSPLANT"
+      ],
+      "starPowerNames": [
+        "OVERGROWTH",
+        "PHOTOSYNTHESIS"
+      ],
+      "hyperChargeNames": [
+        "THORNS"
+      ]
     },
     "16000038": {
       "name": "SURGE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "POWER SURGE",
+        "POWER SHIELD"
+      ],
+      "starPowerNames": [
+        "TO THE MAX!",
+        "SERVE ICE COLD"
+      ],
+      "hyperChargeNames": [
+        "STAGE 5"
+      ]
     },
     "16000039": {
       "name": "COLETTE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "NA-AH!",
+        "GOTCHA!"
+      ],
+      "starPowerNames": [
+        "PUSH IT",
+        "MASS TAX"
+      ],
+      "hyperChargeNames": [
+        "TEEN SPIRIT"
+      ]
     },
     "16000040": {
       "name": "AMBER",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FIRE STARTERS",
+        "DANCING FLAMES"
+      ],
+      "starPowerNames": [
+        "WILD FLAMES",
+        "SCORCHIN' SIPHON"
+      ],
+      "hyperChargeNames": [
+        "OIL SPILL"
+      ]
     },
     "16000041": {
       "name": "LOU",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "ICE BLOCK",
+        "CRYO SYRUP"
+      ],
+      "starPowerNames": [
+        "SUPERCOOL",
+        "HYPOTHERMIA"
+      ],
+      "hyperChargeNames": [
+        "SLUSHIE STORM"
+      ]
     },
     "16000042": {
       "name": "BYRON",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SHOT IN THE ARM",
+        "BOOSTER SHOTS"
+      ],
+      "starPowerNames": [
+        "MALAISE",
+        "INJECTION"
+      ],
+      "hyperChargeNames": [
+        "UNSTABLE CONCOCTION"
+      ]
     },
     "16000043": {
       "name": "EDGAR",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "LET'S FLY",
+        "HARDCORE"
+      ],
+      "starPowerNames": [
+        "HARD LANDING",
+        "FISTICUFFS"
+      ],
+      "hyperChargeNames": [
+        "OUTBURST"
+      ]
     },
     "16000044": {
       "name": "RUFFS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "TAKE COVER",
+        "AIR SUPPORT"
+      ],
+      "starPowerNames": [
+        "AIR SUPERIORITY",
+        "FIELD PROMOTION"
+      ],
+      "hyperChargeNames": [
+        "THE GOODEST BOY"
+      ]
     },
     "16000045": {
       "name": "STU",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPEED ZONE",
+        "BREAKTHROUGH"
+      ],
+      "starPowerNames": [
+        "ZERO DRAG",
+        "GASO-HEAL"
+      ],
+      "hyperChargeNames": [
+        "INFINITRO"
+      ]
     },
     "16000046": {
       "name": "BELLE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "NEST EGG",
+        "REVERSE POLARITY"
+      ],
+      "starPowerNames": [
+        "POSITIVE FEEDBACK",
+        "GROUNDED"
+      ],
+      "hyperChargeNames": [
+        "MAGNETIC"
+      ]
     },
     "16000047": {
       "name": "SQUEAK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WINDUP",
+        "RESIDUE"
+      ],
+      "starPowerNames": [
+        "CHAIN REACTION",
+        "SUPER STICKY"
+      ],
+      "hyperChargeNames": [
+        "BOUNCY BLOB"
+      ]
     },
     "16000048": {
       "name": "GROM",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WATCHTOWER",
+        "RADIO CHECK"
+      ],
+      "starPowerNames": [
+        "FOOT PATROL",
+        "X-FACTOR"
+      ],
+      "hyperChargeNames": [
+        "GROM BOMB GOES BOOM!"
+      ]
     },
     "16000049": {
       "name": "BUZZ",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "RESERVE BUOY",
+        "X-RAY-SHADES"
+      ],
+      "starPowerNames": [
+        "TOUGHER TORPEDO",
+        "EYES SHARP"
+      ],
+      "hyperChargeNames": [
+        "BUZZWATCH"
+      ]
     },
     "16000050": {
       "name": "GRIFF",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "PIGGY BANK",
+        "COIN SHOWER"
+      ],
+      "starPowerNames": [
+        "KEEP THE CHANGE",
+        "BUSINESS RESILIENCE"
+      ],
+      "hyperChargeNames": [
+        "TAX REBATE"
+      ]
     },
     "16000051": {
       "name": "ASH",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CHILL PILL",
+        "ROTTEN BANANA"
+      ],
+      "starPowerNames": [
+        "FIRST BASH",
+        "MAD AS HECK"
+      ],
+      "hyperChargeNames": [
+        "RAT KING"
+      ]
     },
     "16000052": {
       "name": "MEG",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "JOLTING VOLTS",
+        "REPURPOSE"
+      ],
+      "starPowerNames": [
+        "FORCE FIELD",
+        "HEAVY METAL"
+      ],
+      "hyperChargeNames": [
+        "TUNGSTEN TOUGHNESS"
+      ]
     },
     "16000053": {
       "name": "LOLA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FREEZE FRAME",
+        "STUNT DOUBLE"
+      ],
+      "starPowerNames": [
+        "IMPROVISE",
+        "SEALED WITH A KISS"
+      ],
+      "hyperChargeNames": [
+        "INFLATED EGO"
+      ]
     },
     "16000054": {
       "name": "FANG",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CORN-FU",
+        "ROUNDHOUSE KICK"
+      ],
+      "starPowerNames": [
+        "FRESH KICKS",
+        "DIVINE SOLES"
+      ],
+      "hyperChargeNames": [
+        "DRAGON KICK"
+      ]
     },
     "16000056": {
       "name": "EVE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "GOTTA GO!",
+        "MOTHERLY LOVE"
+      ],
+      "starPowerNames": [
+        "UNNATURAL ORDER",
+        "HAPPY SURPRISE"
+      ],
+      "hyperChargeNames": [
+        "GENERATIONS"
+      ]
     },
     "16000057": {
       "name": "JANET",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "DROP THE BASS",
+        "BACKSTAGE PASS"
+      ],
+      "starPowerNames": [
+        "STAGE VIEW",
+        "VOCAL WARM UP"
+      ],
+      "hyperChargeNames": [
+        "MAGNUM OPUS"
+      ]
     },
     "16000058": {
       "name": "BONNIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SUGAR RUSH",
+        "CRASH TEST"
+      ],
+      "starPowerNames": [
+        "BLACK POWDER",
+        "WISDOM TOOTH"
+      ],
+      "hyperChargeNames": [
+        "DAREDEVIL"
+      ]
     },
     "16000059": {
       "name": "OTIS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "DORMANT STAR",
+        "PHAT SPLATTER"
+      ],
+      "starPowerNames": [
+        "STENCIL GLUE",
+        "INK REFILLS"
+      ],
+      "hyperChargeNames": [
+        "SILENT STUNNER"
+      ]
     },
     "16000060": {
       "name": "SAM",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "MAGNETIC FIELD",
+        "PULSE REPELLENT"
+      ],
+      "starPowerNames": [
+        "HEARTY RECOVERY",
+        "REMOTE RECHARGE"
+      ],
+      "hyperChargeNames": [
+        "HYPER FIST"
+      ]
     },
     "16000061": {
       "name": "GUS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "KOOKY POPPER",
+        "KNOCKBACK SPIRIT"
+      ],
+      "starPowerNames": [
+        "HEALTH BONANZA",
+        "SPIRIT ANIMAL"
+      ],
+      "hyperChargeNames": [
+        "SPOOKY POP"
+      ]
     },
     "16000062": {
       "name": "BUSTER",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "UTILITY BELT",
+        "SLO-MO REPLAY"
+      ],
+      "starPowerNames": [
+        "BLOCKBUSTER",
+        "KEVLAR VEST"
+      ],
+      "hyperChargeNames": [
+        "PLOT ARMOR"
+      ]
     },
     "16000063": {
       "name": "CHESTER",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPICY DICE",
+        "CANDY BEANS"
+      ],
+      "starPowerNames": [
+        "SINGLE BELL'O'MANIA",
+        "SNEAK PEEK"
+      ],
+      "hyperChargeNames": [
+        "CRUNCHY, CHEWY, GOOEY"
+      ]
     },
     "16000064": {
       "name": "GRAY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WALKING CANE",
+        "GRAND PIANO"
+      ],
+      "starPowerNames": [
+        "FAKE INJURY",
+        "NEW PERSPECTIVE"
+      ],
+      "hyperChargeNames": [
+        "ANOTHER DIMENSION"
+      ]
     },
     "16000065": {
       "name": "MANDY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CARAMELIZE",
+        "COOKIE CRUMBS"
+      ],
+      "starPowerNames": [
+        "IN MY SIGHTS",
+        "HARD CANDY"
+      ],
+      "hyperChargeNames": [
+        "SUGAR FOR ALL!"
+      ]
     },
     "16000066": {
       "name": "R-T",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "OUT OF LINE",
+        "HACKS!"
+      ],
+      "starPowerNames": [
+        "QUICK MATHS",
+        "RECORDING"
+      ],
+      "hyperChargeNames": [
+        "360-DEGREE SURVEILLANCE"
+      ]
     },
     "16000067": {
       "name": "WILLOW",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPELLBOUND",
+        "DIVE"
+      ],
+      "starPowerNames": [
+        "LOVE IS BLIND",
+        "OBSESSION"
+      ],
+      "hyperChargeNames": [
+        "PSYCHIC SAFETY"
+      ]
     },
     "16000068": {
       "name": "MAISIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "DISENGAGE!",
+        "FINISH THEM!"
+      ],
+      "starPowerNames": [
+        "PINPOINT PRECISION",
+        "TREMORS"
+      ],
+      "hyperChargeNames": [
+        "AFTERMATH"
+      ]
     },
     "16000069": {
       "name": "HANK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WATER BALLOONS",
+        "BARRICADE"
+      ],
+      "starPowerNames": [
+        "IT'S GONNA BLOW",
+        "TAKE COVER!"
+      ],
+      "hyperChargeNames": [
+        "HOMING FISH-ILES"
+      ]
     },
     "16000070": {
       "name": "CORDELIUS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "REPLANTING",
+        "POISON MUSHROOM"
+      ],
+      "starPowerNames": [
+        "COMBOSHROOMS",
+        "MUSHROOM KINGDOM"
+      ],
+      "hyperChargeNames": [
+        "COMPLETE DARKNESS"
+      ]
     },
     "16000071": {
       "name": "DOUG",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "DOUBLE SAUSAGE",
+        "EXTRA MUSTARD"
+      ],
+      "starPowerNames": [
+        "FAST FOOD",
+        "SELF SERVICE"
+      ],
+      "hyperChargeNames": [
+        "FREE TOPPINGS"
+      ]
     },
     "16000072": {
       "name": "PEARL",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "OVERCOOKED",
+        "MADE WITH LOVE"
+      ],
+      "starPowerNames": [
+        "HEAT RETENTION",
+        "HEAT SHIELD"
+      ],
+      "hyperChargeNames": [
+        "PYROLYTIC"
+      ]
     },
     "16000073": {
       "name": "CHUCK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "REROUTING",
+        "GHOST TRAIN"
+      ],
+      "starPowerNames": [
+        "PIT STOP",
+        "TICKETS PLEASE!"
+      ],
+      "hyperChargeNames": [
+        "FULL STEAM AHEAD!"
+      ]
     },
     "16000074": {
       "name": "CHARLIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPIDERS",
+        "PERSONAL SPACE"
+      ],
+      "starPowerNames": [
+        "DIGESTIVE",
+        "SLIMY"
+      ],
+      "hyperChargeNames": [
+        "PESTILENCE"
+      ]
     },
     "16000075": {
       "name": "MICO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CLIPPING SCREAM",
+        "PRESTO"
+      ],
+      "starPowerNames": [
+        "MONKEY BUSINESS",
+        "RECORD SMASH"
+      ],
+      "hyperChargeNames": [
+        "SOUND CHECK"
+      ]
     },
     "16000076": {
       "name": "KIT",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "CARDBOARD BOX",
+        "CHEESEBURGER"
+      ],
+      "starPowerNames": [
+        "POWER HUNGRY",
+        "OVERLY ATTACHED"
+      ],
+      "hyperChargeNames": [
+        "MAKING BISCUITS"
+      ]
     },
     "16000077": {
       "name": "LARRY & LAWRIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "ORDER: SWAP",
+        "ORDER: FALL BACK"
+      ],
+      "starPowerNames": [
+        "PROTOCOL: PROTECT",
+        "PROTOCOL: ASSIST"
+      ],
+      "hyperChargeNames": [
+        "THE THREE-BOT PROBLEM"
+      ]
     },
     "16000078": {
       "name": "MELODIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "PERFECT PITCH",
+        "INTERLUDE"
+      ],
+      "starPowerNames": [
+        "FAST BEATS",
+        "EXTENDED MIX"
+      ],
+      "hyperChargeNames": [
+        "FLASH MOB"
+      ]
     },
     "16000079": {
       "name": "ANGELO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "STINGING FLIGHT",
+        "MASTER FLETCHER"
+      ],
+      "starPowerNames": [
+        "EMPOWER",
+        "FLOW"
+      ],
+      "hyperChargeNames": [
+        "IN MY ELEMENT"
+      ]
     },
     "16000080": {
       "name": "DRACO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "UPPER CUT",
+        "LAST STAND"
+      ],
+      "starPowerNames": [
+        "EXPOSE",
+        "SHREDDING"
+      ],
+      "hyperChargeNames": [
+        "FIRE AND FLAMES"
+      ]
     },
     "16000081": {
       "name": "LILY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "VANISH",
+        "REPOT"
+      ],
+      "starPowerNames": [
+        "SPIKY",
+        "VIGILANCE"
+      ],
+      "hyperChargeNames": [
+        "GERMINATE"
+      ]
     },
     "16000082": {
       "name": "BERRY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FRIENDSHIP IS GREAT",
+        "HEALTHY ADDITIVES"
+      ],
+      "starPowerNames": [
+        "FLOOR IS FINE",
+        "MAKING A MESS"
+      ],
+      "hyperChargeNames": [
+        "DOUBLE SCOOPS"
+      ]
     },
     "16000083": {
       "name": "CLANCY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SNAPPY SHOOTING",
+        "TACTICAL RETREAT"
+      ],
+      "starPowerNames": [
+        "RECON",
+        "PUMPING UP"
+      ],
+      "hyperChargeNames": [
+        "RECALL OF DUTY"
+      ]
     },
     "16000084": {
       "name": "MOE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "DODGY DIGGING",
+        "RAT RACE"
+      ],
+      "starPowerNames": [
+        "SKIPPING STONES",
+        "SPEEDING TICKET"
+      ],
+      "hyperChargeNames": [
+        "THE BIG CHEESE"
+      ]
     },
     "16000085": {
       "name": "KENJI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "DASHI DASH",
+        "HOSOMAKI HEALING"
+      ],
+      "starPowerNames": [
+        "STUDIED THE BLADE",
+        "NIGIRI NEMESIS"
+      ],
+      "hyperChargeNames": [
+        "ALL YOU CAN EAT"
+      ]
     },
     "16000086": {
       "name": "SHADE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "LONGARMS",
+        "JUMP SCARE"
+      ],
+      "starPowerNames": [
+        "SPOOKY SPEEDSTER",
+        "HARDENED HOODIE"
+      ],
+      "hyperChargeNames": [
+        "THE FRIGHTENER"
+      ]
     },
     "16000087": {
       "name": "JUJU",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "VOODOO CHILE",
+        "ELEMENTALIST"
+      ],
+      "starPowerNames": [
+        "GUARDED GRIS-GRIS",
+        "NUMBING NEEDLES"
+      ],
+      "hyperChargeNames": [
+        "BOKOR"
+      ]
     },
     "16000089": {
       "name": "MEEPLE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "MANSIONS OF MEEPLE",
+        "RAGEQUIT"
+      ],
+      "starPowerNames": [
+        "DO NOT PASS GO",
+        "RULE BENDING"
+      ],
+      "hyperChargeNames": [
+        "THE LAST RULEBENDER"
+      ]
     },
     "16000090": {
       "name": "OLLIE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "REGULATE",
+        "ALL EYEZ ON ME"
+      ],
+      "starPowerNames": [
+        "KICK, PUSH",
+        "RENEGADE"
+      ],
+      "hyperChargeNames": [
+        "AIN'T NO HALF-SUPERING"
+      ]
     },
     "16000091": {
       "name": "LUMI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "HIT THE LIGHTS",
+        "GRIM AND FROSTBITTEN"
+      ],
+      "starPowerNames": [
+        "42% BURNT",
+        "HALF-TIME"
+      ],
+      "hyperChargeNames": [
+        "DRUM SOLO"
+      ]
     },
     "16000092": {
       "name": "FINX",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "BACK TO THE FINXTURE",
+        "NO ESCAPE"
+      ],
+      "starPowerNames": [
+        "HIEROGLYPH HALT",
+        "PRIMER"
+      ],
+      "hyperChargeNames": [
+        "TEMPORAL TRAVELING"
+      ]
     },
     "16000093": {
       "name": "JAE-YONG",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WEEKEND WARRIOR",
+        "TIME FOR A SLOW SONG"
+      ],
+      "starPowerNames": [
+        "THE CROWD GOES MILD",
+        "EXTRA HIGH NOTE"
+      ],
+      "hyperChargeNames": [
+        "CROWD-PLEASER"
+      ]
     },
     "16000094": {
       "name": "KAZE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "GRACIOUS HOST",
+        "HENSOJUTSU"
+      ],
+      "starPowerNames": [
+        "ADVANCED TECHNIQUES",
+        "GRATUITY INCLUDED"
+      ],
+      "hyperChargeNames": [
+        "ANCIENT ENERGY"
+      ]
     },
     "16000095": {
       "name": "ALLI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FEED THE GATORS",
+        "COLD-BLOODED"
+      ],
+      "starPowerNames": [
+        "LIZARD LIMBS",
+        "YOU BETTER RUN, YOU BETTER TAKE COVER"
+      ],
+      "hyperChargeNames": [
+        "SWAMP SNACKING"
+      ]
     },
     "16000096": {
       "name": "TRUNK",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FOR THE QUEEN!",
+        "WORKER ANTS"
+      ],
+      "starPowerNames": [
+        "NEW INSECT OVERLORDS",
+        "COLONY SCOUTS"
+      ],
+      "hyperChargeNames": [
+        "RETREAD"
+      ]
     },
     "16000097": {
       "name": "MINA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WINDMILL",
+        "CAPO-WHAT?"
+      ],
+      "starPowerNames": [
+        "ZUM ZUM ZUM",
+        "BLOWN AWAY"
+      ],
+      "hyperChargeNames": [
+        "TRIPLECANE"
+      ]
     },
     "16000098": {
       "name": "ZIGGY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "ELECTRIC SHUFFLE",
+        "NOW YOU SEE ME..."
+      ],
+      "starPowerNames": [
+        "THUNDERSTRUCK",
+        "THE GREAT ZIGGINI"
+      ],
+      "hyperChargeNames": [
+        "THE GRAND VORTEX"
+      ]
     },
     "16000099": {
       "name": "PIERCE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "BOTTOMLESS MAGS",
+        "YOU ONLY BRAWL TWICE"
+      ],
+      "starPowerNames": [
+        "MISSION: SWIMPOSSIBLE",
+        "SLIP 'N SNIPE"
+      ],
+      "hyperChargeNames": [
+        "SECOND WAVE"
+      ]
     },
     "16000100": {
       "name": "GIGI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "LONGER STRINGS",
+        "DISAPPEARING ACT"
+      ],
+      "starPowerNames": [
+        "PLI\u00c9 PROTECTION",
+        "A HELPING HAND"
+      ],
+      "hyperChargeNames": [
+        "PAS DE DEUX"
+      ]
     },
     "16000101": {
       "name": "GLOWY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SLIPPERY SAVIOR",
+        "MORE LUMENS!"
+      ],
+      "starPowerNames": [
+        "BIOTIC ECOSYSTEM",
+        "PARASITISM"
+      ],
+      "hyperChargeNames": [
+        "YOU NEED A FRIEND"
+      ]
     },
     "16000102": {
       "name": "SIRIUS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "A STARR IS BORN",
+        "MASTER OF SHADOWS"
+      ],
+      "starPowerNames": [
+        "DUSK RUNNERS",
+        "THE DARKEST STARR"
+      ],
+      "hyperChargeNames": [
+        "UNLIMITED POWER!"
+      ]
     },
     "16000103": {
       "name": "NAJIA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "POISON PUDDLES",
+        "NAJIA JAR"
+      ],
+      "starPowerNames": [
+        "POISONOUS PROTECTOR",
+        "VENOMOUS"
+      ],
+      "hyperChargeNames": [
+        "TWIN SNAKES"
+      ]
     },
     "16000104": {
       "name": "DAMIAN",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SPIRITUAL HEALING",
+        "WALL OF SOUND"
+      ],
+      "starPowerNames": [
+        "CROWDKILL",
+        "VULGAR DISPLAY OF PUNCH"
+      ],
+      "hyperChargeNames": [
+        "JUMP IN THE FIRE"
+      ]
     },
     "16000105": {
       "name": "STARR NOVA",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "FLOATY TIME",
+        "SHINING STARR OF FRIENDSHIP AND JUSTICE"
+      ],
+      "starPowerNames": [
+        "POWER LEVEL: MAXIMUM",
+        "MYSTICAL STARR TECHNIQUE"
+      ],
+      "hyperChargeNames": [
+        "STARR NOVA: THE HYPERCHARGE"
+      ]
     },
     "16000106": {
       "name": "BOLT",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "OIL CHANGE",
+        "BOUNCY BALL"
+      ],
+      "starPowerNames": [
+        "TOSS UP",
+        "UNSTOPPABALL"
+      ],
+      "hyperChargeNames": [
+        "BOWLING BOLT"
+      ]
     },
     "16000107": {
       "name": "NORI",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "SUSHI SNACK",
+        "GONNA NEED A BIGGER NET"
+      ],
+      "starPowerNames": [
+        "BIG HAUL",
+        "HIS MOTHER'S SON"
+      ],
+      "hyperChargeNames": [
+        "MASTER FISHERMAN"
+      ]
     },
     "16000108": {
       "name": "WENDY",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 1
+      "hyperCharges": 1,
+      "gadgetNames": [
+        "WIND-POWERED",
+        "GREEN GRENADE"
+      ],
+      "starPowerNames": [
+        "SLOWING SHIELD",
+        "SOLAR SHIELD"
+      ],
+      "hyperChargeNames": [
+        "GREEN ENERGY"
+      ]
     },
     "16000109": {
       "name": "COSMO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 0
+      "hyperCharges": 0,
+      "gadgetNames": [
+        "PLANETARY PUSHBACK",
+        "TELESCOPE TRAP"
+      ],
+      "starPowerNames": [
+        "PRECESSION",
+        "AMMO ATTRACTOR"
+      ],
+      "hyperChargeNames": []
     },
     "16000110": {
       "name": "VINCE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 0
+      "hyperCharges": 0,
+      "gadgetNames": [
+        "HOT COFFEE",
+        "METAMOTHOSIS"
+      ],
+      "starPowerNames": [
+        "COME TO PAPA",
+        "BUG BANDAGE"
+      ],
+      "hyperChargeNames": []
     }
   }
 }

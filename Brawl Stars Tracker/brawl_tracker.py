@@ -108,6 +108,48 @@ def normalize_tag(tag):
     return tag
 
 
+def ensure_header(path, header):
+    """
+    Call once per file per run, before any append_csv() calls for it.
+
+    If the file already exists with an older header that's simply a prefix of
+    the current one (i.e. we only ever added columns at the end, which is how
+    every schema change here has happened so far), migrate it in place: pad
+    every existing row with blanks for the new trailing columns, under the
+    new header. This is what was missing before -- a header mismatch used to
+    silently misalign every column (e.g. a victory count landing in the
+    club_name field) instead of being caught or fixed.
+
+    If the header changed in some other way (columns removed/reordered), this
+    refuses to guess and fails loudly instead, since silent corruption is far
+    worse than a visible error on a scheduled run.
+    """
+    if not path.exists():
+        return
+    with open(path, newline="", encoding="utf-8") as f:
+        rows = list(csv.reader(f))
+    if not rows:
+        return
+    old_header = rows[0]
+    if old_header == header:
+        return
+    if len(header) > len(old_header) and header[:len(old_header)] == old_header:
+        extra = len(header) - len(old_header)
+        migrated = [r + [""] * extra for r in rows[1:]]
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            writer.writerows(migrated)
+        print(f"Migrated {path.name} to the current schema ({extra} new column(s)); existing rows preserved.")
+    else:
+        sys.exit(
+            f"{path.name}'s header doesn't match the current schema and isn't a simple "
+            f"column addition, so it can't be auto-migrated safely.\n"
+            f"Existing header: {old_header}\nExpected header:  {header}\n"
+            f"Back up and delete this file so it can regenerate cleanly."
+        )
+
+
 def append_csv(path, header, row):
     is_new = not path.exists()
     with open(path, "a", newline="", encoding="utf-8") as f:
@@ -171,6 +213,7 @@ def log_player_snapshot(player, now_iso):
         "brawlers_unlocked", "exp_level", "total_prestige_level",
         "3v3_victories", "solo_victories", "duo_victories", "club_name",
     ]
+    ensure_header(path, header)
     row = [
         now_iso,
         player.get("trophies"),
@@ -195,19 +238,29 @@ def log_brawler_snapshots(player, now_iso, catalog):
         "power", "rank", "gadgets_owned", "star_powers_owned", "hypercharge_owned",
         "prestige_level", "current_win_streak", "max_win_streak",
         "buffy_gadget", "buffy_star_power", "buffy_hyper_charge",
+        "gadget_names", "star_power_names", "hypercharge_names",
     ]
+    ensure_header(path, header)
+
     for b in player.get("brawlers", []):
-        gadgets_owned = len(b.get("gadgets", []) or [])
-        star_powers_owned = len(b.get("starPowers", []) or [])
-        hyper = b.get("hyperCharges") or b.get("hypercharges")
-        hypercharge_owned = len(hyper) if isinstance(hyper, list) else 0
+        gadgets = b.get("gadgets", []) or []
+        star_powers = b.get("starPowers", []) or []
+        hyper = b.get("hyperCharges") or b.get("hypercharges") or []
+        if not isinstance(hyper, list):
+            hyper = []
         buffies = b.get("buffies") or {}
+
+        # Semicolon-joined since names themselves may contain commas/spaces.
+        gadget_names = ";".join(g.get("name", "") for g in gadgets)
+        star_power_names = ";".join(s.get("name", "") for s in star_powers)
+        hypercharge_names = ";".join(h.get("name", "") for h in hyper)
 
         row = [
             now_iso, b.get("id"), b.get("name"), b.get("trophies"), b.get("highestTrophies"),
-            b.get("power"), b.get("rank"), gadgets_owned, star_powers_owned, hypercharge_owned,
+            b.get("power"), b.get("rank"), len(gadgets), len(star_powers), len(hyper),
             b.get("prestigeLevel"), b.get("currentWinStreak"), b.get("maxWinStreak"),
             buffies.get("gadget", False), buffies.get("starPower", False), buffies.get("hyperCharge", False),
+            gadget_names, star_power_names, hypercharge_names,
         ]
         append_csv(path, header, row)
 
@@ -261,6 +314,7 @@ def log_battle_log(tag, token):
     data = api_get(f"/players/{requests.utils.quote(tag)}/battlelog", token)
     header = ["battle_time", "mode", "map", "brawler_used", "outcome", "rank",
               "trophy_change", "was_star_player"]
+    ensure_header(path, header)
 
     new_count = 0
     for item in data.get("items", []):

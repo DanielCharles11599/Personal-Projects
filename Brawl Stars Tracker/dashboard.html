@@ -225,11 +225,6 @@
         <div class="stat-value display" id="prTopBrawler" style="font-size:19px;">—</div>
         <div class="stat-sub" id="prTopBrawlerSub"></div>
       </div>
-      <div>
-        <div class="stat-label">Longest Win Streak</div>
-        <div class="stat-value teal display" id="prStreak">—</div>
-        <div class="stat-sub" id="prStreakSub"></div>
-      </div>
     </div>
   </div>
 
@@ -322,7 +317,8 @@
 
   <div class="card" id="brawlerTrendCard" style="display:none;">
     <h2 id="brawlerTrendTitle">Brawler trend</h2>
-    <p class="hint">Trophy history for this brawler.</p>
+    <p class="hint">Trophy history and current loadout for this brawler.</p>
+    <div class="hero" id="brawlerDetailGrid" style="grid-template-columns:repeat(4,1fr); margin-bottom:18px;"></div>
     <canvas id="brawlerTrendChart" style="max-height:220px;"></canvas>
   </div>
 
@@ -363,6 +359,49 @@
     </div>
   </div>
 
+  <div class="card" id="activityCard">
+    <h2>Activity Patterns</h2>
+    <p class="hint">When you actually play, based on every logged battle's timestamp (shown in your browser's local time).</p>
+    <div id="activityEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <div id="activityContent" style="display:none;">
+      <div class="hero" style="grid-template-columns:repeat(4,1fr); margin-bottom:20px;">
+        <div>
+          <div class="stat-label">Most Active Day</div>
+          <div class="stat-value gold display" id="apTopDay">—</div>
+        </div>
+        <div>
+          <div class="stat-label">Most Active Hour</div>
+          <div class="stat-value teal display" id="apTopHour">—</div>
+        </div>
+        <div>
+          <div class="stat-label">Longest Daily Streak</div>
+          <div class="stat-value display" id="apStreak">—</div>
+          <div class="stat-sub">consecutive days with a logged battle</div>
+        </div>
+        <div>
+          <div class="stat-label">Avg. Battles / Active Day</div>
+          <div class="stat-value display" id="apAvgPerDay">—</div>
+        </div>
+      </div>
+      <canvas id="activityChart" style="max-height:220px;"></canvas>
+    </div>
+  </div>
+
+  <div class="card" id="mapCard">
+    <h2>Map Performance</h2>
+    <p class="hint">Per-map win rate, plus your strongest and weakest brawler on each map (minimum 3 logged battles to qualify, so one-off results don't skew the call).</p>
+    <div id="mapEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <div id="mapContent" style="display:none;">
+      <table id="mapTable">
+        <thead><tr><th>Map</th><th>Mode</th><th class="num">Battles</th><th class="num">Win rate</th><th>Best brawler here</th><th>Avoid here</th></tr></thead>
+        <tbody id="mapTableBody"></tbody>
+      </table>
+      <div class="load-more-row">
+        <button class="btn ghost small" id="mapLoadMore" style="display:none;">Load more</button>
+      </div>
+    </div>
+  </div>
+
   <div class="card" id="battleCard">
     <div class="card-head">
       <div>
@@ -395,6 +434,15 @@ let brawlerTrendChartInstance = null;
 const PAGE_SIZE = 25;
 let brawlerDisplayCount = PAGE_SIZE;
 let winRateDisplayCount = PAGE_SIZE;
+let mapDisplayCount = PAGE_SIZE;
+let activityChartInstance = null;
+
+function formatHourLabel(h){
+  const period = h < 12 ? 'AM' : 'PM';
+  let hour12 = h % 12;
+  if(hour12 === 0) hour12 = 12;
+  return `${hour12}${period}`;
+}
 
 /**
  * Trophy-rank badge color per the brawler's current trophy count.
@@ -613,6 +661,8 @@ function render(){
     ['period selectors', renderPeriodSelectors],
     ['brawler table', renderBrawlerTable],
     ['win rate', renderWinRate],
+    ['activity patterns', renderActivityPatterns],
+    ['map performance', renderMapPerformance],
     ['battle table', renderBattleTable],
   ];
   const failed = [];
@@ -756,11 +806,6 @@ function renderPersonalRecords(){
     const topAllTime = [...latestBrawlers].sort((a,b) => (b.highest_trophies||0) - (a.highest_trophies||0))[0];
     document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
     document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
-
-    const topStreak = [...latestBrawlers].sort((a,b) => (Number(b.max_win_streak)||0) - (Number(a.max_win_streak)||0))[0];
-    const streakVal = Number(topStreak.max_win_streak) || 0;
-    document.getElementById('prStreak').textContent = streakVal > 0 ? streakVal : '—';
-    document.getElementById('prStreakSub').textContent = streakVal > 0 ? `on ${topStreak.brawler_name}` : '';
   }
 }
 
@@ -979,6 +1024,44 @@ function renderBrawlerTable(){
   loadMoreBtn.style.display = sorted.length > brawlerDisplayCount ? 'inline-block' : 'none';
 }
 
+function listOrNone(semicolonJoined){
+  if(!semicolonJoined) return 'None unlocked';
+  const names = String(semicolonJoined).split(';').map(s => s.trim()).filter(Boolean);
+  return names.length ? names.join(', ') : 'None unlocked';
+}
+
+function isTrue(v){
+  return v === true || v === 'True' || v === 'true';
+}
+
+function renderBrawlerDetail(row){
+  const grid = document.getElementById('brawlerDetailGrid');
+  if(!row){ grid.innerHTML = ''; return; }
+
+  const maxed = isBrawlerMaxed(row);
+  const activeBuffies = [];
+  if(isTrue(row.buffy_gadget)) activeBuffies.push('Gadget');
+  if(isTrue(row.buffy_star_power)) activeBuffies.push('Star Power');
+  if(isTrue(row.buffy_hyper_charge)) activeBuffies.push('Hypercharge');
+
+  const tiles = [
+    { label: 'Power Level', value: row.power !== undefined && row.power !== '' ? row.power : '—' },
+    { label: 'Prestige Level', value: row.prestige_level !== undefined && row.prestige_level !== '' ? row.prestige_level : '—' },
+    { label: 'Fully Maxed', value: maxed ? 'Yes' : 'No' },
+    { label: 'Active Buffy', value: activeBuffies.length ? activeBuffies.join(', ') : 'None active' },
+    { label: 'Gadgets', value: listOrNone(row.gadget_names), full: true },
+    { label: 'Star Powers', value: listOrNone(row.star_power_names), full: true },
+    { label: 'Hypercharge', value: listOrNone(row.hypercharge_names), full: true },
+  ];
+
+  grid.innerHTML = tiles.map(t => `
+    <div${t.full ? ' style="grid-column: span 2;"' : ''}>
+      <div class="stat-label">${t.label}</div>
+      <div class="stat-value display" style="font-size:17px;">${t.value}</div>
+    </div>
+  `).join('');
+}
+
 function showBrawlerTrend(name){
   const card = document.getElementById('brawlerTrendCard');
   const title = document.getElementById('brawlerTrendTitle');
@@ -986,6 +1069,9 @@ function showBrawlerTrend(name){
   card.style.display = 'block';
   title.textContent = `${name} — trophy trend`;
   card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const latestRow = getLatestBrawlerSnapshot().find(r => r.brawler_name === name);
+  renderBrawlerDetail(latestRow);
 
   const rows = brawlerRows.filter(r => r.brawler_name === name);
   const labels = rows.map(r => fmtDateTime(r.timestamp));
@@ -1010,6 +1096,127 @@ function showBrawlerTrend(name){
 
 let battleDisplayCount = 20;
 const BATTLE_PAGE_SIZE = 20;
+
+function renderActivityPatterns(){
+  const emptyEl = document.getElementById('activityEmpty');
+  const content = document.getElementById('activityContent');
+
+  const timed = battleRows.filter(b => !isNaN(new Date(b.battle_time)));
+  if(timed.length === 0){
+    emptyEl.style.display = 'block'; content.style.display = 'none'; return;
+  }
+  emptyEl.style.display = 'none'; content.style.display = 'block';
+
+  const hourCounts = new Array(24).fill(0);
+  const dayCounts = new Array(7).fill(0);
+  const dateSet = new Set();
+
+  timed.forEach(b => {
+    const d = new Date(b.battle_time);
+    hourCounts[d.getHours()]++;
+    dayCounts[d.getDay()]++;
+    dateSet.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
+  });
+
+  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('apTopDay').textContent = dayNames[dayCounts.indexOf(Math.max(...dayCounts))];
+  document.getElementById('apTopHour').textContent = formatHourLabel(hourCounts.indexOf(Math.max(...hourCounts)));
+
+  const sortedDates = [...dateSet].sort();
+  let longest = 1, current = 1;
+  for(let i = 1; i < sortedDates.length; i++){
+    const diffDays = Math.round((new Date(sortedDates[i]) - new Date(sortedDates[i-1])) / 86400000);
+    if(diffDays === 1){ current++; longest = Math.max(longest, current); }
+    else { current = 1; }
+  }
+  document.getElementById('apStreak').textContent = sortedDates.length ? longest : '—';
+  document.getElementById('apAvgPerDay').textContent = sortedDates.length ? (timed.length / sortedDates.length).toFixed(1) : '—';
+
+  const hourLabels = hourCounts.map((_, i) => formatHourLabel(i));
+  if(activityChartInstance) activityChartInstance.destroy();
+  activityChartInstance = new Chart(document.getElementById('activityChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: hourLabels, datasets: [{ label: 'Battles', data: hourCounts, backgroundColor: '#FFC94A' }] },
+    options: {
+      responsive: true, plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#9C96C9' }, grid: { display: false } },
+        y: { ticks: { color: '#9C96C9', precision: 0 }, grid: { color: 'rgba(255,255,255,0.06)' } }
+      }
+    }
+  });
+}
+
+function renderMapPerformance(){
+  const emptyEl = document.getElementById('mapEmpty');
+  const content = document.getElementById('mapContent');
+  const loadMoreBtn = document.getElementById('mapLoadMore');
+
+  const usableRows = battleRows.filter(b => b.map);
+  if(usableRows.length === 0){
+    emptyEl.style.display = 'block'; content.style.display = 'none';
+    loadMoreBtn.style.display = 'none';
+    return;
+  }
+  emptyEl.style.display = 'none'; content.style.display = 'block';
+
+  const MIN_SAMPLE = 3;
+  const byMap = {};
+  usableRows.forEach(b => {
+    const map = b.map;
+    if(!byMap[map]) byMap[map] = { mode: b.mode, battles: 0, wins: 0, losses: 0, byBrawler: {} };
+    const entry = byMap[map];
+    entry.battles++;
+    const cls = classifyBattle(b);
+    if(cls === 'victory') entry.wins++;
+    else if(cls === 'defeat') entry.losses++;
+
+    if(b.brawler_used){
+      if(!entry.byBrawler[b.brawler_used]) entry.byBrawler[b.brawler_used] = { wins: 0, losses: 0, total: 0 };
+      const bb = entry.byBrawler[b.brawler_used];
+      bb.total++;
+      if(cls === 'victory') bb.wins++;
+      else if(cls === 'defeat') bb.losses++;
+    }
+  });
+
+  const rows = Object.entries(byMap).map(([map, e]) => {
+    const decided = e.wins + e.losses;
+    const winPct = decided > 0 ? (e.wins / decided * 100) : null;
+
+    const brawlerStats = Object.entries(e.byBrawler)
+      .map(([name, s]) => {
+        const d = s.wins + s.losses;
+        return { name, pct: d > 0 ? (s.wins / d * 100) : null, total: s.total };
+      })
+      .filter(s => s.total >= MIN_SAMPLE && s.pct !== null);
+
+    let best = null, worst = null;
+    if(brawlerStats.length){
+      best = [...brawlerStats].sort((a,b) => b.pct - a.pct)[0];
+      worst = [...brawlerStats].sort((a,b) => a.pct - b.pct)[0];
+      if(best === worst) worst = null;
+    }
+
+    return { map, mode: e.mode, battles: e.battles, winPct, best, worst };
+  });
+
+  rows.sort((a, b) => b.battles - a.battles);
+
+  const visible = rows.slice(0, mapDisplayCount);
+  document.getElementById('mapTableBody').innerHTML = visible.map(r => `
+    <tr>
+      <td>${r.map}</td>
+      <td>${r.mode || '—'}</td>
+      <td class="num">${r.battles}</td>
+      <td class="num">${r.winPct !== null ? r.winPct.toFixed(0) + '%' : '—'}</td>
+      <td>${r.best ? `${r.best.name} (${r.best.pct.toFixed(0)}%)` : 'Not enough data'}</td>
+      <td>${r.worst ? `${r.worst.name} (${r.worst.pct.toFixed(0)}%)` : 'Not enough data'}</td>
+    </tr>
+  `).join('');
+
+  loadMoreBtn.style.display = rows.length > mapDisplayCount ? 'inline-block' : 'none';
+}
 
 function renderBattleTable(){
   const emptyEl = document.getElementById('battleEmpty');
@@ -1058,6 +1265,11 @@ document.getElementById('winRateLoadMore').addEventListener('click', () => {
   renderWinRate();
 });
 
+document.getElementById('mapLoadMore').addEventListener('click', () => {
+  mapDisplayCount += PAGE_SIZE;
+  renderMapPerformance();
+});
+
 document.getElementById('battleLoadMore').addEventListener('click', () => {
   battleDisplayCount += BATTLE_PAGE_SIZE;
   renderBattleTable();
@@ -1074,6 +1286,7 @@ document.getElementById('refreshBtn').addEventListener('click', () => {
   battleDisplayCount = BATTLE_PAGE_SIZE;
   brawlerDisplayCount = PAGE_SIZE;
   winRateDisplayCount = PAGE_SIZE;
+  mapDisplayCount = PAGE_SIZE;
   loadAll();
 });
 loadAll();

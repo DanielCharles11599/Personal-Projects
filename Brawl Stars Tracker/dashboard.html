@@ -292,7 +292,7 @@
 
   <div class="card">
     <h2>Trophy trend</h2>
-    <p class="hint">Every account snapshot logged by the tracker.</p>
+    <p class="hint">Shows the range selected below in "Trophy gain over a period" — defaults to your full logged history. <span id="chartRangeLabel"></span></p>
     <div id="chartEmpty" class="empty">No account history yet — waiting on brawl_history.csv.</div>
     <canvas id="trophyChart" style="display:none;"></canvas>
     <p class="hint" id="chartSyntheticNote" style="display:none; margin:12px 0 0;">The dashed, dimmer segment is an estimated backfill prior to when tracking actually began — not real logged data.</p>
@@ -416,6 +416,13 @@
         <button class="btn ghost small" id="mapLoadMore" style="display:none;">Load more</button>
       </div>
     </div>
+  </div>
+
+  <div class="card" id="mapDetailCard" style="display:none;">
+    <h2 id="mapDetailTitle">Map detail</h2>
+    <p class="hint">Full breakdown for this map, from every logged battle played on it.</p>
+    <div class="hero" id="mapDetailSummary" style="grid-template-columns:repeat(4,1fr); margin-bottom:20px;"></div>
+    <div id="mapDetailRankings"></div>
   </div>
 
   <div class="card" id="battleCard">
@@ -948,7 +955,7 @@ function renderProgression(){
   document.getElementById('pgGold').textContent = latestBrawlers.length ? fmtNum(goldNeeded) : '—';
 }
 
-function renderTrophyChart(){
+function renderTrophyChart(fromIdx, toIdx){
   const emptyEl = document.getElementById('chartEmpty');
   const canvas = document.getElementById('trophyChart');
   if(accountRows.length === 0){
@@ -956,9 +963,18 @@ function renderTrophyChart(){
   }
   emptyEl.style.display = 'none'; canvas.style.display = 'block';
 
-  const labels = accountRows.map(r => fmtDateTime(r.timestamp));
-  const data = accountRows.map(r => r.total_trophies);
-  const hasSynthetic = accountRows.some(r => isTrue(r.synthetic));
+  const start = (fromIdx !== undefined && fromIdx !== null) ? fromIdx : 0;
+  const end = (toIdx !== undefined && toIdx !== null) ? toIdx : accountRows.length - 1;
+  const rangeRows = accountRows.slice(start, end + 1);
+
+  const isFullRange = (start === 0 && end === accountRows.length - 1);
+  document.getElementById('chartRangeLabel').textContent = isFullRange
+    ? ''
+    : `Showing ${fmtDateTime(rangeRows[0]?.timestamp)} → ${fmtDateTime(rangeRows[rangeRows.length-1]?.timestamp)}.`;
+
+  const labels = rangeRows.map(r => fmtDateTime(r.timestamp));
+  const data = rangeRows.map(r => r.total_trophies);
+  const hasSynthetic = rangeRows.some(r => isTrue(r.synthetic));
   document.getElementById('chartSyntheticNote').style.display = hasSynthetic ? 'block' : 'none';
 
   if(trophyChartInstance) trophyChartInstance.destroy();
@@ -968,10 +984,10 @@ function renderTrophyChart(){
       label: 'Total trophies', data,
       borderColor: '#FFC94A', backgroundColor: 'rgba(255,201,74,0.12)',
       fill: true, tension: 0.25, pointRadius: labels.length > 60 ? 0 : 3,
-      pointBackgroundColor: accountRows.map(r => isTrue(r.synthetic) ? '#6b6b85' : '#FFC94A'),
+      pointBackgroundColor: rangeRows.map(r => isTrue(r.synthetic) ? '#6b6b85' : '#FFC94A'),
       segment: {
-        borderDash: ctx => (isTrue(accountRows[ctx.p0DataIndex]?.synthetic) || isTrue(accountRows[ctx.p1DataIndex]?.synthetic)) ? [6, 4] : undefined,
-        borderColor: ctx => (isTrue(accountRows[ctx.p0DataIndex]?.synthetic) && isTrue(accountRows[ctx.p1DataIndex]?.synthetic)) ? 'rgba(255,201,74,0.45)' : undefined,
+        borderDash: ctx => (isTrue(rangeRows[ctx.p0DataIndex]?.synthetic) || isTrue(rangeRows[ctx.p1DataIndex]?.synthetic)) ? [6, 4] : undefined,
+        borderColor: ctx => (isTrue(rangeRows[ctx.p0DataIndex]?.synthetic) && isTrue(rangeRows[ctx.p1DataIndex]?.synthetic)) ? 'rgba(255,201,74,0.45)' : undefined,
       },
     }]},
     options: {
@@ -1022,8 +1038,10 @@ function renderPeriodSelectors(){
   toSel.value = accountRows.length - 1;
 
   const update = () => {
-    const from = accountRows[parseInt(fromSel.value)];
-    const to = accountRows[parseInt(toSel.value)];
+    const fromIdx = parseInt(fromSel.value);
+    const toIdx = parseInt(toSel.value);
+    const from = accountRows[fromIdx];
+    const to = accountRows[toIdx];
 
     const gain = (to.total_trophies || 0) - (from.total_trophies || 0);
 
@@ -1039,10 +1057,16 @@ function renderPeriodSelectors(){
       fmtElapsed(hrs);
     document.getElementById('periodRate').innerHTML =
       `<span class="delta ${cls}">${sign}${rate.toFixed(1)}</span>`;
+
+    // Keep the trend chart in sync with whatever range is selected here.
+    // When From/To sit at the full extremes (the default), this renders the
+    // complete history, same as page load.
+    renderTrophyChart(Math.min(fromIdx, toIdx), Math.max(fromIdx, toIdx));
   };
 
   fromSel.onchange = update;
   toSel.onchange = update;
+  update();
 
   update();
 }
@@ -1302,7 +1326,7 @@ function renderMapPerformance(){
 
   const visible = rows.slice(0, mapDisplayCount);
   document.getElementById('mapTableBody').innerHTML = visible.map(r => `
-    <tr>
+    <tr class="clickable-row" data-map="${r.map}">
       <td>${r.map}</td>
       <td>${formatModeName(r.mode)}</td>
       <td class="num">${r.battles}</td>
@@ -1312,7 +1336,112 @@ function renderMapPerformance(){
     </tr>
   `).join('');
 
+  document.querySelectorAll('#mapTableBody tr[data-map]').forEach(row => {
+    row.addEventListener('click', () => showMapDetail(row.dataset.map));
+  });
+
   loadMoreBtn.style.display = rows.length > mapDisplayCount ? 'inline-block' : 'none';
+}
+
+function showMapDetail(mapName){
+  const card = document.getElementById('mapDetailCard');
+  const title = document.getElementById('mapDetailTitle');
+  const summaryEl = document.getElementById('mapDetailSummary');
+  const rankingsEl = document.getElementById('mapDetailRankings');
+
+  const rows = battleRows.filter(b => b.map === mapName);
+  if(rows.length === 0){ card.style.display = 'none'; return; }
+
+  const mode = rows[0].mode;
+  card.style.display = 'block';
+  title.textContent = `${mapName} — ${formatModeName(mode)}`;
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Map-wide summary
+  const classified = rows.map(classifyBattle).filter(c => c !== null);
+  const wins = classified.filter(c => c === 'victory').length;
+  const losses = classified.filter(c => c === 'defeat').length;
+  const winPct = (wins + losses) > 0 ? (wins / (wins + losses) * 100) : null;
+
+  const trophyChanges = rows.map(b => Number(b.trophy_change)).filter(n => !isNaN(n));
+  const avgTrophyChange = trophyChanges.length ? (trophyChanges.reduce((a,b)=>a+b,0) / trophyChanges.length) : null;
+
+  const starCount = rows.filter(wasEffectiveStarPlayer).length;
+  const starRate = rows.length ? (starCount / rows.length * 100) : 0;
+
+  const ranks = rows
+    .filter(b => b.rank !== null && b.rank !== '' && !isNaN(b.rank))
+    .map(b => Number(b.rank));
+  const avgRank = ranks.length ? (ranks.reduce((a,b)=>a+b,0) / ranks.length) : null;
+
+  summaryEl.innerHTML = `
+    <div>
+      <div class="stat-label">Battles Here</div>
+      <div class="stat-value gold display">${rows.length}</div>
+    </div>
+    <div>
+      <div class="stat-label">Win Rate</div>
+      <div class="stat-value display">${winPct !== null ? winPct.toFixed(0) + '%' : '—'}</div>
+    </div>
+    <div>
+      <div class="stat-label">${avgRank !== null && winPct === null ? 'Avg. Placement' : 'Avg. Trophy Change'}</div>
+      <div class="stat-value teal display">${avgRank !== null && winPct === null ? avgRank.toFixed(1) : (avgTrophyChange !== null ? (avgTrophyChange > 0 ? '+' : '') + avgTrophyChange.toFixed(1) : '—')}</div>
+    </div>
+    <div>
+      <div class="stat-label">Star Player Rate</div>
+      <div class="stat-value pink display">${starRate.toFixed(0)}%</div>
+      <div class="stat-sub">${starCount} of ${rows.length} battles</div>
+    </div>
+  `;
+
+  // Per-brawler ranking on this map
+  const byBrawler = {};
+  rows.forEach(b => {
+    if(!b.brawler_used) return;
+    if(!byBrawler[b.brawler_used]) byBrawler[b.brawler_used] = { wins:0, losses:0, total:0, ranks:[] };
+    const s = byBrawler[b.brawler_used];
+    s.total++;
+    const cls = classifyBattle(b);
+    if(cls === 'victory') s.wins++;
+    else if(cls === 'defeat') s.losses++;
+    if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)) s.ranks.push(Number(b.rank));
+  });
+
+  const MIN_SAMPLE = 3;
+  const ranked = Object.entries(byBrawler)
+    .map(([name, s]) => {
+      const decided = s.wins + s.losses;
+      const pct = decided > 0 ? (s.wins / decided * 100) : null;
+      const avgR = s.ranks.length ? (s.ranks.reduce((a,b)=>a+b,0) / s.ranks.length) : null;
+      return { name, total: s.total, pct, avgR };
+    })
+    .filter(s => s.total >= MIN_SAMPLE && s.pct !== null)
+    .sort((a,b) => b.pct - a.pct);
+
+  function brawlerRankRow(r){
+    return `<tr><td>${r.name}</td><td class="num">${r.total}</td><td class="num">${r.pct.toFixed(0)}%</td><td class="num">${r.avgR !== null ? r.avgR.toFixed(1) : '—'}</td></tr>`;
+  }
+
+  if(ranked.length === 0){
+    rankingsEl.innerHTML = `<p class="hint">Not enough data yet for brawler rankings on this map — need at least ${MIN_SAMPLE} logged battles with the same brawler here.</p>`;
+  } else if(ranked.length <= 6){
+    rankingsEl.innerHTML = `
+      <h3 style="font-size:15px; margin:0 0 10px;">All qualifying brawlers on this map</h3>
+      <table><thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Win rate</th><th class="num">Avg. placement</th></tr></thead>
+      <tbody>${ranked.map(brawlerRankRow).join('')}</tbody></table>
+    `;
+  } else {
+    const top3 = ranked.slice(0, 3);
+    const bottom3 = ranked.slice(-3).reverse();
+    rankingsEl.innerHTML = `
+      <h3 style="font-size:15px; margin:0 0 10px;">Top 3 on this map</h3>
+      <table><thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Win rate</th><th class="num">Avg. placement</th></tr></thead>
+      <tbody>${top3.map(brawlerRankRow).join('')}</tbody></table>
+      <h3 style="font-size:15px; margin:18px 0 10px;">Bottom 3 on this map</h3>
+      <table><thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Win rate</th><th class="num">Avg. placement</th></tr></thead>
+      <tbody>${bottom3.map(brawlerRankRow).join('')}</tbody></table>
+    `;
+  }
 }
 
 function renderBattleTable(){

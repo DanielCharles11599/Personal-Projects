@@ -159,6 +159,38 @@ def append_csv(path, header, row):
         writer.writerow(row)
 
 
+def write_daily_snapshot_csv(path, header, new_rows, key_fn):
+    """
+    For periodic snapshot files (one entry expected per day, as opposed to
+    battle_log.csv's one-entry-per-event model): replace any existing row(s)
+    whose key matches one of new_rows' keys, then append new_rows. This means
+    running the tracker multiple times in the same day (e.g. while testing)
+    overwrites that day's snapshot instead of creating duplicates that distort
+    the trend charts.
+
+    Call ensure_header(path, header) before this, so the file's existing rows
+    (if any) are already guaranteed to match the current column layout.
+
+    key_fn(row) -> hashable key, e.g. the calendar date, or (date, brawler_id)
+    for files with multiple rows per snapshot.
+    """
+    existing = []
+    if path.exists():
+        with open(path, newline="", encoding="utf-8") as f:
+            existing_rows = list(csv.reader(f))
+        if existing_rows:
+            existing = existing_rows[1:]  # drop header
+
+    new_keys = {key_fn(r) for r in new_rows}
+    kept = [r for r in existing if key_fn(r) not in new_keys]
+    all_rows = kept + new_rows
+
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(all_rows)
+
+
 def fetch_catalog(token):
     """
     Pull the full game catalog (every brawler currently in the game) so the
@@ -230,7 +262,7 @@ def log_player_snapshot(player, now_iso):
         (player.get("club") or {}).get("name", ""),
         False,  # every row this script writes going forward is real, not backfilled
     ]
-    append_csv(path, header, row)
+    write_daily_snapshot_csv(path, header, [row], key_fn=lambda r: r[0][:10])
     print(f"Logged account snapshot: {player.get('trophies')} trophies "
           f"across {len(player.get('brawlers', []))} brawlers.")
 
@@ -246,6 +278,7 @@ def log_brawler_snapshots(player, now_iso, catalog):
     ]
     ensure_header(path, header)
 
+    rows = []
     for b in player.get("brawlers", []):
         gadgets = b.get("gadgets", []) or []
         star_powers = b.get("starPowers", []) or []
@@ -259,14 +292,17 @@ def log_brawler_snapshots(player, now_iso, catalog):
         star_power_names = ";".join(s.get("name", "") for s in star_powers)
         hypercharge_names = ";".join(h.get("name", "") for h in hyper)
 
-        row = [
+        rows.append([
             now_iso, b.get("id"), b.get("name"), b.get("trophies"), b.get("highestTrophies"),
             b.get("power"), b.get("rank"), len(gadgets), len(star_powers), len(hyper),
             b.get("prestigeLevel"), b.get("currentWinStreak"), b.get("maxWinStreak"),
             buffies.get("gadget", False), buffies.get("starPower", False), buffies.get("hyperCharge", False),
             gadget_names, star_power_names, hypercharge_names,
-        ]
-        append_csv(path, header, row)
+        ])
+
+    # Keyed by (date, brawler_id) since each run writes one row per brawler --
+    # only today's rows get replaced, every other day's history is untouched.
+    write_daily_snapshot_csv(path, header, rows, key_fn=lambda r: (r[0][:10], r[1]))
 
 
 def find_own_brawler(battle, own_tag):

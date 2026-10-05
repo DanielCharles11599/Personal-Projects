@@ -123,6 +123,9 @@
   .num{ text-align:right; font-variant-numeric:tabular-nums; }
   .delta.up{ color:var(--teal); } .delta.down{ color:var(--pink); } .delta.flat{ color:var(--text-dim); }
   .clickable-row{ cursor:pointer; }
+  th.sortable{ cursor:pointer; user-select:none; }
+  th.sortable:hover{ color:var(--text); }
+  .sort-indicator{ display:inline-block; width:10px; margin-left:3px; color:var(--gold); }
 
   .empty{ text-align:center; padding:26px 10px; color:var(--text-dim); font-size:14px; }
   canvas{ max-height:260px; }
@@ -366,7 +369,13 @@
         </div>
       </div>
       <table id="brawlerWinTable">
-        <thead><tr><th>Brawler</th><th class="num">Battles</th><th class="num">Use rate</th><th class="num">Win rate</th><th class="num">Avg. showdown rank</th></tr></thead>
+        <thead><tr>
+          <th class="sortable" data-sort-key="name">Brawler<span class="sort-indicator"></span></th>
+          <th class="num sortable" data-sort-key="total">Battles<span class="sort-indicator"></span></th>
+          <th class="num sortable" data-sort-key="useRate">Use rate<span class="sort-indicator"></span></th>
+          <th class="num sortable" data-sort-key="pct">Win rate<span class="sort-indicator"></span></th>
+          <th class="num sortable" data-sort-key="avgR">Avg. showdown rank<span class="sort-indicator"></span></th>
+        </tr></thead>
         <tbody id="brawlerWinTableBody"></tbody>
       </table>
       <div class="load-more-row">
@@ -459,6 +468,27 @@ let brawlerDisplayCount = PAGE_SIZE;
 let winRateDisplayCount = PAGE_SIZE;
 let mapDisplayCount = PAGE_SIZE;
 let activityChartInstance = null;
+let winRateSortKey = 'pct';
+let winRateSortDir = 'desc';
+
+/**
+ * Generic comparator for the win rate table: null/not-applicable values
+ * (e.g. no decided versus battles, or no showdown appearances) always sort
+ * to the bottom regardless of direction, since they represent missing data
+ * rather than a real low or high value.
+ */
+function compareSortableRows(a, b, key, dir){
+  const av = a[key], bv = b[key];
+  const aNull = (av === null || av === undefined);
+  const bNull = (bv === null || bv === undefined);
+  if(aNull && bNull) return b.total - a.total;
+  if(aNull) return 1;
+  if(bNull) return -1;
+  if(key === 'name'){
+    return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+  }
+  return dir === 'asc' ? av - bv : bv - av;
+}
 
 const MODE_NAMES = {
   soloShowdown: 'Solo Showdown',
@@ -811,13 +841,7 @@ function renderWinRate(){
     return { name, total: s.used, pct, avgR, useRate, info: brawlerInfo[name] };
   });
 
-  // Highest win rate first; brawlers with no decided versus battles (pct===null) sort last.
-  rows.sort((a, b) => {
-    if(a.pct === null && b.pct === null) return b.total - a.total;
-    if(a.pct === null) return 1;
-    if(b.pct === null) return -1;
-    return b.pct - a.pct;
-  });
+  rows.sort((a, b) => compareSortableRows(a, b, winRateSortKey, winRateSortDir));
 
   const visible = rows.slice(0, winRateDisplayCount);
   document.getElementById('brawlerWinTableBody').innerHTML = visible.map(r => `
@@ -831,6 +855,16 @@ function renderWinRate(){
   `).join('');
 
   document.getElementById('winRateLoadMore').style.display = rows.length > winRateDisplayCount ? 'inline-block' : 'none';
+
+  // Update header sort indicators to reflect the active column/direction.
+  document.querySelectorAll('#brawlerWinTable th.sortable').forEach(th => {
+    const indicator = th.querySelector('.sort-indicator');
+    if(th.dataset.sortKey === winRateSortKey){
+      indicator.textContent = winRateSortDir === 'asc' ? '▲' : '▼';
+    } else {
+      indicator.textContent = '';
+    }
+  });
 }
 
 function renderGeneralStats(){
@@ -1489,6 +1523,21 @@ document.getElementById('brawlerLoadMore').addEventListener('click', () => {
 document.getElementById('winRateLoadMore').addEventListener('click', () => {
   winRateDisplayCount += PAGE_SIZE;
   renderWinRate();
+});
+
+document.querySelectorAll('#brawlerWinTable th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.sortKey;
+    if(winRateSortKey === key){
+      winRateSortDir = winRateSortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      winRateSortKey = key;
+      // Names read naturally A-Z first; numeric columns read naturally highest-first.
+      winRateSortDir = key === 'name' ? 'asc' : 'desc';
+    }
+    winRateDisplayCount = PAGE_SIZE;
+    renderWinRate();
+  });
 });
 
 document.getElementById('mapLoadMore').addEventListener('click', () => {

@@ -598,3 +598,28 @@ battle_time,mode,map,brawler_used,outcome,rank,trophy_change,was_star_player
 20261007T173544.000Z,soloShowdown,Crystal Eye Castle,DOUG,,1,13,False
 20261007T173445.000Z,soloShowdown,Crystal Eye Castle,DOUG,,7,1,False
 20261007T173435.000Z,soloShowdown,Crystal Eye Castle,DOUG,,5,3,False
+20261009T105307.000Z,soloShowdown,Truth,RICO,,1,13,False
+20261009T105201.000Z,soloShowdown,Truth,RICO,,7,-1,False
+20261009T105027.000Z,soloShowdown,Truth,RICO,,1,14,False
+20261009T104845.000Z,soloShowdown,Truth,RICO,,2,10,False
+20261009T104819.000Z,soloShowdown,Truth,RICO,,7,-1,False
+20261009T104608.000Z,soloShowdown,Truth,RICO,,1,13,False
+20261009T104344.000Z,hotZone,Golden Bay,POCO,victory,,10,True
+20261009T104158.000Z,hotZone,Golden Bay,POCO,defeat,,-3,False
+20261009T103846.000Z,hotZone,Golden Bay,POCO,victory,,10,False
+20261009T103643.000Z,hotZone,Golden Bay,POCO,defeat,,-3,False
+20261009T090953.000Z,hotZone,Golden Bay,POCO,victory,,10,False
+20261009T090859.000Z,soloShowdown,Truth,POCO,,9,-3,False
+20261009T090644.000Z,hotZone,Golden Bay,POCO,victory,,10,False
+20261009T090453.000Z,hotZone,Golden Bay,POCO,defeat,,-3,False
+20261009T085024.000Z,hotZone,Golden Bay,POCO,victory,,10,False
+20261009T084820.000Z,hotZone,Golden Bay,POCO,defeat,,-2,False
+20261009T084545.000Z,knockout,Opening Move,SPROUT,victory,,20,False
+20261009T084404.000Z,soloShowdown,Truth,SPROUT,,4,15,False
+20261009T084153.000Z,knockout,Opening Move,SPROUT,victory,,20,False
+20261009T084016.000Z,knockout,Opening Move,SPROUT,victory,,20,False
+20261009T083844.000Z,knockout,Opening Move,SPROUT,victory,,20,False
+20261009T082852.000Z,knockout,Opening Move,SPROUT,victory,,19,True
+20261009T082706.000Z,knockout,Opening Move,SPROUT,victory,,18,True
+20261009T082448.000Z,hotZone,Golden Bay,POCO,defeat,,-2,False
+20261009T082257.000Z,hotZone,Golden Bay,POCO,victory,,10,False

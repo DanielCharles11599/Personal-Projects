@@ -51,6 +51,7 @@ import csv
 import json
 import os
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -93,12 +94,50 @@ def load_config():
     return token, tag
 
 
+# Transient failures worth retrying. The 52x codes are Cloudflare errors from
+# the proxy sitting in front of Supercell's API (e.g. 525 = the proxy's own SSL
+# handshake with its origin failed). They're not caused by anything in this
+# project and normally clear up within seconds to a few minutes.
+RETRYABLE_STATUS = {429, 500, 502, 503, 504, 520, 521, 522, 523, 524, 525, 526, 527}
+RETRY_DELAYS = [5, 15, 30, 60, 120]  # seconds to wait between attempts (6 attempts total)
+
+
+def clean_error_body(resp):
+    """Keep failure messages readable -- don't dump a whole HTML error page into the log."""
+    text = resp.text.strip()
+    if "<html" in text[:300].lower() or text.lower().startswith("<!doctype"):
+        return "(HTML error page from the proxy/CDN)"
+    return text[:300]
+
+
 def api_get(path, token):
     url = f"{BASE_URL}{path}"
-    resp = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=15)
-    if resp.status_code != 200:
-        sys.exit(f"API error {resp.status_code} calling {path}: {resp.text[:300]}")
-    return resp.json()
+    last_problem = None
+
+    for attempt in range(len(RETRY_DELAYS) + 1):
+        try:
+            resp = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=15)
+        except (requests.ConnectionError, requests.Timeout) as e:
+            last_problem = f"network error ({type(e).__name__})"
+        else:
+            if resp.status_code == 200:
+                return resp.json()
+            if resp.status_code not in RETRYABLE_STATUS:
+                # Not transient (bad token, wrong tag, ...) -- retrying can't help.
+                sys.exit(f"API error {resp.status_code} calling {path}: {clean_error_body(resp)}")
+            last_problem = f"HTTP {resp.status_code}"
+
+        if attempt < len(RETRY_DELAYS):
+            delay = RETRY_DELAYS[attempt]
+            print(f"{path}: {last_problem}; retrying in {delay}s "
+                  f"(retry {attempt + 1}/{len(RETRY_DELAYS)})...")
+            time.sleep(delay)
+
+    sys.exit(
+        f"API call to {path} still failing after {len(RETRY_DELAYS) + 1} attempts "
+        f"({last_problem}). This is usually the proxy or Supercell's API having a bad "
+        f"moment -- re-run the workflow later."
+    )
 
 
 def normalize_tag(tag):

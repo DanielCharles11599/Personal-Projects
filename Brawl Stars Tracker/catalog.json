@@ -1,7 +1,7 @@
 {
-  "total_brawlers": 108,
-  "total_gadgets": 216,
-  "total_star_powers": 216,
+  "total_brawlers": 111,
+  "total_gadgets": 222,
+  "total_star_powers": 222,
   "total_hypercharges": 106,
   "hypercharge_data_available": true,
   "brawlers": {
@@ -589,7 +589,7 @@
       "starPowers": 2,
       "hyperCharges": 1,
       "gadgetNames": [
-        "SPRING EJECTOR",
+        "NORTH WIND WALL",
         "TWISTER"
       ],
       "starPowerNames": [
@@ -597,7 +597,7 @@
         "FREEZING SNOW"
       ],
       "hyperChargeNames": [
-        "BLIZZARD"
+        "RAGING BLIZZARD"
       ]
     },
     "16000036": {
@@ -648,7 +648,7 @@
         "SERVE ICE COLD"
       ],
       "hyperChargeNames": [
-        "STAGE 5"
+        "JUICED UP!"
       ]
     },
     "16000039": {
@@ -692,10 +692,10 @@
       "hyperCharges": 1,
       "gadgetNames": [
         "ICE BLOCK",
-        "CRYO SYRUP"
+        "AVALANCHE"
       ],
       "starPowerNames": [
-        "SUPERCOOL",
+        "COLD SNAP",
         "HYPOTHERMIA"
       ],
       "hyperChargeNames": [
@@ -1048,12 +1048,12 @@
       "starPowers": 2,
       "hyperCharges": 1,
       "gadgetNames": [
-        "SPICY DICE",
+        "PRANKSTER'S SURPRISE",
         "CANDY BEANS"
       ],
       "starPowerNames": [
         "SINGLE BELL'O'MANIA",
-        "SNEAK PEEK"
+        "JESTER'S PRIVILEGE"
       ],
       "hyperChargeNames": [
         "CRUNCHY, CHEWY, GOOEY"
@@ -1087,7 +1087,7 @@
       ],
       "starPowerNames": [
         "IN MY SIGHTS",
-        "HARD CANDY"
+        "GOBSTOPPER"
       ],
       "hyperChargeNames": [
         "SUGAR FOR ALL!"
@@ -1372,11 +1372,11 @@
       "hyperCharges": 1,
       "gadgetNames": [
         "FRIENDSHIP IS GREAT",
-        "HEALTHY ADDITIVES"
+        "SECRET FORMULA"
       ],
       "starPowerNames": [
         "FLOOR IS FINE",
-        "MAKING A MESS"
+        "STICKY TOPPINGS"
       ],
       "hyperChargeNames": [
         "DOUBLE SCOOPS"
@@ -1834,6 +1834,51 @@
       "starPowerNames": [
         "COME TO PAPA",
         "BUG BANDAGE"
+      ],
+      "hyperChargeNames": []
+    },
+    "16000111": {
+      "name": "THUNDER FROGS",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 0,
+      "gadgetNames": [
+        "DOUBLE JUMPERS",
+        "SOOTHING SHOCK"
+      ],
+      "starPowerNames": [
+        "LEECH LANDING",
+        "SWAMP STOMPS"
+      ],
+      "hyperChargeNames": []
+    },
+    "16000112": {
+      "name": "REY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 0,
+      "gadgetNames": [
+        "QUEEN'S GAMBIT",
+        "REY LOPEZ"
+      ],
+      "starPowerNames": [
+        "CLOCK MANAGEMENT",
+        "EN PASSANT"
+      ],
+      "hyperChargeNames": []
+    },
+    "16000113": {
+      "name": "RUBY",
+      "gadgets": 2,
+      "starPowers": 2,
+      "hyperCharges": 0,
+      "gadgetNames": [
+        "SHUFFLE AND CUT",
+        "STACK THE DECK"
+      ],
+      "starPowerNames": [
+        "LUCKY NUMBER",
+        "DOUBLE OR NOTHING"
       ],
       "hyperChargeNames": []
     }

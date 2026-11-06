@@ -1,0 +1,33 @@
+{
+  "updated": "2026-10-24",
+  "note": "Which brawlers have buffies available. The official API does not say, so this list is kept by hand: add a brawler's name (exactly as it appears in catalog.json, upper-case) when Supercell releases buffies for them - roughly 6 brawlers per season. Seeded from a third-party count of 27 brawlers and cross-checked against this account's own data (every brawler with an owned buffie is on the list). The dashboard also treats any brawler it sees with an owned buffie as buffie-enabled, so a stale list can only under-count unowned ones.",
+  "brawlers": [
+    "SHELLY",
+    "COLT",
+    "SPIKE",
+    "MORTIS",
+    "FRANK",
+    "EMZ",
+    "BULL",
+    "CROW",
+    "BIBI",
+    "NITA",
+    "BO",
+    "LEON",
+    "COLETTE",
+    "EDGAR",
+    "GRIFF",
+    "RICO",
+    "BROCK",
+    "8-BIT",
+    "MAX",
+    "SURGE",
+    "MEG",
+    "POCO",
+    "EL PRIMO",
+    "AMBER",
+    "GUS",
+    "CHUCK",
+    "SHADE"
+  ]
+}

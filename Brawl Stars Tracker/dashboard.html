@@ -41,6 +41,9 @@
     --chart-gold:#FFC94A; --chart-gold-fill:rgba(255,201,74,0.12); --chart-gold-dim:rgba(255,201,74,0.45);
     --chart-teal:#3FE1D0; --chart-teal-fill:rgba(63,225,208,0.12); --chart-muted:#6b6b85;
     --nav-h:52px; --scroll-shadow:rgba(0,0,0,0.35);
+    /* progression-bar segment colours (tints of the dashboard's pink / green / gold / teal) */
+    --pb1:#FF5C82; --pb2:#FF809E; --pb3:#FFA0B6; --pb4:#FFBECD; --pb5:#FFD5DE; --pg1:#32C132; --pg2:#80D980; --pg3:#BDEBBD; --ps1:#FFCD00; --ps2:#FFE061; --ps3:#FFEFAD; --pf1:#009888; --pf2:#4CB7AC; --pf3:#8CD1C9; --pf4:#BFE5E1;
+    --locked-a:rgba(255,255,255,0.12); --locked-b:rgba(255,255,255,0.04); --seg-edge:transparent;
   }
 
   /* ---- Light theme: text accents are deepened so they stay readable on white ---- */
@@ -62,6 +65,8 @@
     --chart-gold:#B87800; --chart-gold-fill:rgba(184,120,0,0.12); --chart-gold-dim:rgba(184,120,0,0.45);
     --chart-teal:#00897B; --chart-teal-fill:rgba(0,137,123,0.12); --chart-muted:#8A8FA8;
     --scroll-shadow:rgba(22,26,52,0.18);
+    --pb1:#C92A5B; --pb2:#D5597F; --pb3:#E083A0; --pb4:#E9AABD; --pb5:#F1C8D4; --pg1:#1F8A1F; --pg2:#74B674; --pg3:#B7DAB7; --ps1:#C98F00; --ps2:#DEBA61; --ps3:#EEDBAD; --pf1:#00796B; --pf2:#4CA197; --pf3:#8CC3BC; --pf4:#BFDEDA;
+    --locked-a:rgba(22,26,52,0.14); --locked-b:rgba(22,26,52,0.05); --seg-edge:rgba(0,0,0,0.08);
   }
 
   .brawler-name-cell{ display:flex; align-items:center; gap:8px; }
@@ -290,6 +295,48 @@
     .rainbow-label{ animation:none; }
     .icon-btn.spinning svg{ animation:none; }
   }
+
+  /* ===================== Icons, progression bars, fan notice ===================== */
+  .brawler-name-cell{ gap:10px; }
+  .portrait-wrap{ position:relative; display:inline-flex; width:28px; height:28px; flex:0 0 28px; }
+  .portrait-wrap.sm{ width:22px; height:22px; flex-basis:22px; }
+  .game-icon{ display:block; object-fit:contain; }
+  .game-icon.brawler{ width:100%; height:100%; border-radius:7px; background:var(--panel-alt); }
+  .game-icon.mode{ width:20px; height:20px; }
+  .game-icon.item{ width:22px; height:22px; border-radius:5px; }
+  .icon-fallback{ display:inline-flex; align-items:center; justify-content:center; background:var(--panel-alt); color:var(--text-dim); font-weight:700; font-size:12px; border-radius:7px; }
+  .icon-fallback.brawler{ width:100%; height:100%; }
+  .icon-fallback.mode{ width:20px; height:20px; border-radius:5px; }
+  .icon-fallback.item{ width:22px; height:22px; border-radius:5px; }
+  .portrait-wrap .rank-badge{ position:absolute; right:-4px; bottom:-4px; width:12px; height:12px; box-shadow:0 0 0 2px var(--panel); }
+  .portrait-wrap.sm .rank-badge{ display:none; }
+  .brawler-inline, .mode-chip{ display:inline-flex; align-items:center; gap:8px; }
+  .mode-chip{ gap:7px; }
+  .detail-item .game-icon, .detail-item .icon-fallback{ flex:0 0 22px; }
+
+  .progress-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px 28px; margin-bottom:24px; }
+  .pblock-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:9px; }
+  .pblock-title{ font-size:14px; font-weight:600; }
+  .pblock-value{ font-size:13px; color:var(--text-dim); text-align:right; }
+  .pblock-value .pct{ opacity:.8; }
+  .pbar{ display:flex; gap:2px; height:16px; border-radius:8px; overflow:hidden; background:var(--panel-alt); }
+  .pseg{ min-width:3px; box-shadow:inset 0 0 0 1px var(--seg-edge); }
+  .plegend{ list-style:none; margin:11px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--text-dim); }
+  .plegend li{ display:inline-flex; align-items:center; gap:6px; }
+  .plegend li.zero{ opacity:.55; }
+  .plegend .swatch{ width:11px; height:11px; border-radius:3px; flex:0 0 11px; box-shadow:inset 0 0 0 1px var(--seg-edge); }
+  .plegend .lg-count{ color:var(--text); font-weight:600; }
+  .pnote{ font-size:12px; color:var(--text-dim); margin-top:9px; line-height:1.45; }
+  .seg-b1{ background:var(--pb1); } .seg-b2{ background:var(--pb2); } .seg-b3{ background:var(--pb3); } .seg-b4{ background:var(--pb4); } .seg-b5{ background:var(--pb5); }
+  .seg-g1{ background:var(--pg1); } .seg-g2{ background:var(--pg2); } .seg-g3{ background:var(--pg3); }
+  .seg-s1{ background:var(--ps1); } .seg-s2{ background:var(--ps2); } .seg-s3{ background:var(--ps3); }
+  .seg-f1{ background:var(--pf1); } .seg-f2{ background:var(--pf2); } .seg-f3{ background:var(--pf3); } .seg-f4{ background:var(--pf4); }
+  .seg-locked{ background:repeating-linear-gradient(135deg, var(--locked-a) 0 5px, var(--locked-b) 5px 10px); }
+  @media (max-width:760px){ .progress-grid{ grid-template-columns:1fr; gap:22px; } }
+
+  .fan-notice{ margin-top:34px; padding-top:16px; border-top:1px solid var(--line); text-align:center; font-size:12.5px; line-height:1.55; color:var(--text-dim); }
+  .fan-notice a{ color:var(--text-dim); text-decoration:underline; }
+  .fan-notice a:hover{ color:var(--text); }
 </style>
 </head>
 <body>
@@ -393,23 +440,9 @@
 
   <div class="card">
     <h2>Progression</h2>
-    <p class="hint">Completion toward a fully maxed account, measured against the game's current roster.</p>
-    <div class="hero" id="progression" style="margin-bottom:0;">
-      <div>
-        <div class="stat-label">Brawlers Unlocked</div>
-        <div class="stat-value display" id="pgBrawlers">—</div>
-        <div class="stat-percentage" id="pgBrawlersSub"></div>
-      </div>
-      <div>
-        <div class="stat-label">Gadgets Owned</div>
-        <div class="stat-value green display" id="pgGadgets">—</div>
-        <div class="stat-percentage" id="pgGadgetsPct">—</div>
-      </div>
-      <div>
-        <div class="stat-label">Star Powers Owned</div>
-        <div class="stat-value yellow display" id="pgStarPowers">—</div>
-        <div class="stat-percentage" id="pgStarPowersPct">—</div>
-      </div>
+    <p class="hint">Completion toward a fully maxed account, measured against the game's current roster. Each brawler sits in exactly one segment; hover a segment or read the legend for the counts.</p>
+    <div class="progress-grid" id="progressBars"></div>
+    <div class="hero cols-4 tight" id="progression" style="margin-bottom:0;">
       <div>
         <div class="stat-label">Hypercharges Owned</div>
         <div class="stat-value purple display" id="pgHyper">—</div>
@@ -417,13 +450,9 @@
         <div class="stat-sub" id="pgHyperSub"></div>
       </div>
       <div>
-        <div class="stat-label">Power 11 Brawlers</div>
-        <div class="stat-value display" id="pgPower11">—</div>
-      </div>
-      <div>
-        <div class="stat-label">Fully Maxed Brawlers</div>
-        <div class="stat-value display rainbow-label" id="pgMaxed">—</div>
-        <div class="stat-sub">Power 11 + all gadgets + all star powers</div>
+        <div class="stat-label">Total Prestige Levels</div>
+        <div class="stat-value teal display" id="pgPrestige">—</div>
+        <div class="stat-sub">summed across all brawlers</div>
       </div>
       <div>
         <div class="stat-label">Power Points to Max</div>
@@ -612,6 +641,12 @@
     </div>
   </div>
   </section>
+
+  <footer class="fan-notice">
+    This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy:
+    <a href="https://www.supercell.com/fan-content-policy" target="_blank" rel="noopener">www.supercell.com/fan-content-policy</a>.
+    <br>Game icons are served from the free <a href="https://github.com/Brawlify/CDN" target="_blank" rel="noopener">Brawlify CDN</a>.
+  </footer>
 </div>
 
 <button class="to-top" id="toTop" type="button" aria-label="Back to top" title="Back to top">
@@ -623,6 +658,11 @@ let accountRows = [];
 let brawlerRows = [];
 let battleRows = [];
 let catalogData = null;
+let assetsData = null;          // assets.json (game mode -> icon URL), optional
+let buffieConfig = null;        // buffie_brawlers.json (which brawlers have buffies), optional
+let brawlerIdByName = {};
+let buffieEnabledIds = new Set();
+const ICON_CDN = 'https://cdn.brawlify.com';
 let trophyChartInstance = null;
 let brawlerTrendChartInstance = null;
 let trophyRange = { from: undefined, to: undefined };
@@ -739,18 +779,96 @@ function rankBadgeHtml(trophies){
   return `<span class="rank-badge${b.twoTone ? ' two-tone' : ''}" style="background:${b.color};"></span>`;
 }
 
+function escapeHtml(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+/** name -> id lookups, and the set of brawlers that have buffies available. */
+function buildLookups(){
+  brawlerIdByName = {};
+  if(catalogData && catalogData.brawlers){
+    Object.entries(catalogData.brawlers).forEach(([id, c]) => { if(c.name) brawlerIdByName[String(c.name).toUpperCase()] = id; });
+  }
+  brawlerRows.forEach(r => {
+    const key = String(r.brawler_name || '').toUpperCase();
+    if(key && r.brawler_id != null && !(key in brawlerIdByName)) brawlerIdByName[key] = String(r.brawler_id);
+  });
+
+  // The official API doesn't say which brawlers have buffies, so: the hand-kept list in
+  // buffie_brawlers.json, plus any brawler we can already see an owned buffie on.
+  buffieEnabledIds = new Set();
+  ((buffieConfig && buffieConfig.brawlers) || []).forEach(n => {
+    const id = brawlerIdByName[String(n).toUpperCase()];
+    if(id) buffieEnabledIds.add(String(id));
+  });
+  getLatestBrawlerSnapshot().forEach(r => {
+    if(isTrue(r.buffy_gadget) || isTrue(r.buffy_star_power) || isTrue(r.buffy_hyper_charge)) buffieEnabledIds.add(String(r.brawler_id));
+  });
+}
+
+function brawlerIdFor(name){ return brawlerIdByName[String(name || '').toUpperCase()]; }
+
+/* ---- icons (served from the Brawlify CDN; a failed image swaps itself for a letter tile) ---- */
+function brawlerPortraitHtml(id, name, trophies, small){
+  const letter = escapeHtml(String(name || '?').trim().charAt(0).toUpperCase());
+  const img = id != null && id !== ''
+    ? `<img class="game-icon brawler" src="${ICON_CDN}/brawlers/borderless/${id}.png" alt="" loading="lazy" decoding="async" data-fallback="${letter}">`
+    : `<span class="icon-fallback brawler" aria-hidden="true">${letter}</span>`;
+  const badge = (trophies != null && !small) ? rankBadgeHtml(trophies) : '';
+  return `<span class="portrait-wrap${small ? ' sm' : ''}">${img}${badge}</span>`;
+}
+
+/** Small icon + name, for places that only know the brawler's name. */
+function brawlerInlineHtml(name, suffixHtml){
+  if(!name) return '—';
+  return `<span class="brawler-inline">${brawlerPortraitHtml(brawlerIdFor(name), name, null, true)}<span>${escapeHtml(name)}${suffixHtml || ''}</span></span>`;
+}
+
+function itemIconHtml(kind, id){
+  if(id == null || id === '') return '';
+  const folder = kind === 'gadget' ? 'gadgets/regular' : 'star-powers/borderless';
+  return `<img class="game-icon item" src="${ICON_CDN}/${folder}/${id}.png" alt="" loading="lazy" decoding="async" data-fallback="">`;
+}
+
+function modeChipHtml(modeKey){
+  const url = assetsData && assetsData.modeIcons ? assetsData.modeIcons[modeKey] : null;
+  const icon = url ? `<img class="game-icon mode" src="${escapeHtml(url)}" alt="" loading="lazy" decoding="async" data-fallback="">` : '';
+  return `<span class="mode-chip">${icon}<span>${escapeHtml(formatModeName(modeKey))}</span></span>`;
+}
+
+// A broken image (offline CDN, an ID Brawlify doesn't have yet) must never leave a broken-image box.
+document.addEventListener('error', (e) => {
+  const el = e.target;
+  if(!(el instanceof HTMLImageElement) || !el.classList.contains('game-icon')) return;
+  const span = document.createElement('span');
+  span.className = 'icon-fallback ' + [...el.classList].filter(c => c !== 'game-icon').join(' ');
+  span.setAttribute('aria-hidden', 'true');
+  span.textContent = el.dataset.fallback || '';
+  el.replaceWith(span);
+}, true);
+
+/**
+ * A brawler is fully maxed when it is Power 11 AND owns every gadget, star power and
+ * hypercharge that exists for it AND, if buffies have been released for it, all three
+ * buffies. Things that don't exist for a brawler (no hypercharge yet, no buffies yet)
+ * can't be required of it.
+ */
 function isBrawlerMaxed(row){
-  const cat = catalogData?.brawlers?.[String(row.brawler_id)];
+  const cat = catalogData && catalogData.brawlers ? catalogData.brawlers[String(row.brawler_id)] : null;
   if(!cat) return false;
-  const isPower11 = Number(row.power) === 11;
-  const hasAllGadgets = Number(row.gadgets_owned) >= cat.gadgets;
-  const hasAllStarPowers = Number(row.star_powers_owned) >= cat.starPowers;
-  return isPower11 && hasAllGadgets && hasAllStarPowers;
+  if(Number(row.power) !== 11) return false;
+  if(Number(row.gadgets_owned) < cat.gadgets) return false;
+  if(Number(row.star_powers_owned) < cat.starPowers) return false;
+  if((cat.hyperCharges || 0) > 0 && Number(row.hypercharge_owned) < cat.hyperCharges) return false;
+  if(buffieEnabledIds.has(String(row.brawler_id))){
+    if(!(isTrue(row.buffy_gadget) && isTrue(row.buffy_star_power) && isTrue(row.buffy_hyper_charge))) return false;
+  }
+  return true;
 }
 
 function brawlerNameCellHtml(row){
   const nameClass = isBrawlerMaxed(row) ? 'rainbow-label' : '';
-  return `<span class="brawler-name-cell">${rankBadgeHtml(row.trophies)}<span class="${nameClass}">${row.brawler_name}</span></span>`;
+  return `<span class="brawler-name-cell">${brawlerPortraitHtml(row.brawler_id, row.brawler_name, row.trophies, false)}<span class="${nameClass}">${escapeHtml(row.brawler_name)}</span></span>`;
 }
 
 // Supercell's standard, long-stable power-level cost table (Power Points, Coins
@@ -884,6 +1002,8 @@ async function loadAll(){
     loadCsv('brawler_history.csv'),
     loadCsv('battle_log.csv'),
     loadJson('catalog.json'),
+    loadJson('assets.json'),          // optional: icons degrade gracefully without it
+    loadJson('buffie_brawlers.json'), // optional: see buildLookups()
   ]);
 
   const failures = [];
@@ -898,10 +1018,13 @@ async function loadAll(){
     : (failures.push('battle_log.csv'), []);
   catalogData = results[3].status === 'fulfilled' ? results[3].value : null;
   if(!catalogData) failures.push('catalog.json');
+  assetsData = results[4].status === 'fulfilled' ? results[4].value : null;
+  buffieConfig = results[5].status === 'fulfilled' ? results[5].value : null;
 
   accountRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
   brawlerRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
   battleRows.sort((a,b) => new Date(b.battle_time) - new Date(a.battle_time));
+  buildLookups();
 
   const coreFailures = failures.filter(f => f !== 'catalog.json');
   if(coreFailures.length === 3){
@@ -1067,7 +1190,7 @@ function renderGeneralStats(){
 
   if(latestBrawlers.length){
     const top = [...latestBrawlers].sort((a,b) => (b.trophies||0) - (a.trophies||0))[0];
-    document.getElementById('gsTopBrawler').textContent = top.brawler_name;
+    document.getElementById('gsTopBrawler').innerHTML = brawlerInlineHtml(top.brawler_name);
     document.getElementById('gsTopBrawlerSub').textContent = `${fmtNum(top.trophies)} trophies`;
 
     const powers = latestBrawlers.map(b => Number(b.power) || 0);
@@ -1083,87 +1206,152 @@ function renderPersonalRecords(){
   const latestBrawlers = getLatestBrawlerSnapshot();
   if(latestBrawlers.length){
     const topAllTime = [...latestBrawlers].sort((a,b) => (b.highest_trophies||0) - (a.highest_trophies||0))[0];
-    document.getElementById('prTopBrawler').textContent = topAllTime.brawler_name;
+    document.getElementById('prTopBrawler').innerHTML = brawlerInlineHtml(topAllTime.brawler_name);
     document.getElementById('prTopBrawlerSub').textContent = `${fmtNum(topAllTime.highest_trophies)} trophies (all-time)`;
 
     const topStreak = [...latestBrawlers].sort((a,b) => (Number(b.max_win_streak)||0) - (Number(a.max_win_streak)||0))[0];
     const streakVal = Number(topStreak.max_win_streak) || 0;
     document.getElementById('prStreak').textContent = streakVal > 0 ? streakVal : '—';
-    document.getElementById('prStreakSub').textContent = streakVal > 0 ? `on ${topStreak.brawler_name}` : '';
+    document.getElementById('prStreakSub').innerHTML = streakVal > 0 ? `on ${brawlerInlineHtml(topStreak.brawler_name)}` : '';
   }
 }
 
+function progressBlockHtml({ title, headline, segments, note }){
+  const total = segments.reduce((s, x) => s + x.count, 0);
+  const pct = c => total ? (c / total * 100) : 0;
+  const bar = segments.filter(s => s.count > 0).map(s =>
+    `<span class="pseg ${s.cls}" style="flex:${s.count} 1 0" title="${escapeHtml(s.label)}: ${s.count} (${pct(s.count).toFixed(0)}%)"></span>`).join('');
+  const aria = `${title}: ` + segments.map(s => `${s.count} ${s.label}`).join(', ');
+  const legend = segments.map(s =>
+    `<li class="${s.count ? '' : 'zero'}" data-key="${s.key}" data-count="${s.count}" title="${escapeHtml(s.tip || s.label)}"><span class="swatch ${s.cls}"></span><span>${escapeHtml(s.label)}</span><span class="lg-count">${s.count}</span></li>`).join('');
+  return `<div class="pblock" data-block="${escapeHtml(title)}">
+    <div class="pblock-head"><div class="pblock-title">${escapeHtml(title)}</div><div class="pblock-value">${headline}</div></div>
+    <div class="pbar" role="img" aria-label="${escapeHtml(aria)}">${bar}</div>
+    <ul class="plegend">${legend}</ul>
+    ${note ? `<div class="pnote">${note}</div>` : ''}
+  </div>`;
+}
+
 function renderProgression(){
+  const barsEl = document.getElementById('progressBars');
   const latest = accountRows.length ? accountRows[accountRows.length - 1] : null;
   const latestBrawlers = getLatestBrawlerSnapshot();
-  const brawlersUnlocked = latestBrawlers.length;
-  const totalBrawlers = catalogData ? catalogData.total_brawlers : null;
+  const ownedById = {};
+  latestBrawlers.forEach(b => { ownedById[String(b.brawler_id)] = b; });
 
-  document.getElementById('pgBrawlers').textContent = totalBrawlers
-    ? `${brawlersUnlocked} / ${totalBrawlers}` : fmtNum(brawlersUnlocked);
+  // The "universe" is every brawler in the game (so locked ones are counted honestly);
+  // without the catalog we can only see what's owned.
+  const universe = catalogData && catalogData.brawlers
+    ? Object.entries(catalogData.brawlers).map(([id, cat]) => ({ id, cat, row: ownedById[id] || null }))
+    : latestBrawlers.map(b => ({ id: String(b.brawler_id), cat: null, row: b }));
 
-  document.getElementById('pgBrawlersSub').textContent = totalBrawlers
-    ? `(${Math.round((brawlersUnlocked / totalBrawlers) * 100)}%)` : '—';
+  const blocks = [];
 
-  const power11 = latestBrawlers.filter(b => Number(b.power) === 11).length;
-  document.getElementById('pgPower11').textContent = fmtNum(power11);
-
-  const activeBuffyCount = latestBrawlers.filter(b =>
-    b.buffy_gadget === true || b.buffy_gadget === 'True' || b.buffy_gadget === 'true' ||
-    b.buffy_star_power === true || b.buffy_star_power === 'True' || b.buffy_star_power === 'true' ||
-    b.buffy_hyper_charge === true || b.buffy_hyper_charge === 'True' || b.buffy_hyper_charge === 'true'
-  ).length;
-
-  let gadgetsOwned = 0, starPowersOwned = 0, hyperOwned = 0, maxedCount = 0;
-  let ppNeeded = 0, goldNeeded = 0;
-
-  latestBrawlers.forEach(b => {
-    const g = Number(b.gadgets_owned) || 0;
-    const sp = Number(b.star_powers_owned) || 0;
-    const hc = Number(b.hypercharge_owned) || 0;
-    gadgetsOwned += g; starPowersOwned += sp; hyperOwned += hc;
-
-    const cat = catalogData?.brawlers?.[String(b.brawler_id)];
-    const isPower11 = Number(b.power) === 11;
-    const hasAllGadgets = cat ? g >= cat.gadgets : false;
-    const hasAllStarPowers = cat ? sp >= cat.starPowers : false;
-    if(isPower11 && hasAllGadgets && hasAllStarPowers) maxedCount++;
-
-    const cost = costToMax(Number(b.power) || 1);
-    ppNeeded += cost.pp;
-    goldNeeded += cost.gold;
+  // ---- brawlers: maxed / P11 / P9-10 / P7-8 / P6 or lower / not unlocked
+  const bb = { maxed: 0, p11: 0, p9: 0, p7: 0, p6: 0, locked: 0 };
+  universe.forEach(u => {
+    if(!u.row){ bb.locked++; return; }
+    const p = Number(u.row.power) || 0;
+    if(isBrawlerMaxed(u.row)) bb.maxed++;
+    else if(p >= 11) bb.p11++;
+    else if(p >= 9) bb.p9++;
+    else if(p >= 7) bb.p7++;
+    else bb.p6++;
   });
+  const unlocked = latestBrawlers.length;
+  const totalBrawlers = universe.length;
+  blocks.push(progressBlockHtml({
+    title: 'Brawlers',
+    headline: `${unlocked}${catalogData ? ' / ' + totalBrawlers : ''} unlocked <span class="pct">(${totalBrawlers ? Math.round(unlocked / totalBrawlers * 100) : 0}%)</span> · <span class="${bb.maxed ? 'rainbow-label' : ''}">${bb.maxed} maxed</span>`,
+    segments: [
+      { key: 'maxed',  cls: 'seg-b1', count: bb.maxed,  label: 'Maxed', tip: 'Power 11 with every gadget, star power, hypercharge and buffie that exists for the brawler' },
+      { key: 'p11',    cls: 'seg-b2', count: bb.p11,    label: 'Power 11', tip: 'Power 11, but still missing a gadget, star power, hypercharge or buffie' },
+      { key: 'p9',     cls: 'seg-b3', count: bb.p9,     label: 'Power 9–10' },
+      { key: 'p7',     cls: 'seg-b4', count: bb.p7,     label: 'Power 7–8' },
+      { key: 'p6',     cls: 'seg-b5', count: bb.p6,     label: 'Power 6 or lower' },
+      { key: 'locked', cls: 'seg-locked', count: bb.locked, label: 'Not unlocked yet' },
+    ],
+  }));
 
-  document.getElementById('pgMaxed').textContent = fmtNum(maxedCount);
+  if(catalogData && catalogData.brawlers){
+    // ---- gadgets / star powers: both / one / none / not unlocked (counted in brawlers)
+    const itemBlock = (kind, ownedCol, title, noun, classes) => {
+      const bk = { all: 0, some: 0, none: 0, locked: 0 };
+      let ownedItems = 0, totalItems = 0, lockedItems = 0, uniform = true;
+      universe.forEach(u => {
+        const need = u.cat[kind] || 0;
+        if(need === 0) return;               // this brawler has none of these, so it isn't part of the bar
+        if(need !== 2) uniform = false;
+        totalItems += need;
+        if(!u.row){ bk.locked++; lockedItems += need; return; }
+        const own = Number(u.row[ownedCol]) || 0;
+        ownedItems += own;
+        if(own >= need) bk.all++; else if(own > 0) bk.some++; else bk.none++;
+      });
+      const [c1, c2, c3] = classes;
+      return progressBlockHtml({
+        title,
+        headline: `${ownedItems} / ${totalItems} ${noun}s <span class="pct">(${totalItems ? Math.round(ownedItems / totalItems * 100) : 0}%)</span>`,
+        segments: [
+          { key: 'all',    cls: c1, count: bk.all,  label: uniform ? `Both ${noun}s` : `All ${noun}s` },
+          { key: 'some',   cls: c2, count: bk.some, label: uniform ? `One ${noun}` : `Some ${noun}s` },
+          { key: 'none',   cls: c3, count: bk.none, label: `No ${noun}s` },
+          { key: 'locked', cls: 'seg-locked', count: bk.locked, label: `Not unlocked yet (= ${lockedItems} ${noun}s)` },
+        ],
+        note: 'Counted in brawlers: each brawler sits in exactly one segment.',
+      });
+    };
+    blocks.push(itemBlock('gadgets', 'gadgets_owned', 'Gadgets', 'gadget', ['seg-g1', 'seg-g2', 'seg-g3']));
+    blocks.push(itemBlock('starPowers', 'star_powers_owned', 'Star Powers', 'star power', ['seg-s1', 'seg-s2', 'seg-s3']));
 
-  document.getElementById('pgGadgets').textContent = catalogData
-    ? `${gadgetsOwned} / ${catalogData.total_gadgets}` : fmtNum(gadgetsOwned);
+    // ---- buffies: 3 / 2 / 1 / none / not unlocked (only brawlers that have buffies released)
+    const fb = { three: 0, two: 0, one: 0, none: 0, locked: 0 };
+    let buffiesOwned = 0, buffiesTotal = 0, ownedWithout = 0;
+    universe.forEach(u => {
+      if(!buffieEnabledIds.has(u.id)){ if(u.row) ownedWithout++; return; }
+      buffiesTotal += 3;
+      if(!u.row){ fb.locked++; return; }
+      const n = [u.row.buffy_gadget, u.row.buffy_star_power, u.row.buffy_hyper_charge].filter(isTrue).length;
+      buffiesOwned += n;
+      if(n === 3) fb.three++; else if(n === 2) fb.two++; else if(n === 1) fb.one++; else fb.none++;
+    });
+    const enabledCount = buffieEnabledIds.size;
+    blocks.push(progressBlockHtml({
+      title: 'Buffies',
+      headline: `${buffiesOwned} / ${buffiesTotal} buffies <span class="pct">(${buffiesTotal ? Math.round(buffiesOwned / buffiesTotal * 100) : 0}%)</span>`,
+      segments: [
+        { key: 'three',  cls: 'seg-f1', count: fb.three, label: 'All 3 buffies' },
+        { key: 'two',    cls: 'seg-f2', count: fb.two,   label: 'Only 2' },
+        { key: 'one',    cls: 'seg-f3', count: fb.one,   label: 'Only 1' },
+        { key: 'none',   cls: 'seg-f4', count: fb.none,  label: 'None owned' },
+        { key: 'locked', cls: 'seg-locked', count: fb.locked, label: 'Not unlocked yet' },
+      ],
+      note: `Only the ${enabledCount} brawlers with buffies released are counted. The other ${totalBrawlers - enabledCount} brawlers in the game (${ownedWithout} of them yours) don't have buffies yet. `
+          + (buffieConfig ? `List last updated ${escapeHtml(buffieConfig.updated || 'unknown')}; edit buffie_brawlers.json when new ones are released.` : 'buffie_brawlers.json not found, so only brawlers where you already own a buffie are counted.'),
+    }));
+  } else {
+    blocks.push('<div class="pnote">Gadget, star power and buffie bars need catalog.json (it is created by the tracker script).</div>');
+  }
+  barsEl.innerHTML = blocks.join('');
 
-  document.getElementById('pgGadgetsPct').textContent =
-    catalogData
-        ? `(${Math.round((gadgetsOwned / catalogData.total_gadgets) * 100)}%)`
-        : '—';
-
-  document.getElementById('pgStarPowers').textContent = catalogData
-    ? `${starPowersOwned} / ${catalogData.total_star_powers}` : fmtNum(starPowersOwned);
-
-  document.getElementById('pgStarPowersPct').textContent =
-    catalogData
-        ? `(${Math.round((starPowersOwned / catalogData.total_star_powers) * 100)}%)`
-        : '—';
-
+  // ---- the remaining totals, unchanged in spirit: hypercharges, prestige, power points, gold
+  let hyperOwned = 0, ppNeeded = 0, goldNeeded = 0;
+  latestBrawlers.forEach(b => {
+    hyperOwned += Number(b.hypercharge_owned) || 0;
+    const cost = costToMax(Number(b.power) || 1);
+    ppNeeded += cost.pp; goldNeeded += cost.gold;
+  });
   if(catalogData && catalogData.hypercharge_data_available){
-    document.getElementById('pgHyper').textContent =
-        `${hyperOwned} / ${catalogData.total_hypercharges}`;
-    document.getElementById('pgHyperPct').textContent =
-        `(${Math.round((hyperOwned / catalogData.total_hypercharges) * 100)}%)`;
-    document.getElementById('pgHyperSub').textContent = '';} else {
+    document.getElementById('pgHyper').textContent = `${hyperOwned} / ${catalogData.total_hypercharges}`;
+    document.getElementById('pgHyperPct').textContent = `(${Math.round((hyperOwned / catalogData.total_hypercharges) * 100)}%)`;
+    document.getElementById('pgHyperSub').textContent = '';
+  } else {
     document.getElementById('pgHyper').textContent = '—';
     document.getElementById('pgHyperPct').textContent = '';
-    document.getElementById('pgHyperSub').textContent =
-        'Not available via the API';
-    }
-
+    document.getElementById('pgHyperSub').textContent = 'Not available via the API';
+  }
+  const prestige = latest && latest.total_prestige_level != null && latest.total_prestige_level !== '' ? latest.total_prestige_level : null;
+  document.getElementById('pgPrestige').textContent = prestige !== null ? fmtNum(prestige) : '—';
   document.getElementById('pgPP').textContent = latestBrawlers.length ? fmtNum(ppNeeded) : '—';
   document.getElementById('pgGold').textContent = latestBrawlers.length ? fmtNum(goldNeeded) : '—';
 }
@@ -1343,13 +1531,14 @@ function isTrue(v){
   return v === true || v === 'True' || v === 'true';
 }
 
-function buildDetailGroup(title, allNames, ownedSet){
+function buildDetailGroup(title, allNames, ownedSet, kind, ids){
   if(!allNames || allNames.length === 0){
     return `<div class="detail-group"><h4>${title}</h4><div class="detail-item missing"><span class="mark">—</span>None exist for this brawler</div></div>`;
   }
-  const items = allNames.map(name => {
+  const items = allNames.map((name, i) => {
     const owned = ownedSet.has(name);
-    return `<div class="detail-item ${owned ? 'owned' : 'missing'}"><span class="mark">${owned ? '✓' : '✗'}</span>${name}</div>`;
+    const icon = kind && ids ? itemIconHtml(kind, ids[i]) : '';
+    return `<div class="detail-item ${owned ? 'owned' : 'missing'}"><span class="mark">${owned ? '✓' : '✗'}</span>${icon}<span>${escapeHtml(name)}</span></div>`;
   }).join('');
   return `<div class="detail-group"><h4>${title}</h4>${items}</div>`;
 }
@@ -1363,7 +1552,7 @@ function renderBrawlerDetail(row){
   const tiles = [
     { label: 'Power Level', value: row.power !== undefined && row.power !== '' ? row.power : '—' },
     { label: 'Prestige Level', value: row.prestige_level !== undefined && row.prestige_level !== '' ? row.prestige_level : '—' },
-    { label: 'Fully Maxed', value: maxed ? 'Yes' : 'No' },
+    { label: 'Fully Maxed', value: maxed ? '<span class="rainbow-label">Yes</span>' : 'No' },
   ];
   grid.innerHTML = tiles.map(t => `
     <div>
@@ -1372,28 +1561,31 @@ function renderBrawlerDetail(row){
     </div>
   `).join('');
 
-  const cat = catalogData?.brawlers?.[String(row.brawler_id)];
-  const ownedGadgets = new Set((row.gadget_names || '').split(';').map(s => s.trim()).filter(Boolean));
-  const ownedStarPowers = new Set((row.star_power_names || '').split(';').map(s => s.trim()).filter(Boolean));
-  const ownedHypercharges = new Set((row.hypercharge_names || '').split(';').map(s => s.trim()).filter(Boolean));
+  const cat = catalogData && catalogData.brawlers ? catalogData.brawlers[String(row.brawler_id)] : null;
+  const ownedSet = col => new Set((row[col] || '').split(';').map(s => s.trim()).filter(Boolean));
 
   let groupsHtml = '';
   if(cat){
-    groupsHtml += buildDetailGroup('Gadgets', cat.gadgetNames, ownedGadgets);
-    groupsHtml += buildDetailGroup('Star Powers', cat.starPowerNames, ownedStarPowers);
-    groupsHtml += buildDetailGroup('Hypercharge', cat.hyperChargeNames, ownedHypercharges);
+    groupsHtml += buildDetailGroup('Gadgets', cat.gadgetNames, ownedSet('gadget_names'), 'gadget', cat.gadgetIds);
+    groupsHtml += buildDetailGroup('Star Powers', cat.starPowerNames, ownedSet('star_power_names'), 'star', cat.starPowerIds);
+    groupsHtml += buildDetailGroup('Hypercharge', cat.hyperChargeNames, ownedSet('hypercharge_names'));
   } else {
     groupsHtml += `<div class="detail-group"><h4>Loadout</h4><div class="detail-item missing"><span class="mark">—</span>Catalog data unavailable</div></div>`;
   }
 
-  const buffyItems = [
-    { name: 'Gadget Buffy', active: isTrue(row.buffy_gadget) },
-    { name: 'Star Power Buffy', active: isTrue(row.buffy_star_power) },
-    { name: 'Hypercharge Buffy', active: isTrue(row.buffy_hyper_charge) },
-  ];
-  groupsHtml += `<div class="detail-group"><h4>Buffies (currently active)</h4>${
-    buffyItems.map(b => `<div class="detail-item ${b.active ? 'owned' : 'missing'}"><span class="mark">${b.active ? '✓' : '✗'}</span>${b.name}</div>`).join('')
-  }</div>`;
+  // Buffies are permanent per-brawler unlocks (not a rotating buff), and only exist for some brawlers so far.
+  if(buffieEnabledIds.has(String(row.brawler_id))){
+    const buffyItems = [
+      { name: 'Gadget Buffie', owned: isTrue(row.buffy_gadget) },
+      { name: 'Star Buffie', owned: isTrue(row.buffy_star_power) },
+      { name: 'Hyper Buffie', owned: isTrue(row.buffy_hyper_charge) },
+    ];
+    groupsHtml += `<div class="detail-group"><h4>Buffies</h4>${
+      buffyItems.map(b => `<div class="detail-item ${b.owned ? 'owned' : 'missing'}"><span class="mark">${b.owned ? '✓' : '✗'}</span><span>${b.name}</span></div>`).join('')
+    }</div>`;
+  } else {
+    groupsHtml += `<div class="detail-group"><h4>Buffies</h4><div class="detail-item missing"><span class="mark">—</span><span>No buffies released for this brawler yet</span></div></div>`;
+  }
 
   groupsEl.innerHTML = groupsHtml;
 }
@@ -1403,7 +1595,7 @@ function showBrawlerTrend(name){
   const title = document.getElementById('brawlerTrendTitle');
   const canvas = document.getElementById('brawlerTrendChart');
   card.style.display = 'block';
-  title.textContent = `${name} — trophy trend`;
+  title.innerHTML = `${brawlerInlineHtml(name)} <span style="font-weight:400">— trophy trend</span>`;
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const latestRow = getLatestBrawlerSnapshot().find(r => r.brawler_name === name);
@@ -1551,11 +1743,11 @@ function renderMapPerformance(){
   document.getElementById('mapTableBody').innerHTML = visible.map(r => `
     <tr class="clickable-row" data-map="${r.map}">
       <td>${r.map}</td>
-      <td>${formatModeName(r.mode)}</td>
+      <td>${modeChipHtml(r.mode)}</td>
       <td class="num">${r.battles}</td>
       <td class="num">${r.winPct !== null ? r.winPct.toFixed(0) + '%' : '—'}</td>
-      <td>${r.best ? `${r.best.name} (${r.best.pct.toFixed(0)}%)` : 'Not enough data'}</td>
-      <td>${r.worst ? `${r.worst.name} (${r.worst.pct.toFixed(0)}%)` : 'Not enough data'}</td>
+      <td>${r.best ? brawlerInlineHtml(r.best.name, ` (${r.best.pct.toFixed(0)}%)`) : 'Not enough data'}</td>
+      <td>${r.worst ? brawlerInlineHtml(r.worst.name, ` (${r.worst.pct.toFixed(0)}%)`) : 'Not enough data'}</td>
     </tr>
   `).join('');
 
@@ -1577,7 +1769,7 @@ function showMapDetail(mapName){
 
   const mode = rows[0].mode;
   card.style.display = 'block';
-  title.textContent = `${mapName} — ${formatModeName(mode)}`;
+  title.innerHTML = `${escapeHtml(mapName)} <span style="font-weight:400">— ${modeChipHtml(mode)}</span>`;
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   // Map-wide summary
@@ -1642,7 +1834,7 @@ function showMapDetail(mapName){
     .sort((a,b) => b.pct - a.pct);
 
   function brawlerRankRow(r){
-    return `<tr><td>${r.name}</td><td class="num">${r.total}</td><td class="num">${r.pct.toFixed(0)}%</td><td class="num">${r.avgR !== null ? r.avgR.toFixed(1) : '—'}</td></tr>`;
+    return `<tr><td>${brawlerInlineHtml(r.name)}</td><td class="num">${r.total}</td><td class="num">${r.pct.toFixed(0)}%</td><td class="num">${r.avgR !== null ? r.avgR.toFixed(1) : '—'}</td></tr>`;
   }
 
   if(ranked.length === 0){
@@ -1693,9 +1885,9 @@ function renderBattleTable(){
     else if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){ resultLabel = `Rank ${b.rank}`; }
     return `<tr>
       <td>${fmtDateTime(b.battle_time)}</td>
-      <td>${formatModeName(b.mode)}</td>
+      <td>${modeChipHtml(b.mode)}</td>
       <td>${b.map || '—'}</td>
-      <td>${b.brawler_used || '—'}</td>
+      <td>${brawlerInlineHtml(b.brawler_used)}</td>
       <td class="num">${resultLabel}</td>
       <td class="num"><span class="delta ${cls}">${change !== null && change !== '' ? sign + change : '—'}</span></td>
     </tr>`;

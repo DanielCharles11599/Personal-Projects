@@ -1360,3 +1360,6 @@ battle_time,mode,map,brawler_used,outcome,rank,trophy_change,was_star_player
 20261105T201627.000Z,brawlBall,Pinball Dreams,LOU,victory,,,False
 20261105T201337.000Z,heist,Hot Potato,8-BIT,victory,,,False
 20261105T201035.000Z,heist,Kaboom Canyon,8-BIT,victory,,,False
+20261106T121602.000Z,soloShowdown,Patchwork Peril,CHUCK,,4,10,False
+20261106T121443.000Z,soloShowdown,Patchwork Peril,CHUCK,,13,-1,False
+20261106T121250.000Z,soloShowdown,Patchwork Peril,CHUCK,,8,6,False

@@ -4,6 +4,9 @@
   "total_star_powers": 222,
   "total_hypercharges": 106,
   "hypercharge_data_available": true,
+  "unused_item_fields": [
+    "gears"
+  ],
   "brawlers": {
     "16000000": {
       "name": "SHELLY",
@@ -20,6 +23,17 @@
       ],
       "hyperChargeNames": [
         "DOUBLE BARREL"
+      ],
+      "gadgetIds": [
+        23000255,
+        23000288
+      ],
+      "starPowerIds": [
+        23000076,
+        23000135
+      ],
+      "hyperChargeIds": [
+        23000613
       ]
     },
     "16000001": {
@@ -37,6 +51,17 @@
       ],
       "hyperChargeNames": [
         "DUAL WIELDING"
+      ],
+      "gadgetIds": [
+        23000273,
+        23000319
+      ],
+      "starPowerIds": [
+        23000077,
+        23000138
+      ],
+      "hyperChargeIds": [
+        23000614
       ]
     },
     "16000002": {
@@ -54,6 +79,17 @@
       ],
       "hyperChargeNames": [
         "JAWS OF STEEL"
+      ],
+      "gadgetIds": [
+        23000272,
+        23000310
+      ],
+      "starPowerIds": [
+        23000078,
+        23000137
+      ],
+      "hyperChargeIds": [
+        23000616
       ]
     },
     "16000003": {
@@ -71,6 +107,17 @@
       ],
       "hyperChargeNames": [
         "ROCKET BARRAGE"
+      ],
+      "gadgetIds": [
+        23000245,
+        23000316
+      ],
+      "starPowerIds": [
+        23000079,
+        23000150
+      ],
+      "hyperChargeIds": [
+        23000688
       ]
     },
     "16000004": {
@@ -88,6 +135,17 @@
       ],
       "hyperChargeNames": [
         "TRICK SHOT KING"
+      ],
+      "gadgetIds": [
+        23000246,
+        23000409
+      ],
+      "starPowerIds": [
+        23000080,
+        23000156
+      ],
+      "hyperChargeIds": [
+        23000776
       ]
     },
     "16000005": {
@@ -105,6 +163,17 @@
       ],
       "hyperChargeNames": [
         "BLOOMING SEASON"
+      ],
+      "gadgetIds": [
+        23000247,
+        23000406
+      ],
+      "starPowerIds": [
+        23000081,
+        23000151
+      ],
+      "hyperChargeIds": [
+        23000615
       ]
     },
     "16000006": {
@@ -122,6 +191,17 @@
       ],
       "hyperChargeNames": [
         "BOTTLED-UP RAGE"
+      ],
+      "gadgetIds": [
+        23000250,
+        23000293
+      ],
+      "starPowerIds": [
+        23000082,
+        23000158
+      ],
+      "hyperChargeIds": [
+        23000757
       ]
     },
     "16000007": {
@@ -139,6 +219,17 @@
       ],
       "hyperChargeNames": [
         "SCRAPPY 2.0"
+      ],
+      "gadgetIds": [
+        23000251,
+        23000295
+      ],
+      "starPowerIds": [
+        23000083,
+        23000149
+      ],
+      "hyperChargeIds": [
+        23000630
       ]
     },
     "16000008": {
@@ -156,6 +247,17 @@
       ],
       "hyperChargeNames": [
         "HYPERBEARING"
+      ],
+      "gadgetIds": [
+        23000249,
+        23000314
+      ],
+      "starPowerIds": [
+        23000084,
+        23000136
+      ],
+      "hyperChargeIds": [
+        23000686
       ]
     },
     "16000009": {
@@ -173,6 +275,17 @@
       ],
       "hyperChargeNames": [
         "BOOMER"
+      ],
+      "gadgetIds": [
+        23000258,
+        23000294
+      ],
+      "starPowerIds": [
+        23000085,
+        23000155
+      ],
+      "hyperChargeIds": [
+        23000652
       ]
     },
     "16000010": {
@@ -190,6 +303,17 @@
       ],
       "hyperChargeNames": [
         "GRAVITY LEAP"
+      ],
+      "gadgetIds": [
+        23000264,
+        23000292
+      ],
+      "starPowerIds": [
+        23000086,
+        23000140
+      ],
+      "hyperChargeIds": [
+        23000679
       ]
     },
     "16000011": {
@@ -207,6 +331,17 @@
       ],
       "hyperChargeNames": [
         "BLOOD BOOMERANG"
+      ],
+      "gadgetIds": [
+        23000265,
+        23000290
+      ],
+      "starPowerIds": [
+        23000087,
+        23000154
+      ],
+      "hyperChargeIds": [
+        23000819
       ]
     },
     "16000012": {
@@ -224,6 +359,17 @@
       ],
       "hyperChargeNames": [
         "UTILITY KNIVES"
+      ],
+      "gadgetIds": [
+        23000243,
+        23000286
+      ],
+      "starPowerIds": [
+        23000088,
+        23000143
+      ],
+      "hyperChargeIds": [
+        23000650
       ]
     },
     "16000013": {
@@ -241,6 +387,17 @@
       ],
       "hyperChargeNames": [
         "MEDIC'S MELODY"
+      ],
+      "gadgetIds": [
+        23000267,
+        23000350
+      ],
+      "starPowerIds": [
+        23000089,
+        23000144
+      ],
+      "hyperChargeIds": [
+        23000822
       ]
     },
     "16000014": {
@@ -258,6 +415,17 @@
       ],
       "hyperChargeNames": [
         "CATCH A BEAR"
+      ],
+      "gadgetIds": [
+        23000263,
+        23000289
+      ],
+      "starPowerIds": [
+        23000090,
+        23000148
+      ],
+      "hyperChargeIds": [
+        23000896
       ]
     },
     "16000015": {
@@ -275,6 +443,17 @@
       ],
       "hyperChargeNames": [
         "BOPPIN'"
+      ],
+      "gadgetIds": [
+        23000268,
+        23000291
+      ],
+      "starPowerIds": [
+        23000091,
+        23000152
+      ],
+      "hyperChargeIds": [
+        23000777
       ]
     },
     "16000016": {
@@ -292,6 +471,17 @@
       ],
       "hyperChargeNames": [
         "MAMA'S LOVE"
+      ],
+      "gadgetIds": [
+        23000257,
+        23000404
+      ],
+      "starPowerIds": [
+        23000092,
+        23000139
+      ],
+      "hyperChargeIds": [
+        23000898
       ]
     },
     "16000017": {
@@ -309,6 +499,17 @@
       ],
       "hyperChargeNames": [
         "SUPERMASSIVE"
+      ],
+      "gadgetIds": [
+        23000266,
+        23000356
+      ],
+      "starPowerIds": [
+        23000093,
+        23000160
+      ],
+      "hyperChargeIds": [
+        23000824
       ]
     },
     "16000018": {
@@ -326,6 +527,17 @@
       ],
       "hyperChargeNames": [
         "BARREL O' BULLETS"
+      ],
+      "gadgetIds": [
+        23000260,
+        23000313
+      ],
+      "starPowerIds": [
+        23000094,
+        23000157
+      ],
+      "hyperChargeIds": [
+        23000859
       ]
     },
     "16000019": {
@@ -343,6 +555,17 @@
       ],
       "hyperChargeNames": [
         "NEW LOBBER"
+      ],
+      "gadgetIds": [
+        23000248,
+        23000287
+      ],
+      "starPowerIds": [
+        23000099,
+        23000142
+      ],
+      "hyperChargeIds": [
+        23000861
       ]
     },
     "16000020": {
@@ -360,6 +583,17 @@
       ],
       "hyperChargeNames": [
         "SEISMIC SMASH"
+      ],
+      "gadgetIds": [
+        23000261,
+        23000351
+      ],
+      "starPowerIds": [
+        23000104,
+        23000153
+      ],
+      "hyperChargeIds": [
+        23000758
       ]
     },
     "16000021": {
@@ -377,6 +611,17 @@
       ],
       "hyperChargeNames": [
         "HYPER HANDS"
+      ],
+      "gadgetIds": [
+        23000252,
+        23000352
+      ],
+      "starPowerIds": [
+        23000109,
+        23000159
+      ],
+      "hyperChargeIds": [
+        23000690
       ]
     },
     "16000022": {
@@ -394,6 +639,17 @@
       ],
       "hyperChargeNames": [
         "HEADSTRONG"
+      ],
+      "gadgetIds": [
+        23000253,
+        23000355
+      ],
+      "starPowerIds": [
+        23000114,
+        23000161
+      ],
+      "hyperChargeIds": [
+        23000687
       ]
     },
     "16000023": {
@@ -411,6 +667,17 @@
       ],
       "hyperChargeNames": [
         "LIMBO"
+      ],
+      "gadgetIds": [
+        23000276,
+        23000408
+      ],
+      "starPowerIds": [
+        23000119,
+        23000141
+      ],
+      "hyperChargeIds": [
+        23000651
       ]
     },
     "16000024": {
@@ -428,6 +695,17 @@
       ],
       "hyperChargeNames": [
         "GRASPING ROOTS"
+      ],
+      "gadgetIds": [
+        23000242,
+        23000348
+      ],
+      "starPowerIds": [
+        23000124,
+        23000147
+      ],
+      "hyperChargeIds": [
+        23000628
       ]
     },
     "16000025": {
@@ -445,6 +723,17 @@
       ],
       "hyperChargeNames": [
         "FLAMESPIN"
+      ],
+      "gadgetIds": [
+        23000262,
+        23000317
+      ],
+      "starPowerIds": [
+        23000129,
+        23000145
+      ],
+      "hyperChargeIds": [
+        23000910
       ]
     },
     "16000026": {
@@ -462,6 +751,17 @@
       ],
       "hyperChargeNames": [
         "OUT OF BOUNDS"
+      ],
+      "gadgetIds": [
+        23000275,
+        23000458
+      ],
+      "starPowerIds": [
+        23000134,
+        23000146
+      ],
+      "hyperChargeIds": [
+        23000683
       ]
     },
     "16000027": {
@@ -479,6 +779,17 @@
       ],
       "hyperChargeNames": [
         "AIMBOT"
+      ],
+      "gadgetIds": [
+        23000259,
+        23000318
+      ],
+      "starPowerIds": [
+        23000168,
+        23000181
+      ],
+      "hyperChargeIds": [
+        23000854
       ]
     },
     "16000028": {
@@ -496,6 +807,17 @@
       ],
       "hyperChargeNames": [
         "SWIFT WINDS"
+      ],
+      "gadgetIds": [
+        23000270,
+        23000405
+      ],
+      "starPowerIds": [
+        23000186,
+        23000187
+      ],
+      "hyperChargeIds": [
+        23000685
       ]
     },
     "16000029": {
@@ -513,6 +835,17 @@
       ],
       "hyperChargeNames": [
         "PROTECT THE QUEEN"
+      ],
+      "gadgetIds": [
+        23000271,
+        23000312
+      ],
+      "starPowerIds": [
+        23000192,
+        23000193
+      ],
+      "hyperChargeIds": [
+        23000895
       ]
     },
     "16000030": {
@@ -530,6 +863,17 @@
       ],
       "hyperChargeNames": [
         "OVERHYPED HAZE"
+      ],
+      "gadgetIds": [
+        23000274,
+        23000459
+      ],
+      "starPowerIds": [
+        23000198,
+        23000199
+      ],
+      "hyperChargeIds": [
+        23000778
       ]
     },
     "16000031": {
@@ -547,6 +891,17 @@
       ],
       "hyperChargeNames": [
         "SUPER PORTERS! ASSEMBLE!"
+      ],
+      "gadgetIds": [
+        23000269,
+        23000349
+      ],
+      "starPowerIds": [
+        23000204,
+        23000205
+      ],
+      "hyperChargeIds": [
+        23000899
       ]
     },
     "16000032": {
@@ -564,6 +919,17 @@
       ],
       "hyperChargeNames": [
         "UNLIMITED ENERGY"
+      ],
+      "gadgetIds": [
+        23000254,
+        23000311
+      ],
+      "starPowerIds": [
+        23000210,
+        23000211
+      ],
+      "hyperChargeIds": [
+        23000689
       ]
     },
     "16000034": {
@@ -581,6 +947,17 @@
       ],
       "hyperChargeNames": [
         "SEISMIC EVENT"
+      ],
+      "gadgetIds": [
+        23000256,
+        23000486
+      ],
+      "starPowerIds": [
+        23000222,
+        23000223
+      ],
+      "hyperChargeIds": [
+        23000617
       ]
     },
     "16000035": {
@@ -598,6 +975,17 @@
       ],
       "hyperChargeNames": [
         "RAGING BLIZZARD"
+      ],
+      "gadgetIds": [
+        23000277,
+        23000407
+      ],
+      "starPowerIds": [
+        23000228,
+        23000229
+      ],
+      "hyperChargeIds": [
+        23000756
       ]
     },
     "16000036": {
@@ -615,6 +1003,17 @@
       ],
       "hyperChargeNames": [
         "BIG PEEP"
+      ],
+      "gadgetIds": [
+        23000278,
+        23000353
+      ],
+      "starPowerIds": [
+        23000234,
+        23000235
+      ],
+      "hyperChargeIds": [
+        23000825
       ]
     },
     "16000037": {
@@ -632,6 +1031,17 @@
       ],
       "hyperChargeNames": [
         "THORNS"
+      ],
+      "gadgetIds": [
+        23000244,
+        23000315
+      ],
+      "starPowerIds": [
+        23000240,
+        23000241
+      ],
+      "hyperChargeIds": [
+        23000681
       ]
     },
     "16000038": {
@@ -649,6 +1059,17 @@
       ],
       "hyperChargeNames": [
         "JUICED UP!"
+      ],
+      "gadgetIds": [
+        23000285,
+        23000485
+      ],
+      "starPowerIds": [
+        23000283,
+        23000284
+      ],
+      "hyperChargeIds": [
+        23000826
       ]
     },
     "16000039": {
@@ -666,6 +1087,17 @@
       ],
       "hyperChargeNames": [
         "TEEN SPIRIT"
+      ],
+      "gadgetIds": [
+        23000302,
+        23000457
+      ],
+      "starPowerIds": [
+        23000300,
+        23000301
+      ],
+      "hyperChargeIds": [
+        23000632
       ]
     },
     "16000040": {
@@ -683,6 +1115,17 @@
       ],
       "hyperChargeNames": [
         "OIL SPILL"
+      ],
+      "gadgetIds": [
+        23000309,
+        23000488
+      ],
+      "starPowerIds": [
+        23000307,
+        23000308
+      ],
+      "hyperChargeIds": [
+        23000970
       ]
     },
     "16000041": {
@@ -700,6 +1143,17 @@
       ],
       "hyperChargeNames": [
         "SLUSHIE STORM"
+      ],
+      "gadgetIds": [
+        23000326,
+        23000400
+      ],
+      "starPowerIds": [
+        23000324,
+        23000325
+      ],
+      "hyperChargeIds": [
+        23000631
       ]
     },
     "16000042": {
@@ -717,6 +1171,17 @@
       ],
       "hyperChargeNames": [
         "UNSTABLE CONCOCTION"
+      ],
+      "gadgetIds": [
+        23000333,
+        23000461
+      ],
+      "starPowerIds": [
+        23000331,
+        23000332
+      ],
+      "hyperChargeIds": [
+        23001026
       ]
     },
     "16000043": {
@@ -734,6 +1199,17 @@
       ],
       "hyperChargeNames": [
         "OUTBURST"
+      ],
+      "gadgetIds": [
+        23000340,
+        23000403
+      ],
+      "starPowerIds": [
+        23000338,
+        23000339
+      ],
+      "hyperChargeIds": [
+        23000654
       ]
     },
     "16000044": {
@@ -751,6 +1227,17 @@
       ],
       "hyperChargeNames": [
         "THE GOODEST BOY"
+      ],
+      "gadgetIds": [
+        23000347,
+        23000402
+      ],
+      "starPowerIds": [
+        23000345,
+        23000346
+      ],
+      "hyperChargeIds": [
+        23000860
       ]
     },
     "16000045": {
@@ -768,6 +1255,17 @@
       ],
       "hyperChargeNames": [
         "INFINITRO"
+      ],
+      "gadgetIds": [
+        23000364,
+        23000401
+      ],
+      "starPowerIds": [
+        23000362,
+        23000363
+      ],
+      "hyperChargeIds": [
+        23000858
       ]
     },
     "16000046": {
@@ -785,6 +1283,17 @@
       ],
       "hyperChargeNames": [
         "MAGNETIC"
+      ],
+      "gadgetIds": [
+        23000371,
+        23000463
+      ],
+      "starPowerIds": [
+        23000369,
+        23000370
+      ],
+      "hyperChargeIds": [
+        23000682
       ]
     },
     "16000047": {
@@ -802,6 +1311,17 @@
       ],
       "hyperChargeNames": [
         "BOUNCY BLOB"
+      ],
+      "gadgetIds": [
+        23000378,
+        23000462
+      ],
+      "starPowerIds": [
+        23000376,
+        23000377
+      ],
+      "hyperChargeIds": [
+        23000823
       ]
     },
     "16000048": {
@@ -819,6 +1339,17 @@
       ],
       "hyperChargeNames": [
         "GROM BOMB GOES BOOM!"
+      ],
+      "gadgetIds": [
+        23000385,
+        23000460
+      ],
+      "starPowerIds": [
+        23000383,
+        23000384
+      ],
+      "hyperChargeIds": [
+        23000920
       ]
     },
     "16000049": {
@@ -836,6 +1367,17 @@
       ],
       "hyperChargeNames": [
         "BUZZWATCH"
+      ],
+      "gadgetIds": [
+        23000392,
+        23000490
+      ],
+      "starPowerIds": [
+        23000390,
+        23000391
+      ],
+      "hyperChargeIds": [
+        23000680
       ]
     },
     "16000050": {
@@ -853,6 +1395,17 @@
       ],
       "hyperChargeNames": [
         "TAX REBATE"
+      ],
+      "gadgetIds": [
+        23000399,
+        23000487
+      ],
+      "starPowerIds": [
+        23000397,
+        23000398
+      ],
+      "hyperChargeIds": [
+        23000971
       ]
     },
     "16000051": {
@@ -870,6 +1423,17 @@
       ],
       "hyperChargeNames": [
         "RAT KING"
+      ],
+      "gadgetIds": [
+        23000416,
+        23000465
+      ],
+      "starPowerIds": [
+        23000414,
+        23000415
+      ],
+      "hyperChargeIds": [
+        23000890
       ]
     },
     "16000052": {
@@ -887,6 +1451,17 @@
       ],
       "hyperChargeNames": [
         "TUNGSTEN TOUGHNESS"
+      ],
+      "gadgetIds": [
+        23000423,
+        23000489
+      ],
+      "starPowerIds": [
+        23000421,
+        23000422
+      ],
+      "hyperChargeIds": [
+        23000897
       ]
     },
     "16000053": {
@@ -904,6 +1479,17 @@
       ],
       "hyperChargeNames": [
         "INFLATED EGO"
+      ],
+      "gadgetIds": [
+        23000433,
+        23000456
+      ],
+      "starPowerIds": [
+        23000431,
+        23000432
+      ],
+      "hyperChargeIds": [
+        23000909
       ]
     },
     "16000054": {
@@ -921,6 +1507,17 @@
       ],
       "hyperChargeNames": [
         "DRAGON KICK"
+      ],
+      "gadgetIds": [
+        23000440,
+        23000464
+      ],
+      "starPowerIds": [
+        23000438,
+        23000439
+      ],
+      "hyperChargeIds": [
+        23000653
       ]
     },
     "16000056": {
@@ -938,6 +1535,17 @@
       ],
       "hyperChargeNames": [
         "GENERATIONS"
+      ],
+      "gadgetIds": [
+        23000454,
+        23000455
+      ],
+      "starPowerIds": [
+        23000452,
+        23000453
+      ],
+      "hyperChargeIds": [
+        23000892
       ]
     },
     "16000057": {
@@ -955,6 +1563,17 @@
       ],
       "hyperChargeNames": [
         "MAGNUM OPUS"
+      ],
+      "gadgetIds": [
+        23000472,
+        23000473
+      ],
+      "starPowerIds": [
+        23000470,
+        23000471
+      ],
+      "hyperChargeIds": [
+        23000888
       ]
     },
     "16000058": {
@@ -972,6 +1591,17 @@
       ],
       "hyperChargeNames": [
         "DAREDEVIL"
+      ],
+      "gadgetIds": [
+        23000480,
+        23000481
+      ],
+      "starPowerIds": [
+        23000478,
+        23000479
+      ],
+      "hyperChargeIds": [
+        23001003
       ]
     },
     "16000059": {
@@ -989,6 +1619,17 @@
       ],
       "hyperChargeNames": [
         "SILENT STUNNER"
+      ],
+      "gadgetIds": [
+        23000497,
+        23000498
+      ],
+      "starPowerIds": [
+        23000495,
+        23000496
+      ],
+      "hyperChargeIds": [
+        23000857
       ]
     },
     "16000060": {
@@ -1006,6 +1647,17 @@
       ],
       "hyperChargeNames": [
         "HYPER FIST"
+      ],
+      "gadgetIds": [
+        23000505,
+        23000506
+      ],
+      "starPowerIds": [
+        23000503,
+        23000504
+      ],
+      "hyperChargeIds": [
+        23000923
       ]
     },
     "16000061": {
@@ -1023,6 +1675,17 @@
       ],
       "hyperChargeNames": [
         "SPOOKY POP"
+      ],
+      "gadgetIds": [
+        23000513,
+        23000514
+      ],
+      "starPowerIds": [
+        23000511,
+        23000512
+      ],
+      "hyperChargeIds": [
+        23000919
       ]
     },
     "16000062": {
@@ -1040,6 +1703,17 @@
       ],
       "hyperChargeNames": [
         "PLOT ARMOR"
+      ],
+      "gadgetIds": [
+        23000521,
+        23000522
+      ],
+      "starPowerIds": [
+        23000519,
+        23000520
+      ],
+      "hyperChargeIds": [
+        23000921
       ]
     },
     "16000063": {
@@ -1057,6 +1731,17 @@
       ],
       "hyperChargeNames": [
         "CRUNCHY, CHEWY, GOOEY"
+      ],
+      "gadgetIds": [
+        23000529,
+        23000530
+      ],
+      "starPowerIds": [
+        23000527,
+        23000528
+      ],
+      "hyperChargeIds": [
+        23000900
       ]
     },
     "16000064": {
@@ -1074,6 +1759,17 @@
       ],
       "hyperChargeNames": [
         "ANOTHER DIMENSION"
+      ],
+      "gadgetIds": [
+        23000537,
+        23000538
+      ],
+      "starPowerIds": [
+        23000535,
+        23000536
+      ],
+      "hyperChargeIds": [
+        23000889
       ]
     },
     "16000065": {
@@ -1091,6 +1787,17 @@
       ],
       "hyperChargeNames": [
         "SUGAR FOR ALL!"
+      ],
+      "gadgetIds": [
+        23000545,
+        23000546
+      ],
+      "starPowerIds": [
+        23000543,
+        23000544
+      ],
+      "hyperChargeIds": [
+        23000894
       ]
     },
     "16000066": {
@@ -1108,6 +1815,17 @@
       ],
       "hyperChargeNames": [
         "360-DEGREE SURVEILLANCE"
+      ],
+      "gadgetIds": [
+        23000555,
+        23000556
+      ],
+      "starPowerIds": [
+        23000553,
+        23000554
+      ],
+      "hyperChargeIds": [
+        23001004
       ]
     },
     "16000067": {
@@ -1125,6 +1843,17 @@
       ],
       "hyperChargeNames": [
         "PSYCHIC SAFETY"
+      ],
+      "gadgetIds": [
+        23000563,
+        23000564
+      ],
+      "starPowerIds": [
+        23000561,
+        23000562
+      ],
+      "hyperChargeIds": [
+        23000922
       ]
     },
     "16000068": {
@@ -1142,6 +1871,17 @@
       ],
       "hyperChargeNames": [
         "AFTERMATH"
+      ],
+      "gadgetIds": [
+        23000571,
+        23000572
+      ],
+      "starPowerIds": [
+        23000569,
+        23000570
+      ],
+      "hyperChargeIds": [
+        23000629
       ]
     },
     "16000069": {
@@ -1159,6 +1899,17 @@
       ],
       "hyperChargeNames": [
         "HOMING FISH-ILES"
+      ],
+      "gadgetIds": [
+        23000579,
+        23000580
+      ],
+      "starPowerIds": [
+        23000577,
+        23000578
+      ],
+      "hyperChargeIds": [
+        23000893
       ]
     },
     "16000070": {
@@ -1176,6 +1927,17 @@
       ],
       "hyperChargeNames": [
         "COMPLETE DARKNESS"
+      ],
+      "gadgetIds": [
+        23000587,
+        23000588
+      ],
+      "starPowerIds": [
+        23000585,
+        23000586
+      ],
+      "hyperChargeIds": [
+        23000684
       ]
     },
     "16000071": {
@@ -1193,6 +1955,17 @@
       ],
       "hyperChargeNames": [
         "FREE TOPPINGS"
+      ],
+      "gadgetIds": [
+        23000595,
+        23000596
+      ],
+      "starPowerIds": [
+        23000593,
+        23000594
+      ],
+      "hyperChargeIds": [
+        23001006
       ]
     },
     "16000072": {
@@ -1210,6 +1983,17 @@
       ],
       "hyperChargeNames": [
         "PYROLYTIC"
+      ],
+      "gadgetIds": [
+        23000603,
+        23000604
+      ],
+      "starPowerIds": [
+        23000601,
+        23000602
+      ],
+      "hyperChargeIds": [
+        23000618
       ]
     },
     "16000073": {
@@ -1227,6 +2011,17 @@
       ],
       "hyperChargeNames": [
         "FULL STEAM AHEAD!"
+      ],
+      "gadgetIds": [
+        23000611,
+        23000612
+      ],
+      "starPowerIds": [
+        23000609,
+        23000610
+      ],
+      "hyperChargeIds": [
+        23001005
       ]
     },
     "16000074": {
@@ -1244,6 +2039,17 @@
       ],
       "hyperChargeNames": [
         "PESTILENCE"
+      ],
+      "gadgetIds": [
+        23000625,
+        23000626
+      ],
+      "starPowerIds": [
+        23000623,
+        23000624
+      ],
+      "hyperChargeIds": [
+        23000627
       ]
     },
     "16000075": {
@@ -1261,6 +2067,17 @@
       ],
       "hyperChargeNames": [
         "SOUND CHECK"
+      ],
+      "gadgetIds": [
+        23000639,
+        23000640
+      ],
+      "starPowerIds": [
+        23000637,
+        23000638
+      ],
+      "hyperChargeIds": [
+        23000641
       ]
     },
     "16000076": {
@@ -1278,6 +2095,17 @@
       ],
       "hyperChargeNames": [
         "MAKING BISCUITS"
+      ],
+      "gadgetIds": [
+        23000648,
+        23000649
+      ],
+      "starPowerIds": [
+        23000646,
+        23000647
+      ],
+      "hyperChargeIds": [
+        23001007
       ]
     },
     "16000077": {
@@ -1295,6 +2123,17 @@
       ],
       "hyperChargeNames": [
         "THE THREE-BOT PROBLEM"
+      ],
+      "gadgetIds": [
+        23000661,
+        23000662
+      ],
+      "starPowerIds": [
+        23000659,
+        23000660
+      ],
+      "hyperChargeIds": [
+        23001053
       ]
     },
     "16000078": {
@@ -1312,6 +2151,17 @@
       ],
       "hyperChargeNames": [
         "FLASH MOB"
+      ],
+      "gadgetIds": [
+        23000669,
+        23000670
+      ],
+      "starPowerIds": [
+        23000667,
+        23000668
+      ],
+      "hyperChargeIds": [
+        23000887
       ]
     },
     "16000079": {
@@ -1329,6 +2179,17 @@
       ],
       "hyperChargeNames": [
         "IN MY ELEMENT"
+      ],
+      "gadgetIds": [
+        23000677,
+        23000678
+      ],
+      "starPowerIds": [
+        23000675,
+        23000676
+      ],
+      "hyperChargeIds": [
+        23000759
       ]
     },
     "16000080": {
@@ -1346,6 +2207,17 @@
       ],
       "hyperChargeNames": [
         "FIRE AND FLAMES"
+      ],
+      "gadgetIds": [
+        23000736,
+        23000737
+      ],
+      "starPowerIds": [
+        23000734,
+        23000735
+      ],
+      "hyperChargeIds": [
+        23000993
       ]
     },
     "16000081": {
@@ -1363,6 +2235,17 @@
       ],
       "hyperChargeNames": [
         "GERMINATE"
+      ],
+      "gadgetIds": [
+        23000754,
+        23000755
+      ],
+      "starPowerIds": [
+        23000752,
+        23000753
+      ],
+      "hyperChargeIds": [
+        23000924
       ]
     },
     "16000082": {
@@ -1380,6 +2263,17 @@
       ],
       "hyperChargeNames": [
         "DOUBLE SCOOPS"
+      ],
+      "gadgetIds": [
+        23000766,
+        23000767
+      ],
+      "starPowerIds": [
+        23000764,
+        23000765
+      ],
+      "hyperChargeIds": [
+        23000891
       ]
     },
     "16000083": {
@@ -1397,6 +2291,17 @@
       ],
       "hyperChargeNames": [
         "RECALL OF DUTY"
+      ],
+      "gadgetIds": [
+        23000774,
+        23000775
+      ],
+      "starPowerIds": [
+        23000772,
+        23000773
+      ],
+      "hyperChargeIds": [
+        23000933
       ]
     },
     "16000084": {
@@ -1414,6 +2319,17 @@
       ],
       "hyperChargeNames": [
         "THE BIG CHEESE"
+      ],
+      "gadgetIds": [
+        23000806,
+        23000807
+      ],
+      "starPowerIds": [
+        23000804,
+        23000805
+      ],
+      "hyperChargeIds": [
+        23001002
       ]
     },
     "16000085": {
@@ -1431,6 +2347,17 @@
       ],
       "hyperChargeNames": [
         "ALL YOU CAN EAT"
+      ],
+      "gadgetIds": [
+        23000817,
+        23000818
+      ],
+      "starPowerIds": [
+        23000815,
+        23000816
+      ],
+      "hyperChargeIds": [
+        23000972
       ]
     },
     "16000086": {
@@ -1448,6 +2375,17 @@
       ],
       "hyperChargeNames": [
         "THE FRIGHTENER"
+      ],
+      "gadgetIds": [
+        23000834,
+        23000835
+      ],
+      "starPowerIds": [
+        23000832,
+        23000833
+      ],
+      "hyperChargeIds": [
+        23000979
       ]
     },
     "16000087": {
@@ -1465,6 +2403,17 @@
       ],
       "hyperChargeNames": [
         "BOKOR"
+      ],
+      "gadgetIds": [
+        23000850,
+        23000851
+      ],
+      "starPowerIds": [
+        23000848,
+        23000849
+      ],
+      "hyperChargeIds": [
+        23001034
       ]
     },
     "16000089": {
@@ -1482,6 +2431,17 @@
       ],
       "hyperChargeNames": [
         "THE LAST RULEBENDER"
+      ],
+      "gadgetIds": [
+        23000877,
+        23000878
+      ],
+      "starPowerIds": [
+        23000875,
+        23000876
+      ],
+      "hyperChargeIds": [
+        23001055
       ]
     },
     "16000090": {
@@ -1499,6 +2459,17 @@
       ],
       "hyperChargeNames": [
         "AIN'T NO HALF-SUPERING"
+      ],
+      "gadgetIds": [
+        23000885,
+        23000886
+      ],
+      "starPowerIds": [
+        23000883,
+        23000884
+      ],
+      "hyperChargeIds": [
+        23001033
       ]
     },
     "16000091": {
@@ -1516,6 +2487,17 @@
       ],
       "hyperChargeNames": [
         "DRUM SOLO"
+      ],
+      "gadgetIds": [
+        23000907,
+        23000908
+      ],
+      "starPowerIds": [
+        23000905,
+        23000906
+      ],
+      "hyperChargeIds": [
+        23000980
       ]
     },
     "16000092": {
@@ -1533,6 +2515,17 @@
       ],
       "hyperChargeNames": [
         "TEMPORAL TRAVELING"
+      ],
+      "gadgetIds": [
+        23000917,
+        23000918
+      ],
+      "starPowerIds": [
+        23000915,
+        23000916
+      ],
+      "hyperChargeIds": [
+        23001051
       ]
     },
     "16000093": {
@@ -1550,6 +2543,17 @@
       ],
       "hyperChargeNames": [
         "CROWD-PLEASER"
+      ],
+      "gadgetIds": [
+        23000931,
+        23000932
+      ],
+      "starPowerIds": [
+        23000929,
+        23000930
+      ],
+      "hyperChargeIds": [
+        23001054
       ]
     },
     "16000094": {
@@ -1567,6 +2571,17 @@
       ],
       "hyperChargeNames": [
         "ANCIENT ENERGY"
+      ],
+      "gadgetIds": [
+        23000940,
+        23000941
+      ],
+      "starPowerIds": [
+        23000938,
+        23000939
+      ],
+      "hyperChargeIds": [
+        23000943
       ]
     },
     "16000095": {
@@ -1584,6 +2599,17 @@
       ],
       "hyperChargeNames": [
         "SWAMP SNACKING"
+      ],
+      "gadgetIds": [
+        23000991,
+        23000992
+      ],
+      "starPowerIds": [
+        23000989,
+        23000990
+      ],
+      "hyperChargeIds": [
+        23001139
       ]
     },
     "16000096": {
@@ -1601,6 +2627,17 @@
       ],
       "hyperChargeNames": [
         "RETREAD"
+      ],
+      "gadgetIds": [
+        23001000,
+        23001001
+      ],
+      "starPowerIds": [
+        23000998,
+        23000999
+      ],
+      "hyperChargeIds": [
+        23001052
       ]
     },
     "16000097": {
@@ -1618,6 +2655,17 @@
       ],
       "hyperChargeNames": [
         "TRIPLECANE"
+      ],
+      "gadgetIds": [
+        23001041,
+        23001042
+      ],
+      "starPowerIds": [
+        23001039,
+        23001040
+      ],
+      "hyperChargeIds": [
+        23001138
       ]
     },
     "16000098": {
@@ -1635,6 +2683,17 @@
       ],
       "hyperChargeNames": [
         "THE GRAND VORTEX"
+      ],
+      "gadgetIds": [
+        23001049,
+        23001050
+      ],
+      "starPowerIds": [
+        23001047,
+        23001048
+      ],
+      "hyperChargeIds": [
+        23001137
       ]
     },
     "16000099": {
@@ -1652,6 +2711,17 @@
       ],
       "hyperChargeNames": [
         "SECOND WAVE"
+      ],
+      "gadgetIds": [
+        23001062,
+        23001063
+      ],
+      "starPowerIds": [
+        23001060,
+        23001061
+      ],
+      "hyperChargeIds": [
+        23001220
       ]
     },
     "16000100": {
@@ -1669,6 +2739,17 @@
       ],
       "hyperChargeNames": [
         "PAS DE DEUX"
+      ],
+      "gadgetIds": [
+        23001070,
+        23001071
+      ],
+      "starPowerIds": [
+        23001068,
+        23001069
+      ],
+      "hyperChargeIds": [
+        23001211
       ]
     },
     "16000101": {
@@ -1686,6 +2767,17 @@
       ],
       "hyperChargeNames": [
         "YOU NEED A FRIEND"
+      ],
+      "gadgetIds": [
+        23001183,
+        23001184
+      ],
+      "starPowerIds": [
+        23001181,
+        23001182
+      ],
+      "hyperChargeIds": [
+        23001221
       ]
     },
     "16000102": {
@@ -1703,6 +2795,17 @@
       ],
       "hyperChargeNames": [
         "UNLIMITED POWER!"
+      ],
+      "gadgetIds": [
+        23001191,
+        23001192
+      ],
+      "starPowerIds": [
+        23001189,
+        23001190
+      ],
+      "hyperChargeIds": [
+        23001231
       ]
     },
     "16000103": {
@@ -1720,6 +2823,17 @@
       ],
       "hyperChargeNames": [
         "TWIN SNAKES"
+      ],
+      "gadgetIds": [
+        23001218,
+        23001219
+      ],
+      "starPowerIds": [
+        23001216,
+        23001217
+      ],
+      "hyperChargeIds": [
+        23001283
       ]
     },
     "16000104": {
@@ -1737,6 +2851,17 @@
       ],
       "hyperChargeNames": [
         "JUMP IN THE FIRE"
+      ],
+      "gadgetIds": [
+        23001247,
+        23001248
+      ],
+      "starPowerIds": [
+        23001245,
+        23001246
+      ],
+      "hyperChargeIds": [
+        23001285
       ]
     },
     "16000105": {
@@ -1754,6 +2879,17 @@
       ],
       "hyperChargeNames": [
         "STARR NOVA: THE HYPERCHARGE"
+      ],
+      "gadgetIds": [
+        23001255,
+        23001256
+      ],
+      "starPowerIds": [
+        23001253,
+        23001254
+      ],
+      "hyperChargeIds": [
+        23001284
       ]
     },
     "16000106": {
@@ -1771,6 +2907,17 @@
       ],
       "hyperChargeNames": [
         "BOWLING BOLT"
+      ],
+      "gadgetIds": [
+        23001281,
+        23001282
+      ],
+      "starPowerIds": [
+        23001279,
+        23001280
+      ],
+      "hyperChargeIds": [
+        23001431
       ]
     },
     "16000107": {
@@ -1788,6 +2935,17 @@
       ],
       "hyperChargeNames": [
         "MASTER FISHERMAN"
+      ],
+      "gadgetIds": [
+        23001297,
+        23001298
+      ],
+      "starPowerIds": [
+        23001295,
+        23001296
+      ],
+      "hyperChargeIds": [
+        23001472
       ]
     },
     "16000108": {
@@ -1805,6 +2963,17 @@
       ],
       "hyperChargeNames": [
         "GREEN ENERGY"
+      ],
+      "gadgetIds": [
+        23001320,
+        23001321
+      ],
+      "starPowerIds": [
+        23001318,
+        23001319
+      ],
+      "hyperChargeIds": [
+        23001473
       ]
     },
     "16000109": {
@@ -1820,7 +2989,16 @@
         "PRECESSION",
         "AMMO ATTRACTOR"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [],
+      "gadgetIds": [
+        23001444,
+        23001445
+      ],
+      "starPowerIds": [
+        23001442,
+        23001443
+      ],
+      "hyperChargeIds": []
     },
     "16000110": {
       "name": "VINCE",
@@ -1835,7 +3013,16 @@
         "COME TO PAPA",
         "BUG BANDAGE"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [],
+      "gadgetIds": [
+        23001452,
+        23001453
+      ],
+      "starPowerIds": [
+        23001450,
+        23001451
+      ],
+      "hyperChargeIds": []
     },
     "16000111": {
       "name": "THUNDER FROGS",
@@ -1850,7 +3037,16 @@
         "LEECH LANDING",
         "SWAMP STOMPS"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [],
+      "gadgetIds": [
+        23001498,
+        23001499
+      ],
+      "starPowerIds": [
+        23001496,
+        23001497
+      ],
+      "hyperChargeIds": []
     },
     "16000112": {
       "name": "REY",
@@ -1865,7 +3061,16 @@
         "CLOCK MANAGEMENT",
         "EN PASSANT"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [],
+      "gadgetIds": [
+        23001507,
+        23001508
+      ],
+      "starPowerIds": [
+        23001505,
+        23001506
+      ],
+      "hyperChargeIds": []
     },
     "16000113": {
       "name": "RUBY",
@@ -1880,7 +3085,16 @@
         "LUCKY NUMBER",
         "DOUBLE OR NOTHING"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [],
+      "gadgetIds": [
+        23001515,
+        23001516
+      ],
+      "starPowerIds": [
+        23001513,
+        23001514
+      ],
+      "hyperChargeIds": []
     }
   }
 }

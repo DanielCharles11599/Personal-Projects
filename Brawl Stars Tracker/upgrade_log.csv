@@ -168,3 +168,8 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-05T14:05:02+00:00,2026-11-05,16000041,LOU,power,Power 9 → 11,9,11,backfill
 2026-11-05T14:05:02+00:00,2026-11-05,16000041,LOU,star_power,HYPOTHERMIA,0,1,backfill
 2026-11-05T14:05:02+00:00,2026-11-05,16000044,RUFFS,unlock,Brawler unlocked,,,backfill
+2026-11-06T11:55:24+00:00,2026-11-06,16000035,GALE,buffie,Star buffie,False,True,live
+2026-11-06T11:55:24+00:00,2026-11-06,16000050,GRIFF,hypercharge,TAX REBATE,0,1,live
+2026-11-06T11:55:24+00:00,2026-11-06,16000094,KAZE,prestige,Prestige 0 → 1,0,1,live
+2026-11-06T11:55:24+00:00,2026-11-06,16000041,LOU,buffie,Star buffie,False,True,live
+2026-11-06T11:55:24+00:00,2026-11-06,16000031,MR. P,buffie,Star buffie,False,True,live

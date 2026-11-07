@@ -2,7 +2,7 @@
   "total_brawlers": 111,
   "total_gadgets": 222,
   "total_star_powers": 222,
-  "total_hypercharges": 106,
+  "total_hypercharges": 10,
   "hypercharge_data_available": true,
   "brawlers": {
     "16000000": {
@@ -1820,7 +1820,9 @@
         "PRECESSION",
         "AMMO ATTRACTOR"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [
+        "COSMIC CAPTURE"
+      ]
     },
     "16000110": {
       "name": "VINCE",
@@ -1835,7 +1837,9 @@
         "COME TO PAPA",
         "BUG BANDAGE"
       ],
-      "hyperChargeNames": []
+      "hyperChargeNames": [
+        "BUG SWARM"
+      ]
     },
     "16000111": {
       "name": "THUNDER FROGS",

@@ -1363,3 +1363,28 @@ battle_time,mode,map,brawler_used,outcome,rank,trophy_change,was_star_player
 20261106T121602.000Z,soloShowdown,Patchwork Peril,CHUCK,,4,10,False
 20261106T121443.000Z,soloShowdown,Patchwork Peril,CHUCK,,13,-1,False
 20261106T121250.000Z,soloShowdown,Patchwork Peril,CHUCK,,8,6,False
+20261106T221208.000Z,knockout,Brawlerverse,DOUG,victory,,14,False
+20261106T220531.000Z,knockout,Brawlerverse,DOUG,victory,,13,False
+20261106T220001.000Z,knockout,Brawlerverse,STARR NOVA,defeat,,-5,False
+20261106T215330.000Z,knockout,Brawlerverse,STARR NOVA,victory,,13,False
+20261106T215044.000Z,knockout,Brawlerverse,STARR NOVA,victory,,12,True
+20261106T214848.000Z,knockout,Brawlerverse,STARR NOVA,victory,,11,False
+20261106T214431.000Z,knockout,Brawlerverse,STARR NOVA,victory,,10,False
+20261106T214032.000Z,knockout,Brawlerverse,STARR NOVA,defeat,,-5,False
+20261106T213536.000Z,knockout,Brawlerverse,STARR NOVA,victory,,11,False
+20261106T213206.000Z,knockout,Brawlerverse,STARR NOVA,victory,,10,False
+20261106T212803.000Z,knockout,Brawlerverse,BOLT,defeat,,-2,False
+20261106T212441.000Z,knockout,Brawlerverse,BOLT,victory,,12,False
+20261106T211938.000Z,knockout,Brawlerverse,BOLT,victory,,11,False
+20261106T211612.000Z,knockout,Brawlerverse,COLETTE,defeat,,-3,False
+20261106T211216.000Z,knockout,Brawlerverse,COLETTE,victory,,14,False
+20261106T210803.000Z,knockout,Brawlerverse,AMBER,defeat,,-5,False
+20261106T210408.000Z,knockout,Brawlerverse,AMBER,victory,,10,False
+20261106T210106.000Z,knockout,Brawlerverse,AMBER,defeat,,-5,False
+20261106T205513.000Z,knockout,Brawlerverse,LOU,defeat,,-2,False
+20261106T205126.000Z,knockout,Brawlerverse,LOU,victory,,10,True
+20261106T204853.000Z,knockout,Brawlerverse,LOU,defeat,,-2,False
+20261106T204038.000Z,knockout,Brawlerverse,GALE,victory,,11,False
+20261106T203453.000Z,knockout,Brawlerverse,GALE,victory,,10,False
+20261106T202821.000Z,knockout,Brawlerverse,GALE,defeat,,-3,False
+20261106T202339.000Z,knockout,Brawlerverse,GALE,victory,,11,False

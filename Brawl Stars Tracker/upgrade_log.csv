@@ -173,3 +173,8 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-06T11:55:24+00:00,2026-11-06,16000094,KAZE,prestige,Prestige 0 → 1,0,1,live
 2026-11-06T11:55:24+00:00,2026-11-06,16000041,LOU,buffie,Star buffie,False,True,live
 2026-11-06T11:55:24+00:00,2026-11-06,16000031,MR. P,buffie,Star buffie,False,True,live
+2026-11-07T09:48:03+00:00,2026-11-07,16000063,CHESTER,unlock,Brawler unlocked,,,live
+2026-11-07T09:48:03+00:00,2026-11-07,16000035,GALE,power,Power 9 → 10,9,10,live
+2026-11-07T09:48:03+00:00,2026-11-07,16000085,KENJI,gadget,DASHI DASH,1,2,live
+2026-11-07T09:48:03+00:00,2026-11-07,16000041,LOU,hypercharge,SLUSHIE STORM,0,1,live
+2026-11-07T09:48:03+00:00,2026-11-07,16000004,RICO,gadget,MULTIBALL LAUNCHER,0,1,live

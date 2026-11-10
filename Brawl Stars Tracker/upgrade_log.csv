@@ -180,3 +180,4 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-07T09:48:03+00:00,2026-11-07,16000004,RICO,gadget,MULTIBALL LAUNCHER,0,1,live
 2026-11-08T13:01:27+00:00,2026-11-08,16000063,CHESTER,power,Power 7 → 9,7,9,live
 2026-11-08T13:01:27+00:00,2026-11-08,16000063,CHESTER,star_power,SINGLE BELL'O'MANIA,0,1,live
+2026-11-10T16:53:44+00:00,2026-11-10,16000035,GALE,power,Power 10 → 11,10,11,live

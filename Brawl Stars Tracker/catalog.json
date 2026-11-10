@@ -2,7 +2,7 @@
   "total_brawlers": 111,
   "total_gadgets": 222,
   "total_star_powers": 222,
-  "total_hypercharges": 106,
+  "total_hypercharges": 108,
   "hypercharge_data_available": true,
   "unused_item_fields": [
     "gears"
@@ -2980,7 +2980,7 @@
       "name": "COSMO",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 0,
+      "hyperCharges": 1,
       "gadgetNames": [
         "PLANETARY PUSHBACK",
         "TELESCOPE TRAP"
@@ -2989,7 +2989,9 @@
         "PRECESSION",
         "AMMO ATTRACTOR"
       ],
-      "hyperChargeNames": [],
+      "hyperChargeNames": [
+        "COSMIC CAPTURE"
+      ],
       "gadgetIds": [
         23001444,
         23001445
@@ -2998,13 +3000,15 @@
         23001442,
         23001443
       ],
-      "hyperChargeIds": []
+      "hyperChargeIds": [
+        23001527
+      ]
     },
     "16000110": {
       "name": "VINCE",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 0,
+      "hyperCharges": 1,
       "gadgetNames": [
         "HOT COFFEE",
         "METAMOTHOSIS"
@@ -3013,7 +3017,9 @@
         "COME TO PAPA",
         "BUG BANDAGE"
       ],
-      "hyperChargeNames": [],
+      "hyperChargeNames": [
+        "BUG SWARM"
+      ],
       "gadgetIds": [
         23001452,
         23001453
@@ -3022,7 +3028,9 @@
         23001450,
         23001451
       ],
-      "hyperChargeIds": []
+      "hyperChargeIds": [
+        23001528
+      ]
     },
     "16000111": {
       "name": "THUNDER FROGS",

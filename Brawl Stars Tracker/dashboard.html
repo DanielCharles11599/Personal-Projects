@@ -337,6 +337,115 @@
   .fan-notice{ margin-top:34px; padding-top:16px; border-top:1px solid var(--line); text-align:center; font-size:12.5px; line-height:1.55; color:var(--text-dim); }
   .fan-notice a{ color:var(--text-dim); text-decoration:underline; }
   .fan-notice a:hover{ color:var(--text); }
+
+  /* ===================== Phase 3: last-25 panel, upgrade calendar, map sorting ===================== */
+  :root{
+    --ev-unlock:#9B6BFF; --ev-power:#3FE1D0; --ev-gadget:#32C132; --ev-star_power:#FFCD00; --ev-hypercharge:#FF5C82; --ev-buffie:#FF9A3D; --ev-prestige:#4DA3FF;
+    --pip-ink:#0B0D17;
+  }
+  :root[data-theme="light"]{
+    --ev-unlock:#6B3FB8; --ev-power:#00897B; --ev-gadget:#1F8A1F; --ev-star_power:#C98F00; --ev-hypercharge:#C92A5B; --ev-buffie:#C96A00; --ev-prestige:#1F6FD1;
+    --pip-ink:#FFFFFF;
+  }
+  .stat-sub-inline{ display:inline-flex; align-items:center; flex-wrap:wrap; gap:3px 7px; line-height:1.2; }
+  .hero.cols-5{ grid-template-columns:repeat(5,1fr); }
+  @media (max-width:900px){ .hero.cols-5{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:560px){ .hero.cols-5{ grid-template-columns:1fr 1fr; } }
+
+  .l25-block{ margin:2px 0 22px; padding-bottom:20px; border-bottom:1px solid var(--line); }
+  .l25-head{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .l25-head h3{ margin:0; font-size:16px; }
+  .seg-toggle{ display:inline-flex; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .seg-toggle button{ background:transparent; border:none; color:var(--text-dim); padding:6px 13px; font:600 13px 'Rubik',sans-serif; cursor:pointer; }
+  .seg-toggle button + button{ border-left:1px solid var(--line); }
+  .seg-toggle button[aria-pressed="true"]{ background:var(--nav-active-bg); color:var(--gold); }
+  .seg-toggle button:focus-visible, .cal-chip:focus-visible, .cal-cell:focus-visible, .l25-pip:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .l25-strip-label{ font-size:12px; color:var(--text-dim); margin:0 0 7px; }
+  .l25-strip{ display:flex; flex-wrap:wrap; gap:6px; }
+  .l25-pip{ width:30px; height:30px; padding:0; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font:700 12.5px 'Rubik',sans-serif; color:var(--pip-ink); border:2px solid transparent; cursor:pointer; }
+  .l25-pip.win{ background:var(--teal); } .l25-pip.loss{ background:var(--pink); } .l25-pip.draw{ background:var(--text-dim); }
+  .l25-pip.none{ background:transparent; border-color:var(--text-dim); color:var(--text-dim); }
+  .l25-pip.sel{ box-shadow:0 0 0 3px var(--panel), 0 0 0 5px var(--gold); }
+  .l25-detail{ font-size:13px; color:var(--text-dim); margin:10px 0 16px; min-height:19px; }
+  .l25-foot{ font-size:12px; color:var(--text-dim); margin:12px 0 0; }
+
+  .cal-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .cal-nav{ display:flex; align-items:center; gap:8px; }
+  .cal-title{ font-family:'Lilita One','Rubik',sans-serif; font-size:20px; min-width:150px; text-align:center; }
+  .cal-chips{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 10px; }
+  .cal-chip{ display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:transparent; color:var(--text); border-radius:999px; padding:5px 11px; font:500 12.5px 'Rubik',sans-serif; cursor:pointer; }
+  .cal-chip .sw, .cal-li .sw{ width:10px; height:10px; border-radius:50%; background:var(--c); flex:0 0 10px; }
+  .cal-chip[aria-pressed="false"]{ opacity:.5; }
+  .cal-chip[aria-pressed="false"] .sw{ background:transparent; box-shadow:inset 0 0 0 2px var(--c); }
+  .cal-chip .n{ color:var(--text-dim); }
+  .cal-legend{ font-size:12px; color:var(--text-dim); margin:0 0 12px; }
+  .cal-legend .hatch-sample{ display:inline-block; width:14px; height:10px; vertical-align:-1px; border:1px solid var(--line); border-radius:3px; background-image:repeating-linear-gradient(135deg, transparent 0 3px, var(--locked-a) 3px 5px); }
+  .cal-row{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; margin-bottom:4px; }
+  .cal-dow{ text-align:center; font-size:12px; color:var(--text-dim); padding:2px 0 4px; }
+  .cal-cell{ min-height:66px; border:1px solid var(--line); border-radius:10px; background:var(--panel-alt); color:var(--text); padding:6px 7px; text-align:left; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; font:inherit; min-width:0; }
+  .cal-cell:hover{ border-color:var(--text-dim); }
+  .cal-cell.blank{ background:transparent; border-color:transparent; cursor:default; }
+  .cal-cell.today{ border-color:var(--gold); }
+  .cal-cell.sel{ box-shadow:0 0 0 2px var(--gold); }
+  .cal-cell.nosnap{ background-image:repeating-linear-gradient(135deg, transparent 0 6px, var(--locked-a) 6px 8px); }
+  .cal-num{ font-size:12.5px; font-weight:600; }
+  .cal-meta{ display:flex; align-items:center; justify-content:space-between; gap:4px; min-height:14px; }
+  .cal-dots{ display:inline-flex; gap:3px; }
+  .cal-dots i{ width:8px; height:8px; border-radius:50%; background:var(--c); display:block; }
+  .cal-count{ font-size:11.5px; font-weight:700; color:var(--text-dim); }
+  .cal-detail{ margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
+  .cal-detail h3{ margin:0 0 4px; font-size:16px; }
+  .cal-detail .sub{ font-size:12.5px; color:var(--text-dim); margin:0 0 10px; }
+  .cal-bgroup{ margin:0 0 12px; }
+  .cal-bgroup ul{ list-style:none; margin:6px 0 0 30px; padding:0; }
+  .cal-li{ display:flex; align-items:center; flex-wrap:wrap; gap:4px 8px; font-size:13.5px; padding:2px 0; }
+  .cal-li .tag{ font-size:11px; color:var(--text-dim); border:1px solid var(--line); border-radius:6px; padding:0 6px; }
+  .cal-note{ font-size:12.5px; color:var(--text-dim); margin:14px 0 0; }
+  @media (max-width:600px){
+    .cal-row{ gap:3px; }
+    .cal-cell{ min-height:54px; padding:4px 5px; border-radius:8px; }
+    .cal-dots i{ width:6px; height:6px; } .cal-dots{ gap:2px; }
+    .cal-count{ font-size:10.5px; }
+    .cal-meta{ flex-wrap:wrap; row-gap:1px; }
+    .cal-dots{ margin-right:auto; }
+    .cal-title{ min-width:0; font-size:18px; }
+    .cal-bgroup ul{ margin-left:8px; }
+  }
+
+  /* ===================== Phase 4: maxing forecast ===================== */
+  .fc-line{ padding:14px 16px; border:1px solid var(--line); border-radius:14px; background:var(--panel-alt); margin-bottom:10px; }
+  .fc-line .k{ font-size:12.5px; color:var(--text-dim); margin-bottom:2px; }
+  .fc-line .v{ font-family:'Lilita One','Rubik',sans-serif; font-size:24px; line-height:1.2; }
+  .fc-line .s{ font-size:13px; color:var(--text-dim); margin-top:3px; }
+  .fc-badge{ display:inline-block; font-size:11px; font-weight:600; border-radius:6px; padding:1px 7px; background:var(--nav-active-bg); color:var(--gold); margin-left:6px; white-space:nowrap; }
+  .fc-sub-h{ font-size:15px; margin:18px 0 8px; }
+  .fc-cell-sub{ display:block; font-size:11.5px; color:var(--text-dim); }
+  .fc-notes{ font-size:12.5px; color:var(--text-dim); margin:14px 0 0; padding-left:18px; }
+  .fc-notes li{ margin:3px 0; }
+  @media (max-width:600px){ .fc-line .v{ font-size:20px; } }
+
+  /* ===================== Phase 5: account rating ===================== */
+  .rating-cols{ display:grid; grid-template-columns:1fr 1fr; gap:8px 28px; margin-bottom:6px; }
+  @media (max-width:760px){ .rating-cols{ grid-template-columns:1fr; } }
+  .rating-cols h3, .rating-h{ font-size:15px; margin:14px 0 6px; }
+  .rb-row{ display:grid; grid-template-columns:minmax(96px,1.1fr) 2fr auto; gap:10px; align-items:center; margin:7px 0; font-size:13.5px; }
+  .rb-track{ height:10px; border-radius:6px; background:var(--panel-alt); overflow:hidden; border:1px solid var(--line); }
+  .rb-fill{ height:100%; background:var(--gold-fill); }
+  .rb-fill.teal{ background:var(--teal); }
+  .rb-val{ min-width:78px; text-align:right; font-variant-numeric:tabular-nums; }
+  .rb-val small{ color:var(--text-dim); font-size:11.5px; }
+  .rt-legend{ display:flex; flex-wrap:wrap; gap:6px 16px; font-size:13px; margin:0 0 6px; }
+  .rt-legend .sw{ display:inline-block; width:12px; height:3px; border-radius:2px; vertical-align:middle; margin-right:6px; }
+  .rt-svg{ width:100%; height:auto; display:block; }
+  .rt-grid{ stroke:var(--chart-grid); stroke-width:1; }
+  .rt-tick{ fill:var(--chart-tick); font-size:11px; font-family:'Rubik',sans-serif; }
+  .rt-line{ fill:none; stroke-width:2.4; stroke-linejoin:round; stroke-linecap:round; }
+  .rt-line.build{ stroke:var(--chart-gold); } .rt-line.form{ stroke:var(--chart-teal); } .rt-line.overall{ stroke:var(--pink); }
+  .rt-dot.build{ fill:var(--chart-gold); } .rt-dot.form{ fill:var(--chart-teal); } .rt-dot.overall{ fill:var(--pink); }
+  .rr-row{ display:grid; grid-template-columns:minmax(120px,1.2fr) 2fr minmax(120px,1.3fr); gap:10px; align-items:center; margin:7px 0; font-size:13.5px; }
+  .rr-row .rr-pts{ text-align:right; font-variant-numeric:tabular-nums; }
+  .rr-row .rr-pts small{ display:block; color:var(--text-dim); font-size:11.5px; }
+  @media (max-width:600px){ .rr-row{ grid-template-columns:1fr; gap:3px; } .rr-row .rr-pts{ text-align:left; } }
 </style>
 </head>
 <body>
@@ -350,6 +459,7 @@
     <div class="nav-links" id="navLinks">
       <a href="#overview" data-section="overview">Overview</a>
       <a href="#trend" data-section="trend">Trend</a>
+      <a href="#calendar" data-section="calendar">Calendar</a>
       <a href="#brawlers" data-section="brawlers">Brawlers</a>
       <a href="#winrate" data-section="winrate">Win rate</a>
       <a href="#activity" data-section="activity">Activity</a>
@@ -467,6 +577,51 @@
     </div>
     <p class="hint" style="margin:14px 0 0;">*Uses Supercell's standard, long-stable per-level cost table. Not fetched live — if they ever rebalance it, this stays slightly off until updated.</p>
   </div>
+
+  <div class="card" id="forecastCard">
+    <h2>Maxing forecast</h2>
+    <p class="hint">How long until everything is maxed, based on the pace you have actually been progressing at — not on a guess.</p>
+    <div id="forecastEmpty" class="empty" style="display:none;"></div>
+    <div id="forecastContent" style="display:none;">
+      <div id="forecastHeadlines"></div>
+      <h3 class="fc-sub-h">By category</h3>
+      <div class="table-scroll"><table class="min-640 sticky-first" id="forecastTable">
+        <thead><tr><th>Category</th><th class="num">Pace / day</th><th class="num">Left (owned)</th><th class="num">ETA (owned)</th><th class="num">Left (roster)</th><th class="num">ETA (roster)</th></tr></thead>
+        <tbody id="forecastBody"></tbody>
+      </table></div>
+      <h3 class="fc-sub-h">Gold view</h3>
+      <div class="table-scroll"><table class="min-520 sticky-first" id="forecastGoldTable">
+        <thead><tr><th>What</th><th class="num">Gold left (owned)</th><th class="num">Gold left (roster)</th></tr></thead>
+        <tbody id="forecastGoldBody"></tbody>
+      </table></div>
+      <p class="hint" id="forecastGoldNote" style="margin:10px 0 0;"></p>
+      <ul class="fc-notes" id="forecastNotes"></ul>
+    </div>
+  </div>
+
+  <div class="card" id="ratingCard">
+    <h2>Account rating</h2>
+    <p class="hint">Two scores out of 100: how complete your account is, and how well you are playing. The overall rating leans towards completeness.</p>
+    <div id="ratingEmpty" class="empty" style="display:none;"></div>
+    <div id="ratingContent" style="display:none;">
+      <div class="hero cols-3 tight">
+        <div><div class="stat-label">Overall rating</div><div class="stat-value gold display" id="rtOverall">—</div><div class="stat-sub" id="rtOverallSub"></div></div>
+        <div><div class="stat-label">Completeness (build)</div><div class="stat-value teal display" id="rtBuild">—</div><div class="stat-sub" id="rtBuildSub"></div></div>
+        <div><div class="stat-label">Skill (form)</div><div class="stat-value pink display" id="rtForm">—</div><div class="stat-sub" id="rtFormSub"></div></div>
+      </div>
+      <div class="rating-cols">
+        <div><h3>What makes up completeness</h3><div id="rtBuildBars"></div></div>
+        <div><h3>What makes up skill</h3><div id="rtFormBars"></div></div>
+      </div>
+      <h3 class="rating-h">Rating over time</h3>
+      <div class="rt-legend" id="rtLegend"></div>
+      <div id="rtTrend"></div>
+      <h3 class="rating-h">What would raise completeness most</h3>
+      <p class="hint" style="margin:0 0 8px;">Points gained per 10,000 gold, for the upgrades gold can buy. Unlocking brawlers is not priced in gold, so it is not ranked.</p>
+      <div id="rtRaise"></div>
+      <ul class="fc-notes" id="rtNotes"></ul>
+    </div>
+  </div>
   </section>
 
   <section id="trend">
@@ -490,6 +645,29 @@
       <div><div class="stat-label">Trophy gain</div><div class="stat-value display" id="periodGain">—</div></div>
       <div><div class="stat-label">Time elapsed</div><div class="stat-value display" id="periodDays">—</div></div>
       <div><div class="stat-label">Avg. per day</div><div class="stat-value display" id="periodRate">—</div></div>
+    </div>
+  </div>
+  </section>
+
+  <section id="calendar">
+  <div class="card" id="calendarCard">
+    <h2>Upgrade calendar</h2>
+    <p class="hint">Every unlock, power level, gadget, star power, hypercharge, buffie and prestige the tracker has seen, by day. Several upgrades of the same type on one brawler on one day are shown as one entry.</p>
+    <div id="calEmpty" class="empty" style="display:none;">No upgrade data yet — upgrade_log.csv is missing or empty.</div>
+    <div id="calContent" style="display:none;">
+      <div class="cal-head">
+        <div class="cal-nav">
+          <button class="btn ghost small" id="calPrev" type="button" aria-label="Previous month">‹</button>
+          <div class="cal-title" id="calTitle" aria-live="polite"></div>
+          <button class="btn ghost small" id="calNext" type="button" aria-label="Next month">›</button>
+        </div>
+        <button class="btn ghost small" id="calToday" type="button">Today</button>
+      </div>
+      <div class="cal-chips" id="calChips" role="group" aria-label="Filter upgrade types"></div>
+      <p class="cal-legend">Dots on a day show which types happened; the number is how many entries. <span class="hatch-sample"></span> Hatched = no snapshot was recorded that day, so upgrades made then appear on the next snapshot day.</p>
+      <div id="calGrid" role="grid" aria-label="Upgrade calendar"></div>
+      <div class="cal-detail" id="calDetail"></div>
+      <p class="cal-note" id="calNote"></p>
     </div>
   </div>
   </section>
@@ -549,6 +727,27 @@
           <div class="stat-sub">since tracking began</div>
         </div>
       </div>
+      <div class="l25-block" id="l25Block">
+        <div class="l25-head">
+          <h3>Last 25 battles</h3>
+          <div class="seg-toggle" id="l25Toggle" role="group" aria-label="Battle type">
+            <button type="button" data-kind="all" aria-pressed="true">All</button>
+            <button type="button" data-kind="versus" aria-pressed="false">Versus</button>
+            <button type="button" data-kind="showdown" aria-pressed="false">Showdown</button>
+          </div>
+        </div>
+        <div class="hero cols-5 tight" id="l25Tiles">
+          <div><div class="stat-label">Last-25 win rate</div><div class="stat-value gold display" id="l25WinRate">—</div><div class="stat-sub" id="l25WinRateSub"></div></div>
+          <div><div class="stat-label">Record</div><div class="stat-value display" id="l25Record">—</div><div class="stat-sub" id="l25RecordSub">W – L – D</div></div>
+          <div><div class="stat-label">Avg. showdown rank</div><div class="stat-value teal display" id="l25AvgPlace">—</div><div class="stat-sub" id="l25AvgPlaceSub"></div></div>
+          <div><div class="stat-label">Star Player</div><div class="stat-value yellow display" id="l25Stars">—</div><div class="stat-sub" id="l25StarsSub"></div></div>
+          <div><div class="stat-label">Net trophies</div><div class="stat-value display" id="l25Net">—</div><div class="stat-sub" id="l25NetSub"></div></div>
+        </div>
+        <p class="l25-strip-label">Newest → oldest. Tap or hover a result for details.</p>
+        <div class="l25-strip" id="l25Strip"></div>
+        <div class="l25-detail" id="l25Detail" aria-live="polite"></div>
+        <p class="l25-foot" id="l25Foot"></p>
+      </div>
       <div class="table-scroll"><table class="min-520 sticky-first" id="brawlerWinTable">
         <thead><tr>
           <th class="sortable" data-sort-key="name">Brawler<span class="sort-indicator"></span></th>
@@ -599,11 +798,11 @@
   <section id="maps">
   <div class="card" id="mapCard">
     <h2>Map Performance</h2>
-    <p class="hint">Per-map win rate, plus your strongest and weakest brawler on each map (minimum 3 logged battles to qualify, so one-off results don't skew the call).</p>
+    <p class="hint">Per-map win rate, plus your strongest and weakest brawler on each map (minimum 3 logged battles to qualify, so one-off results don't skew the call). Maps are grouped by mode by default — click Map, Mode, Battles or Win rate to re-sort (click again to reverse).</p>
     <div id="mapEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
     <div id="mapContent" style="display:none;">
       <div class="table-scroll"><table class="min-640 sticky-first" id="mapTable">
-        <thead><tr><th>Map</th><th>Mode</th><th class="num">Battles</th><th class="num">Win rate</th><th>Best brawler here</th><th>Avoid here</th></tr></thead>
+        <thead><tr><th class="sortable" data-map-sort="map" tabindex="0" aria-sort="none">Map<span class="sort-indicator"></span></th><th class="sortable" data-map-sort="mode" tabindex="0" aria-sort="none">Mode<span class="sort-indicator"></span></th><th class="num sortable" data-map-sort="battles" tabindex="0" aria-sort="none">Battles<span class="sort-indicator"></span></th><th class="num sortable" data-map-sort="winPct" tabindex="0" aria-sort="none">Win rate<span class="sort-indicator"></span></th><th>Best brawler here</th><th>Avoid here</th></tr></thead>
         <tbody id="mapTableBody"></tbody>
       </table></div>
       <div class="load-more-row">
@@ -926,10 +1125,18 @@ async function loadJson(filename){
  * Showdown modes only report a placement (rank), with no official win/loss
  * concept -- so we derive one from placement:
  *   - Solo Showdown: 4th place or better counts as a win.
+ *   - Solo Showdown on the 20-player maps (Quadrant Clash, Patchwork Peril, Roundabout Rumble):
+ *     9th place or better counts as a win.
  *   - Duo/Trio Showdown: 2nd place or better counts as a win.
  * Anything else with a rank but an unrecognized mode name is left
  * unclassified rather than guessed at.
  */
+// Solo Showdown variant with 20 players on a bigger map: these maps only exist in that variant.
+const BIG_SOLO_MAPS = new Set(['quadrant clash', 'patchwork peril', 'roundabout rumble']);
+const BIG_SOLO_WIN_RANK = 9;
+const BIG_SOLO_FIELD = 20;
+function isBigSoloMap(map){ return BIG_SOLO_MAPS.has(String(map || '').trim().toLowerCase()); }
+
 function classifyBattle(b){
   if(b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw'){
     return b.outcome;
@@ -937,7 +1144,7 @@ function classifyBattle(b){
   if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){
     const r = Number(b.rank);
     const m = (b.mode || '').toLowerCase();
-    if(m === 'soloshowdown') return r <= 4 ? 'victory' : 'defeat';
+    if(m === 'soloshowdown') return r <= (isBigSoloMap(b.map) ? BIG_SOLO_WIN_RANK : 4) ? 'victory' : 'defeat';
     if(m === 'duoshowdown' || m === 'trioshowdown') return r <= 2 ? 'victory' : 'defeat';
   }
   return null;
@@ -1004,6 +1211,7 @@ async function loadAll(){
     loadJson('catalog.json'),
     loadJson('assets.json'),          // optional: icons degrade gracefully without it
     loadJson('buffie_brawlers.json'), // optional: see buildLookups()
+    loadCsv('upgrade_log.csv'),       // optional: upgrade calendar
   ]);
 
   const failures = [];
@@ -1020,6 +1228,9 @@ async function loadAll(){
   if(!catalogData) failures.push('catalog.json');
   assetsData = results[4].status === 'fulfilled' ? results[4].value : null;
   buffieConfig = results[5].status === 'fulfilled' ? results[5].value : null;
+  upgradeRows = results[6].status === 'fulfilled'
+    ? results[6].value.filter(r => r && r.detected_at).map(r => ({ ...r, detected_at: normalizeTimestamp(r.detected_at) }))
+    : [];
 
   accountRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
   brawlerRows.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
@@ -1055,10 +1266,14 @@ function render(){
     ['general stats', renderGeneralStats],
     ['personal records', renderPersonalRecords],
     ['progression', renderProgression],
+    ['maxing forecast', renderForecast],
+    ['account rating', renderRating],
     ['trophy chart', renderTrophyChart],
     ['period selectors', renderPeriodSelectors],
     ['brawler table', renderBrawlerTable],
     ['win rate', renderWinRate],
+    ['last 25 battles', renderLast25],
+    ['upgrade calendar', renderCalendar],
     ['activity patterns', renderActivityPatterns],
     ['map performance', renderMapPerformance],
     ['battle table', renderBattleTable],
@@ -1212,7 +1427,7 @@ function renderPersonalRecords(){
     const topStreak = [...latestBrawlers].sort((a,b) => (Number(b.max_win_streak)||0) - (Number(a.max_win_streak)||0))[0];
     const streakVal = Number(topStreak.max_win_streak) || 0;
     document.getElementById('prStreak').textContent = streakVal > 0 ? streakVal : '—';
-    document.getElementById('prStreakSub').innerHTML = streakVal > 0 ? `on ${brawlerInlineHtml(topStreak.brawler_name)}` : '';
+    document.getElementById('prStreakSub').innerHTML = streakVal > 0 ? `<span class="stat-sub-inline"><span>on</span>${brawlerInlineHtml(topStreak.brawler_name)}</span>` : '';
   }
 }
 
@@ -1737,7 +1952,7 @@ function renderMapPerformance(){
     return { map, mode: e.mode, battles: e.battles, winPct, best, worst };
   });
 
-  rows.sort((a, b) => b.battles - a.battles);
+  rows.sort(compareMapRows);
 
   const visible = rows.slice(0, mapDisplayCount);
   document.getElementById('mapTableBody').innerHTML = visible.map(r => `
@@ -1756,6 +1971,12 @@ function renderMapPerformance(){
   });
 
   loadMoreBtn.style.display = rows.length > mapDisplayCount ? 'inline-block' : 'none';
+
+  document.querySelectorAll('#mapTable th[data-map-sort]').forEach(th => {
+    const on = th.dataset.mapSort === mapSortKey;
+    th.querySelector('.sort-indicator').textContent = on ? (mapSortDir === 'asc' ? '▲' : '▼') : '';
+    th.setAttribute('aria-sort', on ? (mapSortDir === 'asc' ? 'ascending' : 'descending') : 'none');
+  });
 }
 
 function showMapDetail(mapName){
@@ -1986,6 +2207,771 @@ if(window.matchMedia){
   else if(mq.addListener) mq.addListener(onSystemChange);
 }
 updateThemeUi();
+
+/* ===================== Map table sorting ===================== */
+let mapSortKey = 'mode';   // default: all maps of a mode together
+let mapSortDir = 'asc';
+
+function compareMapRows(a, b){
+  const dir = mapSortDir === 'asc' ? 1 : -1;
+  const modeCmp = formatModeName(a.mode).localeCompare(formatModeName(b.mode)) || String(a.mode).localeCompare(String(b.mode));
+  const mapCmp = String(a.map).localeCompare(String(b.map));
+  switch(mapSortKey){
+    case 'map':     return dir * mapCmp || modeCmp;
+    case 'battles': return dir * (a.battles - b.battles) || modeCmp || mapCmp;
+    case 'winPct': {
+      const an = a.winPct === null, bn = b.winPct === null;
+      if(an && bn) return modeCmp || mapCmp;
+      if(an) return 1;            // maps with no decided battles always sink to the bottom
+      if(bn) return -1;
+      return dir * (a.winPct - b.winPct) || (b.battles - a.battles) || mapCmp;
+    }
+    case 'mode':
+    default:        return dir * modeCmp || (b.battles - a.battles) || mapCmp;   // within a mode: most-played first
+  }
+}
+
+document.querySelectorAll('#mapTable th[data-map-sort]').forEach(th => {
+  const activate = () => {
+    const key = th.dataset.mapSort;
+    if(mapSortKey === key){
+      mapSortDir = mapSortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      mapSortKey = key;
+      mapSortDir = (key === 'winPct' || key === 'battles') ? 'desc' : 'asc';   // numbers: highest first; text: A-Z
+    }
+    mapDisplayCount = PAGE_SIZE;
+    renderMapPerformance();
+  };
+  th.addEventListener('click', activate);
+  th.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); } });
+});
+
+/* ===================== Last 25 battles ===================== */
+let l25Filter = 'all';
+let l25Selected = null;
+let l25Current = null;
+
+function isShowdownBattle(b){
+  return b.rank !== null && b.rank !== undefined && b.rank !== '' && !isNaN(b.rank);
+}
+function hasNumber(v){ return v !== null && v !== undefined && v !== '' && !isNaN(v); }
+function ordinal(n){
+  const v = n % 100;
+  if(v >= 11 && v <= 13) return n + 'th';
+  return n + (['th','st','nd','rd'][n % 10] || 'th');
+}
+function winPctOf(rows){
+  let w = 0, l = 0;
+  rows.forEach(b => { const c = classifyBattle(b); if(c === 'victory') w++; else if(c === 'defeat') l++; });
+  return (w + l) > 0 ? w / (w + l) * 100 : null;
+}
+function meanRank(rows){
+  const r = rows.filter(isShowdownBattle).map(b => Number(b.rank));
+  return r.length ? r.reduce((a, b) => a + b, 0) / r.length : null;
+}
+
+/** Pure: rows must be newest-first. "Last 25 of that kind" for the Versus/Showdown filters. */
+function computeLast25(rows, kind, n){
+  n = n || 25;
+  const pool = kind === 'showdown' ? rows.filter(isShowdownBattle)
+             : kind === 'versus'   ? rows.filter(b => !isShowdownBattle(b))
+             : rows;
+  const last = pool.slice(0, n);
+  const cls = last.map(classifyBattle);
+  const wins = cls.filter(c => c === 'victory').length;
+  const losses = cls.filter(c => c === 'defeat').length;
+  const draws = cls.filter(c => c === 'draw').length;
+  const tcRows = last.filter(b => hasNumber(b.trophy_change));
+  const hasStarData = last.some(b => (b.was_star_player !== null && b.was_star_player !== undefined && b.was_star_player !== '') || isShowdownBattle(b));
+  return {
+    kind, n: last.length, poolSize: pool.length, last, cls, wins, losses, draws,
+    pct: (wins + losses) > 0 ? wins / (wins + losses) * 100 : null,
+    overallPct: winPctOf(pool),
+    avgPlace: meanRank(last), overallAvgPlace: meanRank(pool),
+    stars: last.filter(wasEffectiveStarPlayer).length, hasStarData,
+    net: tcRows.reduce((s, b) => s + Number(b.trophy_change), 0), tcCount: tcRows.length,
+  };
+}
+
+function l25Describe(b, c){
+  const parts = [fmtDateTime(b.battle_time), formatModeName(b.mode) + (b.map ? ' – ' + b.map : '')];
+  parts.push(b.brawler_used || 'unknown brawler');
+  if(isShowdownBattle(b)) parts.push(ordinal(Number(b.rank)) + ' place' + (c ? ' (' + (c === 'victory' ? 'win' : 'loss') + ')' : ''));
+  else parts.push(c === 'victory' ? 'Victory' : c === 'defeat' ? 'Defeat' : c === 'draw' ? 'Draw' : 'No result recorded');
+  if(hasNumber(b.trophy_change)){ const t = Number(b.trophy_change); parts.push((t > 0 ? '+' : '') + t + ' trophies'); }
+  return parts.join(' · ');
+}
+function deltaHtml(diff, unit, betterWhenLower){
+  if(diff === null) return '';
+  const r = Math.round(diff * 10) / 10;
+  if(r === 0) return `<span class="delta flat">± 0${unit}</span>`;
+  const good = betterWhenLower ? r < 0 : r > 0;
+  return `<span class="delta ${good ? 'up' : 'down'}">${r > 0 ? '▲' : '▼'} ${Math.abs(r).toFixed(1)}${unit}</span>`;
+}
+
+function renderLast25(){
+  const set = (id, html, isHtml) => { const el = document.getElementById(id); if(isHtml) el.innerHTML = html; else el.textContent = html; };
+  document.querySelectorAll('#l25Toggle button').forEach(btn => btn.setAttribute('aria-pressed', btn.dataset.kind === l25Filter ? 'true' : 'false'));
+  const m = computeLast25(battleRows, l25Filter, 25);
+  l25Current = m;
+  if(l25Selected !== null && l25Selected >= m.n) l25Selected = null;
+
+  set('l25WinRate', m.pct !== null ? m.pct.toFixed(0) + '%' : '—');
+  set('l25WinRateSub', m.pct !== null && m.overallPct !== null
+    ? deltaHtml(m.pct - m.overallPct, ' pp') + ` vs overall ${m.overallPct.toFixed(0)}%`
+    : (m.n ? 'No decided battles' : ''), true);
+  set('l25Record', m.n ? `${m.wins}–${m.losses}–${m.draws}` : '—');
+  set('l25RecordSub', m.n ? `W – L – D over ${m.n} battle${m.n === 1 ? '' : 's'}` : 'W – L – D');
+  set('l25AvgPlace', m.avgPlace !== null ? m.avgPlace.toFixed(1) : '—');
+  set('l25AvgPlaceSub', m.avgPlace !== null && m.overallAvgPlace !== null
+    ? deltaHtml(m.avgPlace - m.overallAvgPlace, '', true) + ` vs overall ${m.overallAvgPlace.toFixed(1)}`
+    : 'No showdown battles here', true);
+  set('l25Stars', m.n && m.hasStarData ? String(m.stars) : '—');
+  set('l25StarsSub', !m.n ? '' : m.hasStarData ? `out of ${m.n} (incl. 1st-place Showdown)` : 'No Star Player data');
+  set('l25Net', m.tcCount ? (m.net > 0 ? '+' : '') + m.net : '—');
+  document.getElementById('l25Net').style.color = m.tcCount ? (m.net > 0 ? 'var(--teal)' : m.net < 0 ? 'var(--pink)' : '') : '';
+  set('l25NetSub', !m.n ? '' : m.tcCount ? (m.tcCount < m.n ? `from ${m.tcCount} of ${m.n} battles with trophy data` : 'sum of trophy changes') : 'No trophy data');
+
+  const strip = document.getElementById('l25Strip');
+  if(!m.n){
+    strip.innerHTML = `<span class="stat-sub">No ${l25Filter === 'all' ? '' : l25Filter + ' '}battles logged yet.</span>`;
+  } else {
+    strip.innerHTML = m.last.map((b, i) => {
+      const c = m.cls[i];
+      const k = c === 'victory' ? 'win' : c === 'defeat' ? 'loss' : c === 'draw' ? 'draw' : 'none';
+      const text = isShowdownBattle(b) ? String(Number(b.rank)) : (c === 'victory' ? 'W' : c === 'defeat' ? 'L' : c === 'draw' ? 'D' : '–');
+      const d = escapeHtml(l25Describe(b, c));
+      return `<button type="button" class="l25-pip ${k}${i === l25Selected ? ' sel' : ''}" data-i="${i}" title="${d}" aria-label="${d}">${text}</button>`;
+    }).join('');
+  }
+  document.getElementById('l25Detail').textContent = l25Selected !== null ? l25Describe(m.last[l25Selected], m.cls[l25Selected]) : '';
+  document.getElementById('l25Foot').textContent =
+    `Only battles the tracker captured are counted (the API shows 25 per run, runs happen about every 3 hours).` +
+    (m.n && m.n < 25 ? ` Only ${m.n} ${l25Filter === 'all' ? '' : l25Filter + ' '}battle${m.n === 1 ? '' : 's'} logged so far.` : '') +
+    (l25Filter !== 'all' ? ` Filtered view = the last 25 ${l25Filter} battles, not a subset of the last 25 overall.` : '');
+}
+
+document.getElementById('l25Toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-kind]');
+  if(!btn) return;
+  l25Filter = btn.dataset.kind; l25Selected = null;
+  renderLast25();
+});
+document.getElementById('l25Strip').addEventListener('click', (e) => {
+  const pip = e.target.closest('.l25-pip');
+  if(!pip) return;
+  const i = Number(pip.dataset.i);
+  l25Selected = (l25Selected === i) ? null : i;
+  renderLast25();
+  const again = document.querySelector(`#l25Strip .l25-pip[data-i="${i}"]`);
+  if(again) again.focus();
+});
+
+/* ===================== Upgrade calendar ===================== */
+const UPGRADE_TYPES = [
+  { key:'unlock', label:'Unlock' }, { key:'power', label:'Power level' }, { key:'gadget', label:'Gadget' },
+  { key:'star_power', label:'Star power' }, { key:'hypercharge', label:'Hypercharge' }, { key:'buffie', label:'Buffie' }, { key:'prestige', label:'Prestige' },
+];
+const UPGRADE_TYPE_LABEL = Object.fromEntries(UPGRADE_TYPES.map(t => [t.key, t.label]));
+let upgradeRows = [];
+const _calNow = new Date();
+let calYear = _calNow.getFullYear(), calMonth = _calNow.getMonth();
+let calSelectedDay = null;
+const calFilters = Object.fromEntries(UPGRADE_TYPES.map(t => [t.key, true]));
+
+function calPad(n){ return String(n).padStart(2, '0'); }
+function localDateKey(iso){
+  const d = new Date(iso);
+  if(isNaN(d)) return null;
+  return d.getFullYear() + '-' + calPad(d.getMonth() + 1) + '-' + calPad(d.getDate());
+}
+function dayKeyParts(key){ const [y, m, d] = key.split('-').map(Number); return new Date(y, m - 1, d); }
+
+/** Pure: raw upgrade_log rows -> one entry per (local day, brawler, type). */
+function coalesceUpgradeEvents(rows){
+  const groups = new Map();
+  rows.forEach((r, idx) => {
+    const day = localDateKey(r.detected_at);
+    const type = String(r.type || '');
+    if(!day || !UPGRADE_TYPE_LABEL[type]) return;
+    const id = String(r.brawler_id);
+    const k = day + '|' + id + '|' + type;
+    if(!groups.has(k)) groups.set(k, { day, brawlerId: id, brawlerName: r.brawler_name, type, events: [] });
+    groups.get(k).events.push({ ...r, _idx: idx });
+  });
+  const noun = { gadget:'gadget', star_power:'star power', hypercharge:'hypercharge' };
+  const out = [...groups.values()].map(g => {
+    const ev = g.events.sort((a, b) => (new Date(a.detected_at) - new Date(b.detected_at)) || (a._idx - b._idx));
+    const first = ev[0], last = ev[ev.length - 1];
+    let detail;
+    if(g.type === 'unlock') detail = '';
+    else if(g.type === 'power') detail = hasNumber(first.from_value) && hasNumber(last.to_value) ? `${first.from_value} → ${last.to_value}` : String(first.detail || '');
+    else if(g.type === 'prestige') detail = hasNumber(first.from_value) && hasNumber(last.to_value) ? `${first.from_value} → ${last.to_value}` : String(first.detail || '');
+    else if(g.type === 'buffie') detail = [...new Set(ev.map(e => String(e.detail || '').replace(/\s*buffie$/i, '').trim()).filter(Boolean))].join(', ');
+    else {
+      const names = [], seen = new Set(); let unnamed = 0;
+      ev.forEach(e => {
+        const d = String(e.detail || '');
+        const m = /^\+(\d+)/.exec(d);
+        if(m) unnamed += Number(m[1]);
+        else if(d && !seen.has(d)){ seen.add(d); names.push(d); }
+      });
+      const parts = names.slice();
+      if(unnamed) parts.push(`+${unnamed} (name not recorded)`);
+      detail = parts.join(', ');
+    }
+    return { day: g.day, brawlerId: g.brawlerId, brawlerName: g.brawlerName, type: g.type, detail,
+             backfilled: ev.some(e => e.source === 'backfill'), rawCount: ev.length };
+  });
+  out.sort((a, b) => a.day.localeCompare(b.day) || String(a.brawlerName).localeCompare(String(b.brawlerName)) ||
+    UPGRADE_TYPES.findIndex(t => t.key === a.type) - UPGRADE_TYPES.findIndex(t => t.key === b.type));
+  return out;
+}
+
+/** Pure: entries -> month grid (Monday start by default). month is 0-based. Filters affect cells, not the per-type month totals. */
+function buildCalendarModel(entries, year, month, filters, mondayStart){
+  if(mondayStart === undefined) mondayStart = true;
+  const prefix = year + '-' + calPad(month + 1) + '-';
+  const totals = Object.fromEntries(UPGRADE_TYPES.map(t => [t.key, 0]));
+  const byDay = {};
+  entries.forEach(e => {
+    if(e.day.startsWith(prefix)) totals[e.type]++;
+    if(filters[e.type]) (byDay[e.day] = byDay[e.day] || []).push(e);
+  });
+  const lead = mondayStart ? (new Date(year, month, 1).getDay() + 6) % 7 : new Date(year, month, 1).getDay();
+  const dim = new Date(year, month + 1, 0).getDate();
+  const cells = [];
+  for(let i = 0; i < lead; i++) cells.push(null);
+  for(let d = 1; d <= dim; d++){
+    const key = prefix + calPad(d);
+    const list = byDay[key] || [];
+    cells.push({ key, day: d, entries: list, count: list.length, types: UPGRADE_TYPES.map(t => t.key).filter(k => list.some(e => e.type === k)) });
+  }
+  while(cells.length % 7) cells.push(null);
+  const weeks = [];
+  for(let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  return { year, month, weeks, totals, monthTotal: Object.values(totals).reduce((a, b) => a + b, 0),
+           visibleTotal: cells.reduce((s, c) => s + (c ? c.count : 0), 0) };
+}
+
+function calSnapshotInfo(){
+  const days = new Set();
+  brawlerRows.forEach(r => { const k = localDateKey(r.timestamp); if(k) days.add(k); });
+  const sorted = [...days].sort();
+  return { days, first: sorted[0] || null };
+}
+
+function renderCalendar(){
+  const emptyEl = document.getElementById('calEmpty'), content = document.getElementById('calContent');
+  const entries = coalesceUpgradeEvents(upgradeRows);
+  if(!entries.length){ emptyEl.style.display = 'block'; content.style.display = 'none'; return; }
+  emptyEl.style.display = 'none'; content.style.display = 'block';
+
+  const model = buildCalendarModel(entries, calYear, calMonth, calFilters, true);
+  const snap = calSnapshotInfo();
+  const todayKey = localDateKey(new Date().toISOString());
+
+  document.getElementById('calTitle').textContent = new Date(calYear, calMonth, 1).toLocaleDateString(undefined, { month:'long', year:'numeric' });
+
+  document.getElementById('calChips').innerHTML = UPGRADE_TYPES.map(t =>
+    `<button type="button" class="cal-chip" data-type="${t.key}" aria-pressed="${calFilters[t.key] ? 'true' : 'false'}" style="--c:var(--ev-${t.key})">` +
+    `<span class="sw"></span>${t.label} <span class="n">${model.totals[t.key]}</span></button>`).join('');
+
+  const dow = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let html = `<div class="cal-row" role="row">${dow.map(d => `<div class="cal-dow" role="columnheader">${d}</div>`).join('')}</div>`;
+  model.weeks.forEach(week => {
+    html += '<div class="cal-row" role="row">' + week.map(c => {
+      if(!c) return '<div class="cal-cell blank" role="gridcell" aria-hidden="true"></div>';
+      const nosnap = snap.first && c.key >= snap.first && c.key <= todayKey && !snap.days.has(c.key) && c.count === 0;
+      const short = dayKeyParts(c.key).toLocaleDateString(undefined, { day:'numeric', month:'short' });
+      const tip = c.count
+        ? UPGRADE_TYPES.filter(t => c.types.includes(t.key)).map(t => `${c.entries.filter(e => e.type === t.key).length} ${t.label.toLowerCase()}`).join(', ')
+        : (nosnap ? 'No snapshot this day — upgrades made then appear on the next snapshot day' : 'No upgrades');
+      const aria = (c.count ? `${c.count} upgrade${c.count === 1 ? '' : 's'} on ${short}` : `No upgrades on ${short}`) + (nosnap ? ', no snapshot that day' : '');
+      return `<button type="button" role="gridcell" class="cal-cell${c.key === todayKey ? ' today' : ''}${c.key === calSelectedDay ? ' sel' : ''}${nosnap ? ' nosnap' : ''}" data-key="${c.key}" title="${escapeHtml(tip)}" aria-label="${escapeHtml(aria)}">` +
+        `<span class="cal-num">${c.day}</span><span class="cal-meta"><span class="cal-dots">${c.types.slice(0, 4).map(k => `<i style="--c:var(--ev-${k})"></i>`).join('')}</span>` +
+        `<span class="cal-count">${c.count || ''}</span></span></button>`;
+    }).join('') + '</div>';
+  });
+  document.getElementById('calGrid').innerHTML = html;
+
+  // detail panel
+  const detail = document.getElementById('calDetail');
+  if(calSelectedDay && calSelectedDay.startsWith(calYear + '-' + calPad(calMonth + 1) + '-')){
+    const cell = model.weeks.flat().find(c => c && c.key === calSelectedDay);
+    const nosnap = snap.first && calSelectedDay >= snap.first && calSelectedDay <= todayKey && !snap.days.has(calSelectedDay);
+    const label = dayKeyParts(calSelectedDay).toLocaleDateString(undefined, { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    if(cell && cell.count){
+      const groups = new Map();
+      cell.entries.forEach(e => { if(!groups.has(e.brawlerId)) groups.set(e.brawlerId, { name: e.brawlerName, list: [] }); groups.get(e.brawlerId).list.push(e); });
+      detail.innerHTML = `<h3>${escapeHtml(label)}</h3><p class="sub">${cell.count} upgrade${cell.count === 1 ? '' : 's'} across ${groups.size} brawler${groups.size === 1 ? '' : 's'}</p>` +
+        [...groups.values()].map(g => `<div class="cal-bgroup">${brawlerInlineHtml(g.name)}<ul>` + g.list.map(e =>
+          `<li class="cal-li"><span class="sw" style="--c:var(--ev-${e.type})"></span><b>${UPGRADE_TYPE_LABEL[e.type]}</b>${e.detail ? `<span>${escapeHtml(e.detail)}</span>` : ''}` +
+          (e.backfilled ? `<span class="tag" title="Backfilled from daily snapshots — obtained on or shortly before this day">backfilled</span>` : '') + '</li>').join('') + '</ul></div>').join('') +
+        (cell.entries.some(e => e.backfilled) ? '<p class="sub">“Backfilled” = reconstructed from daily snapshots: obtained on or shortly before this day.</p>' : '');
+    } else {
+      const filtered = UPGRADE_TYPES.some(t => !calFilters[t.key]);
+      detail.innerHTML = `<h3>${escapeHtml(label)}</h3><p class="sub">${nosnap ? 'No snapshot was recorded this day — upgrades made then appear on the next snapshot day.' : 'No upgrades recorded' + (filtered ? ' for the selected types.' : ' this day.')}</p>`;
+    }
+  } else {
+    detail.innerHTML = `<p class="sub">${model.monthTotal ? `${model.monthTotal} upgrade${model.monthTotal === 1 ? '' : 's'} this month. Select a day to see them.` : 'No upgrades recorded this month.'}</p>`;
+  }
+
+  const firstKey = snap.first ? dayKeyParts(snap.first).toLocaleDateString(undefined, { day:'numeric', month:'long', year:'numeric' }) : null;
+  document.getElementById('calNote').textContent =
+    (firstKey ? `Snapshot history starts on ${firstKey}; nothing earlier can appear here. ` : '') +
+    'Dates use your browser’s time zone. Live entries are accurate to about 3 hours; backfilled ones are accurate to the day. ' +
+    'Buffies, prestige and the names of gadgets, star powers and hypercharges are only captured from when those fields started being logged (early October 2026), so earlier gadget, star power and hypercharge entries show “name not recorded”.';
+}
+
+document.getElementById('calPrev').addEventListener('click', () => { calMonth--; if(calMonth < 0){ calMonth = 11; calYear--; } renderCalendar(); });
+document.getElementById('calNext').addEventListener('click', () => { calMonth++; if(calMonth > 11){ calMonth = 0; calYear++; } renderCalendar(); });
+document.getElementById('calToday').addEventListener('click', () => {
+  const n = new Date(); calYear = n.getFullYear(); calMonth = n.getMonth();
+  calSelectedDay = localDateKey(n.toISOString()); renderCalendar();
+});
+document.getElementById('calChips').addEventListener('click', (e) => {
+  const chip = e.target.closest('.cal-chip'); if(!chip) return;
+  calFilters[chip.dataset.type] = !calFilters[chip.dataset.type];
+  renderCalendar();
+  const again = document.querySelector(`#calChips .cal-chip[data-type="${chip.dataset.type}"]`); if(again) again.focus();
+});
+document.getElementById('calGrid').addEventListener('click', (e) => {
+  const cell = e.target.closest('.cal-cell[data-key]'); if(!cell) return;
+  const key = cell.dataset.key;
+  calSelectedDay = (calSelectedDay === key) ? null : key;
+  renderCalendar();
+  const again = document.querySelector(`#calGrid .cal-cell[data-key="${key}"]`); if(again) again.focus();
+});
+
+/* ===================== Phase 4: maxing forecast ===================== */
+const FC_CATS = [
+  { key:'unlock', label:'Unlock brawlers' }, { key:'power', label:'Power levels' }, { key:'gadget', label:'Gadgets' },
+  { key:'star', label:'Star powers' }, { key:'hyper', label:'Hypercharges' }, { key:'buffie', label:'Buffies' },
+];
+const FC_GOLD = { gadget: 1000, star: 2000, hyper: 5000, buffieGold: 1000, buffiePP: 2000 };   // user-confirmed in-game costs
+const FC_MIN_SPAN_DAYS = 7;
+const FC_WINDOWS = [14, 30, 60, null];   // null = since tracking began
+const FC_PRIMARY_WINDOW = 30;
+
+function fcDayDiff(a, b){
+  const pa = a.split('-').map(Number), pb = b.split('-').map(Number);
+  return Math.round((Date.UTC(pb[0], pb[1] - 1, pb[2]) - Date.UTC(pa[0], pa[1] - 1, pa[2])) / 86400000);
+}
+
+/** Pure: brawler_history rows -> last known state of every brawler on every snapshot day (local date). */
+function fcDailyStates(rows, catalog){
+  const byDay = {};
+  [...rows].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)).forEach(r => {
+    const day = localDateKey(r.timestamp); if(!day) return;
+    const id = String(r.brawler_id);
+    if(catalog && !catalog[id]) return;
+    (byDay[day] = byDay[day] || {})[id] = {
+      power: Number(r.power) || 0, gadgets: Number(r.gadgets_owned) || 0, stars: Number(r.star_powers_owned) || 0,
+      hypers: Number(r.hypercharge_owned) || 0,
+      buffies: [r.buffy_gadget, r.buffy_star_power, r.buffy_hyper_charge].filter(isTrue).length,
+    };
+  });
+  return { days: Object.keys(byDay).sort(), byDay };
+}
+
+/** Pure: power level newly unlocked brawlers arrive at (median of those first seen after tracking began). */
+function fcAssumedStartPower(daily){
+  const first = {};
+  daily.days.forEach(d => Object.entries(daily.byDay[d]).forEach(([id, s]) => { if(!(id in first)) first[id] = { day: d, power: s.power }; }));
+  const vals = Object.values(first).filter(f => f.day !== daily.days[0]).map(f => f.power).sort((a, b) => a - b);
+  if(vals.length < 3) return { power: 1, n: vals.length };
+  const mid = vals.length >> 1;
+  const med = vals.length % 2 ? vals[mid] : (vals[mid - 1] + vals[mid]) / 2;
+  return { power: Math.round(med), n: vals.length };
+}
+
+/** Pure: units still needed, for owned brawlers only and for the whole roster. */
+function fcRemaining(state, catalog, buffieSet, startPower){
+  const zero = () => ({ unlock:0, power:0, gadget:0, star:0, hyper:0, buffie:0, coins:0 });
+  const owned = zero(), roster = zero();
+  Object.entries(catalog).forEach(([id, cat]) => {
+    const s = state[id], hasB = buffieSet.has(id);
+    if(s){
+      const rem = {
+        power: Math.max(0, 11 - s.power), gadget: Math.max(0, (cat.gadgets || 0) - s.gadgets),
+        star: Math.max(0, (cat.starPowers || 0) - s.stars), hyper: Math.max(0, (cat.hyperCharges || 0) - s.hypers),
+        buffie: hasB ? Math.max(0, 3 - s.buffies) : 0, coins: costToMax(s.power).gold,
+      };
+      Object.keys(rem).forEach(k => { owned[k] += rem[k]; roster[k] += rem[k]; });
+    } else {
+      roster.unlock += 1;
+      roster.power += Math.max(0, 11 - startPower);
+      roster.gadget += cat.gadgets || 0; roster.star += cat.starPowers || 0; roster.hyper += cat.hyperCharges || 0;
+      roster.buffie += hasB ? 3 : 0;
+      roster.coins += costToMax(startPower).gold;
+    }
+  });
+  return { owned, roster };
+}
+
+/** Pure: progress per day over a window (null = whole history). Baseline per brawler = its first snapshot inside the window,
+ *  so a brawler unlocked mid-window doesn't get its starting level counted as progress, but later upgrades do. */
+function fcRates(daily, windowDays){
+  const days = daily.days;
+  if(days.length < 2) return { ok: false, span: 0 };
+  const end = days[days.length - 1];
+  let start = days[0];
+  if(windowDays !== null && windowDays !== undefined){
+    start = days.find(d => fcDayDiff(d, end) <= windowDays) || days[0];
+    if(start === end) start = days[days.length - 2];   // sparse history: fall back to the last snapshot before the window
+  }
+  const span = fcDayDiff(start, end);
+  if(span < FC_MIN_SPAN_DAYS) return { ok: false, span, start, end };
+  const base = {};
+  days.filter(d => d >= start && d <= end).forEach(d => Object.entries(daily.byDay[d]).forEach(([id, s]) => { if(!(id in base)) base[id] = s; }));
+  const endState = daily.byDay[end];
+  const t = { unlock:0, power:0, gadget:0, star:0, hyper:0, buffie:0, gold:0 };
+  t.unlock = Math.max(0, Object.keys(endState).length - Object.keys(daily.byDay[start]).length);
+  Object.entries(endState).forEach(([id, e]) => {
+    const b = base[id]; if(!b) return;
+    const dp = Math.max(0, e.power - b.power), dg = Math.max(0, e.gadgets - b.gadgets), ds = Math.max(0, e.stars - b.stars),
+          dh = Math.max(0, e.hypers - b.hypers), db = Math.max(0, e.buffies - b.buffies);
+    t.power += dp; t.gadget += dg; t.star += ds; t.hyper += dh; t.buffie += db;
+    t.gold += (dp > 0 ? costToMax(b.power).gold - costToMax(e.power).gold : 0)
+            + dg * FC_GOLD.gadget + ds * FC_GOLD.star + dh * FC_GOLD.hyper + db * FC_GOLD.buffieGold;
+  });
+  const rates = {};
+  Object.keys(t).forEach(k => { rates[k] = t[k] / span; });
+  return { ok: true, span, start, end, rates, totals: t };
+}
+
+/** Pure: per-category ETA; overall = slowest category. Never invents a date when a needed category has zero pace. */
+function fcEta(remaining, rateInfo){
+  const cats = {}; const blockers = []; let worst = null;
+  FC_CATS.forEach(c => {
+    const rem = remaining[c.key], r = rateInfo.rates[c.key];
+    const days = rem <= 0 ? 0 : (r > 0 ? rem / r : null);
+    cats[c.key] = { remaining: rem, rate: r, days };
+    if(rem > 0){
+      if(r <= 0) blockers.push(c.key);
+      else if(worst === null || days > cats[worst].days) worst = c.key;
+    }
+  });
+  const done = !FC_CATS.some(c => remaining[c.key] > 0);
+  return { cats, done, blockers, bottleneck: blockers.length ? null : worst,
+           overallDays: done ? 0 : (blockers.length ? null : cats[worst].days) };
+}
+
+function fcGold(rem){
+  const g = { power: rem.coins, gadget: rem.gadget * FC_GOLD.gadget, star: rem.star * FC_GOLD.star, hyper: rem.hyper * FC_GOLD.hyper, buffie: rem.buffie * FC_GOLD.buffieGold };
+  g.total = g.power + g.gadget + g.star + g.hyper + g.buffie;
+  g.buffiePP = rem.buffie * FC_GOLD.buffiePP;
+  return g;
+}
+
+/** Pure: everything the card shows. */
+function computeForecast(rows, catalog, buffieSet){
+  const daily = fcDailyStates(rows, catalog);
+  if(!daily.days.length) return { ok: false, reason: 'No brawler snapshots yet.' };
+  const latest = daily.byDay[daily.days[daily.days.length - 1]];
+  const start = fcAssumedStartPower(daily);
+  const remaining = fcRemaining(latest, catalog, buffieSet, start.power);
+  const windows = {};
+  FC_WINDOWS.forEach(w => {
+    const key = w === null ? 'all' : String(w);
+    const ri = fcRates(daily, w);
+    windows[key] = ri.ok ? { ...ri, owned: fcEta(remaining.owned, ri), roster: fcEta(remaining.roster, ri),
+      goldOwnedDays: ri.rates.gold > 0 ? fcGold(remaining.owned).total / ri.rates.gold : null,
+      goldRosterDays: ri.rates.gold > 0 ? fcGold(remaining.roster).total / ri.rates.gold : null } : ri;
+  });
+  const primary = windows[String(FC_PRIMARY_WINDOW)];
+  const rangeOf = (scenario) => {
+    const v = Object.values(windows).filter(w => w.ok).map(w => w[scenario].overallDays).filter(d => d !== null && d > 0);
+    return v.length ? { min: Math.min(...v), max: Math.max(...v) } : null;
+  };
+  return { ok: true, historyDays: fcDayDiff(daily.days[0], daily.days[daily.days.length - 1]), startPower: start,
+           remaining, windows, primary, ranges: { owned: rangeOf('owned'), roster: rangeOf('roster') },
+           gold: { owned: fcGold(remaining.owned), roster: fcGold(remaining.roster) } };
+}
+
+function fcFmtDate(daysFromNow){
+  const d = new Date(); d.setDate(d.getDate() + Math.ceil(daysFromNow));
+  return d.toLocaleDateString(undefined, { day:'numeric', month:'short', year:'numeric' });
+}
+function fcFmtDays(d){ const n = Math.ceil(d); return n.toLocaleString() + (n === 1 ? ' day' : ' days'); }
+function fcFmtRate(r){ return r <= 0 ? '0' : (r < 1 ? r.toFixed(2) : r.toFixed(1)); }
+function fcLabel(key){ return (FC_CATS.find(c => c.key === key) || {}).label || key; }
+
+function renderForecast(){
+  const emptyEl = document.getElementById('forecastEmpty'), content = document.getElementById('forecastContent');
+  const showEmpty = (msg) => { emptyEl.textContent = msg; emptyEl.style.display = 'block'; content.style.display = 'none'; };
+  if(!catalogData || !catalogData.brawlers) return showEmpty('The forecast needs catalog.json (it is created by the tracker script).');
+  const f = computeForecast(brawlerRows, catalogData.brawlers, buffieEnabledIds);
+  if(!f.ok) return showEmpty(f.reason);
+  const p = f.primary;
+  if(!p || !p.ok) return showEmpty(`Not enough history yet: the forecast needs at least ${FC_MIN_SPAN_DAYS} days of snapshots in the 30-day window (you have ${p ? p.span : 0}).`);
+  emptyEl.style.display = 'none'; content.style.display = 'block';
+
+  const headline = (title, scen, rangeInfo) => {
+    const e = p[scen];
+    let v, s;
+    if(e.done){ v = 'Already there'; s = 'Nothing left to do in this scenario.'; }
+    else if(e.overallDays === null){
+      v = 'No date yet';
+      s = `No progress seen in the last ${FC_PRIMARY_WINDOW} days in: ${e.blockers.map(fcLabel).join(', ')}.`;
+    } else {
+      v = `${fcFmtDays(e.overallDays)} · ${fcFmtDate(e.overallDays)}`;
+      s = `Slowest category: <b>${fcLabel(e.bottleneck)}</b>.` +
+        (rangeInfo && Math.ceil(rangeInfo.min) !== Math.ceil(rangeInfo.max) ? ` Range across the 14 / 30 / 60-day and all-time paces: ${fcFmtDays(rangeInfo.min)} – ${fcFmtDays(rangeInfo.max)} (${fcFmtDate(rangeInfo.min)} – ${fcFmtDate(rangeInfo.max)}).` : '');
+    }
+    return `<div class="fc-line"><div class="k">${title}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+  };
+  document.getElementById('forecastHeadlines').innerHTML =
+    headline('Owned brawlers fully maxed', 'owned', f.ranges.owned) +
+    headline('Whole roster unlocked and fully maxed', 'roster', f.ranges.roster);
+
+  document.getElementById('forecastBody').innerHTML = FC_CATS.map(c => {
+    const o = p.owned.cats[c.key], r = p.roster.cats[c.key];
+    const eta = (cell, e) => {
+      if(cell.remaining <= 0) return '<span class="delta up">✓ done</span>';
+      if(cell.days === null) return '<span class="delta down">no progress</span>';
+      return `${fcFmtDays(cell.days)}${e.bottleneck === c.key ? '<span class="fc-badge">slowest</span>' : ''}<span class="fc-cell-sub">${fcFmtDate(cell.days)}</span>`;
+    };
+    return `<tr><td>${c.label}</td><td class="num">${fcFmtRate(o.rate)}</td><td class="num">${fmtNum(o.remaining)}</td><td class="num">${eta(o, p.owned)}</td><td class="num">${fmtNum(r.remaining)}</td><td class="num">${eta(r, p.roster)}</td></tr>`;
+  }).join('');
+
+  const go = f.gold.owned, gr = f.gold.roster;
+  const gRows = [['Power-ups (coins)*', 'power'], ['Gadgets (1,000 each)', 'gadget'], ['Star powers (2,000 each)', 'star'], ['Hypercharges (5,000 each)', 'hyper'], ['Buffies (1,000 gold each)', 'buffie']];
+  document.getElementById('forecastGoldBody').innerHTML = gRows.map(([l, k]) => `<tr><td>${l}</td><td class="num">${fmtNum(go[k])}</td><td class="num">${fmtNum(gr[k])}</td></tr>`).join('') +
+    `<tr><td><b>Total gold</b></td><td class="num"><b>${fmtNum(go.total)}</b></td><td class="num"><b>${fmtNum(gr.total)}</b></td></tr>` +
+    `<tr><td>Power Points for buffies (2,000 each)</td><td class="num">${fmtNum(go.buffiePP)}</td><td class="num">${fmtNum(gr.buffiePP)}</td></tr>`;
+  const gp = p.rates.gold;
+  document.getElementById('forecastGoldNote').textContent = gp > 0
+    ? `You have been converting about ${fmtNum(Math.round(gp))} gold a day into upgrades (last ${FC_PRIMARY_WINDOW} days). If gold were the only limit, that finishes the owned brawlers in about ${fcFmtDays(p.goldOwnedDays)} and the whole roster in about ${fcFmtDays(p.goldRosterDays)}. The category dates above are the safer guide: gold is only one of the things holding you back.`
+    : 'No gold-priced upgrades were bought in the last 30 days, so no gold-based pace is available.';
+
+  const lowPower = f.startPower.n >= 3 ? `Locked brawlers are assumed to arrive at Power ${f.startPower.power} (the typical starting level of the ${f.startPower.n} you unlocked since tracking began), so they need ${11 - f.startPower.power} power levels each.` : 'Too few unlocks seen yet to know the starting level of new brawlers, so locked ones are assumed to start at Power 1.';
+  document.getElementById('forecastNotes').innerHTML = [
+    `<b>Method:</b> pace = what you actually gained between ${p.start} and ${p.end} (${p.span} days) in the daily snapshots; days left = what is left ÷ pace for each category, and the overall date is set by the slowest category. If a category still needed has made no progress in the window, no date is shown for it.`,
+    'Brawlers unlocked inside the window count from their first snapshot, so their starting level is not treated as progress.',
+    lowPower,
+    '“Owned” counts only brawlers you have unlocked; “roster” adds every locked brawler (one unlock each, its power levels, all its gadgets, star powers, hypercharges and, if released, buffies).',
+    'It assumes today’s roster and buffie list. New brawlers, gadgets, star powers, hypercharges or buffies from Supercell move the finish line.',
+    'Buffies are random Claw Machine pulls, so that category is the least predictable. Unlocks depend on your trophy and box luck.',
+    'Pace reflects your past gold income, so it already includes gold being your bottleneck.',
+    '*Power-up coin costs come from a community cost table that is not fetched live, so treat that row as approximate.',
+  ].map(t => `<li>${t}</li>`).join('');
+}
+
+/* ===================== Phase 5: account rating ===================== */
+// All the tunable numbers live here. Weights inside each score are relative (they are re-normalised).
+const RATING_CONFIG = {
+  overallWeights: { build: 0.6, form: 0.4 },   // overall leans towards completeness
+  build: { unlocked: 20, power: 25, maxed: 10, gadgets: 15, starPowers: 15, hypercharges: 5, buffies: 10 },
+  form:  { overall: 40, recent: 30, placement: 30 },
+  recentBattles: 25,       // "recent form" window
+  overallPrior: 20,        // pseudo-battles at 50% so a handful of games can't swing the overall win rate
+  recentPrior: 10,         // pseudo-battles at your overall rate, so 25 games can't swing recent form
+  placementPrior: 10,      // pseudo-battles at a neutral 50
+  minFieldSize: 10,        // smallest Showdown field assumed when scoring placements
+  trendWindow: 100,        // battles in each rolling window of the history chart
+  trendMinDecided: 30,     // don't plot a Form point with fewer decided battles than this
+};
+const RATING_BUILD_LABELS = { unlocked:'Brawlers unlocked', power:'Power levels', maxed:'Fully maxed brawlers', gadgets:'Gadgets', starPowers:'Star powers', hypercharges:'Hypercharges', buffies:'Buffies' };
+const RATING_FORM_LABELS = { overall:'Overall win rate', recent:'Recent win rate', placement:'Showdown placement' };
+
+/** Pure: completeness from one day's brawler states (see fcDailyStates). Returns 0-100 plus the components. */
+function ratingBuild(state, catalog, buffieSet, cfg){
+  cfg = cfg || RATING_CONFIG;
+  const ids = Object.keys(catalog), U = ids.length;
+  if(!U) return null;
+  let ownedN = 0, powerSum = 0, maxed = 0, g = 0, s = 0, h = 0, bf = 0, totG = 0, totS = 0, totH = 0, B = 0;
+  ids.forEach(id => {
+    const c = catalog[id], st = state[id], hb = buffieSet.has(id);
+    const cg = c.gadgets || 0, cs = c.starPowers || 0, ch = c.hyperCharges || 0;
+    totG += cg; totS += cs; totH += ch; if(hb) B++;
+    if(!st) return;
+    ownedN++; powerSum += Math.min(11, st.power);
+    g += Math.min(st.gadgets, cg); s += Math.min(st.stars, cs); h += Math.min(st.hypers, ch); if(hb) bf += Math.min(3, st.buffies);
+    if(st.power >= 11 && st.gadgets >= cg && st.stars >= cs && (ch === 0 || st.hypers >= ch) && (!hb || st.buffies >= 3)) maxed++;
+  });
+  const frac = {
+    unlocked: ownedN / U, power: powerSum / (11 * U), maxed: maxed / U,
+    gadgets: totG ? g / totG : 0, starPowers: totS ? s / totS : 0, hypercharges: totH ? h / totH : 0, buffies: B ? bf / (3 * B) : 0,
+  };
+  let num = 0, den = 0;
+  const comps = {};
+  Object.keys(cfg.build).forEach(k => { comps[k] = { pct: frac[k] * 100, weight: cfg.build[k] }; num += cfg.build[k] * frac[k] * 100; den += cfg.build[k]; });
+  return { score: num / den, comps, denoms: { U, power: 11 * U, gadgets: totG, starPowers: totS, hypercharges: totH, buffies: 3 * B }, counts: { owned: ownedN, maxed } };
+}
+
+function ratingMinField(b, cfg){ return String(b.mode).toLowerCase() === 'soloshowdown' && isBigSoloMap(b.map) ? BIG_SOLO_FIELD : cfg.minFieldSize; }
+
+/** Pure: biggest placement ever seen per mode+map (at least minFieldSize) = the field size to score against. */
+function ratingFieldSizes(rows, cfg){
+  cfg = cfg || RATING_CONFIG;
+  const m = {};
+  rows.forEach(b => { if(isShowdownBattle(b)){ const k = b.mode + '|' + b.map; m[k] = Math.max(m[k] || ratingMinField(b, cfg), Number(b.rank)); } });
+  return m;
+}
+
+/** Pure: skill from battles (newest first). Shrinks towards neutral values when the sample is small. */
+function ratingForm(rows, fieldSizes, cfg){
+  cfg = cfg || RATING_CONFIG;
+  const cls = rows.map(classifyBattle);
+  const wins = cls.filter(c => c === 'victory').length, losses = cls.filter(c => c === 'defeat').length;
+  const decided = wins + losses;
+  if(decided === 0) return null;
+  const overall = (wins + cfg.overallPrior / 2) / (decided + cfg.overallPrior);          // 0-1
+  let rw = 0, rd = 0;
+  rows.slice(0, cfg.recentBattles).forEach(b => { const c = classifyBattle(b); if(c === 'victory'){ rw++; rd++; } else if(c === 'defeat') rd++; });
+  const recent = (rw + cfg.recentPrior * overall) / (rd + cfg.recentPrior);
+  const sd = rows.filter(isShowdownBattle);
+  let placement = null;
+  if(sd.length){
+    const sum = sd.reduce((a, b) => { const N = (fieldSizes && fieldSizes[b.mode + '|' + b.map]) || ratingMinField(b, cfg); return a + (N - Number(b.rank)) / (N - 1) * 100; }, 0);
+    placement = (sum + cfg.placementPrior * 50) / (sd.length + cfg.placementPrior);
+  }
+  const vals = { overall: overall * 100, recent: recent * 100, placement };
+  let num = 0, den = 0; const comps = {};
+  Object.keys(cfg.form).forEach(k => {
+    if(vals[k] === null) { comps[k] = { pct: null, weight: cfg.form[k] }; return; }
+    comps[k] = { pct: vals[k], weight: cfg.form[k] }; num += cfg.form[k] * vals[k]; den += cfg.form[k];
+  });
+  return { score: num / den, comps, decided, recentDecided: rd, showdown: sd.length, confidence: decided >= 200 ? 'High' : decided >= 50 ? 'Medium' : 'Low' };
+}
+
+function ratingOverall(build, form, cfg){
+  cfg = cfg || RATING_CONFIG;
+  if(build === null || form === null || build === undefined || form === undefined) return null;
+  const w = cfg.overallWeights;
+  return (w.build * build + w.form * form) / (w.build + w.form);
+}
+
+/** Pure: Build per snapshot day, Form over a rolling window of battles ending that day. */
+function ratingTrend(brawlerRowsIn, battleRowsNewestFirst, catalog, buffieSet, cfg){
+  cfg = cfg || RATING_CONFIG;
+  const daily = fcDailyStates(brawlerRowsIn, catalog);
+  const sizes = ratingFieldSizes(battleRowsNewestFirst, cfg);
+  const battleDays = battleRowsNewestFirst.map(b => localDateKey(b.battle_time));
+  return daily.days.map(day => {
+    const b = ratingBuild(daily.byDay[day], catalog, buffieSet, cfg);
+    const win = [];
+    for(let i = 0; i < battleRowsNewestFirst.length && win.length < cfg.trendWindow; i++){ if(battleDays[i] && battleDays[i] <= day) win.push(battleRowsNewestFirst[i]); }
+    const f = ratingForm(win, sizes, cfg);
+    const form = f && f.decided >= cfg.trendMinDecided ? f.score : null;
+    return { day, build: b ? b.score : null, form, overall: ratingOverall(b ? b.score : null, form, cfg) };
+  });
+}
+
+/** Pure: Build points gained by one more of each purchasable upgrade, and per 10,000 gold. */
+function ratingMarginals(build, fcOwned, cfg){
+  cfg = cfg || RATING_CONFIG;
+  const wsum = Object.values(cfg.build).reduce((a, b) => a + b, 0);
+  const per = (key, denom) => denom > 0 ? 100 * cfg.build[key] / denom / wsum : 0;
+  const d = build.denoms;
+  const avgLevelGold = fcOwned.power > 0 ? fcOwned.coins / fcOwned.power : null;
+  const rows = [
+    { key:'gadget',  label:'Gadget',      pts: per('gadgets', d.gadgets),            gold: FC_GOLD.gadget },
+    { key:'star',    label:'Star power',  pts: per('starPowers', d.starPowers),      gold: FC_GOLD.star },
+    { key:'hyper',   label:'Hypercharge', pts: per('hypercharges', d.hypercharges),  gold: FC_GOLD.hyper },
+    { key:'buffie',  label:'Buffie',      pts: per('buffies', d.buffies),            gold: FC_GOLD.buffieGold, extra: `+ ${fmtNum(FC_GOLD.buffiePP)} Power Points` },
+    { key:'power',   label:'Power level', pts: per('power', d.power),                gold: avgLevelGold, extra: 'average of your remaining levels' },
+  ].filter(r => r.gold && r.gold > 0 && r.pts > 0).map(r => ({ ...r, per10k: r.pts / r.gold * 10000 }));
+  rows.sort((a, b) => b.per10k - a.per10k);
+  return rows;
+}
+
+function ratingTrendSvg(points){
+  const W = 640, H = 200, L = 34, R = 12, T = 10, Bm = 24;
+  const n = points.length;
+  const d0 = points[0].day, span = Math.max(1, fcDayDiff(d0, points[n - 1].day));
+  const x = p => L + (fcDayDiff(d0, p.day) / span) * (W - L - R);
+  const y = v => T + (1 - v / 100) * (H - T - Bm);
+  let grid = '';
+  [0, 25, 50, 75, 100].forEach(v => { grid += `<line class="rt-grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="rt-tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
+  const fmt = k => new Date(k + 'T12:00:00').toLocaleDateString(undefined, { day:'numeric', month:'short' });
+  const ticks = `<text class="rt-tick" x="${L}" y="${H - 6}">${fmt(d0)}</text><text class="rt-tick" x="${W - R}" y="${H - 6}" text-anchor="end">${fmt(points[n - 1].day)}</text>`;
+  let lines = '';
+  ['build', 'form', 'overall'].forEach(k => {
+    let seg = [];
+    const flush = () => { if(seg.length > 1) lines += `<polyline class="rt-line ${k}" points="${seg.join(' ')}"/>`; seg = []; };
+    points.forEach(p => { if(p[k] === null) flush(); else seg.push(`${x(p).toFixed(1)},${y(p[k]).toFixed(1)}`); });
+    flush();
+    const last = [...points].reverse().find(p => p[k] !== null);
+    if(last) lines += `<circle class="rt-dot ${k}" cx="${x(last).toFixed(1)}" cy="${y(last[k]).toFixed(1)}" r="3.5"/>`;
+  });
+  const desc = ['build', 'form', 'overall'].map(k => { const l = [...points].reverse().find(p => p[k] !== null); return l ? `${k} ${l[k].toFixed(0)}` : ''; }).filter(Boolean).join(', ');
+  return `<svg class="rt-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Rating over time, 0 to 100. Latest: ${desc}">${grid}${ticks}${lines}</svg>`;
+}
+
+function renderRating(){
+  const emptyEl = document.getElementById('ratingEmpty'), content = document.getElementById('ratingContent');
+  const showEmpty = (msg) => { emptyEl.textContent = msg; emptyEl.style.display = 'block'; content.style.display = 'none'; };
+  if(!catalogData || !catalogData.brawlers) return showEmpty('The rating needs catalog.json (it is created by the tracker script).');
+  const daily = fcDailyStates(brawlerRows, catalogData.brawlers);
+  if(!daily.days.length) return showEmpty('No brawler snapshots yet.');
+  emptyEl.style.display = 'none'; content.style.display = 'block';
+
+  const catalog = catalogData.brawlers;
+  const latest = daily.byDay[daily.days[daily.days.length - 1]];
+  const build = ratingBuild(latest, catalog, buffieEnabledIds);
+  const sizes = ratingFieldSizes(battleRows);
+  const form = ratingForm(battleRows, sizes);
+  const overall = ratingOverall(build.score, form ? form.score : null);
+  const set = (id, t) => { document.getElementById(id).textContent = t; };
+  const w = RATING_CONFIG.overallWeights, wTot = w.build + w.form;
+
+  set('rtBuild', Math.round(build.score) + '%');
+  set('rtBuildSub', `${build.counts.owned} of ${build.denoms.U} brawlers unlocked, ${build.counts.maxed} fully maxed`);
+  if(form){
+    set('rtForm', Math.round(form.score) + '%');
+    set('rtFormSub', `${form.confidence} confidence · ${fmtNum(form.decided)} decided battles`);
+    set('rtOverall', Math.round(overall) + '%');
+    set('rtOverallSub', `${Math.round(w.build / wTot * 100)}% completeness + ${Math.round(w.form / wTot * 100)}% skill`);
+  } else {
+    set('rtForm', '—'); set('rtFormSub', 'No decided battles logged yet');
+    set('rtOverall', '—'); set('rtOverallSub', 'Needs battle data for the skill half');
+  }
+
+  const bar = (label, pct, weightPct, valueHtml, cls) =>
+    `<div class="rb-row"><span>${label}</span><div class="rb-track" role="img" aria-label="${label}: ${pct === null ? 'no data' : pct.toFixed(0) + '%'}"><div class="rb-fill ${cls || ''}" style="width:${pct === null ? 0 : Math.max(0, Math.min(100, pct)).toFixed(1)}%"></div></div><span class="rb-val">${valueHtml} <small>× ${weightPct}%</small></span></div>`;
+  const bw = Object.values(RATING_CONFIG.build).reduce((a, b) => a + b, 0);
+  document.getElementById('rtBuildBars').innerHTML = Object.keys(RATING_CONFIG.build).map(k =>
+    bar(RATING_BUILD_LABELS[k], build.comps[k].pct, Math.round(build.comps[k].weight / bw * 100), build.comps[k].pct.toFixed(0) + '%')).join('');
+  if(form){
+    const avail = Object.keys(RATING_CONFIG.form).filter(k => form.comps[k].pct !== null);
+    const fw = avail.reduce((a, k) => a + RATING_CONFIG.form[k], 0);
+    document.getElementById('rtFormBars').innerHTML = Object.keys(RATING_CONFIG.form).map(k =>
+      form.comps[k].pct === null
+        ? `<div class="rb-row"><span>${RATING_FORM_LABELS[k]}</span><span class="stat-sub" style="grid-column:2 / 4;margin:0;">No Showdown battles logged, so this is left out</span></div>`
+        : bar(RATING_FORM_LABELS[k], form.comps[k].pct, Math.round(RATING_CONFIG.form[k] / fw * 100), form.comps[k].pct.toFixed(0) + '%', 'teal')).join('');
+  } else {
+    document.getElementById('rtFormBars').innerHTML = '<div class="stat-sub">No decided battles logged yet.</div>';
+  }
+
+  // history
+  const trend = ratingTrend(brawlerRows, battleRows, catalog, buffieEnabledIds);
+  const lastOf = k => { const p = [...trend].reverse().find(q => q[k] !== null); return p ? p[k] : null; };
+  document.getElementById('rtLegend').innerHTML = [['build', 'Completeness'], ['form', 'Skill (last 100 battles)'], ['overall', 'Overall (with that skill)']].map(([k, l]) => {
+    const v = lastOf(k);
+    return `<span><span class="sw" style="background:var(--${k === 'build' ? 'chart-gold' : k === 'form' ? 'chart-teal' : 'pink'})"></span>${l}${v !== null ? ' ' + Math.round(v) + '%' : ''}</span>`;
+  }).join('');
+  document.getElementById('rtTrend').innerHTML = trend.length > 1 ? ratingTrendSvg(trend) : '<div class="stat-sub">The history chart needs at least two snapshot days.</div>';
+
+  // what to buy
+  const fc = fcRemaining(latest, catalog, buffieEnabledIds, fcAssumedStartPower(daily).power);
+  const marg = ratingMarginals(build, fc.owned);
+  const top = marg.length ? marg[0].per10k : 1;
+  document.getElementById('rtRaise').innerHTML = marg.length ? marg.map(r =>
+    `<div class="rr-row"><span>${r.label}</span><div class="rb-track"><div class="rb-fill" style="width:${(r.per10k / top * 100).toFixed(1)}%"></div></div><span class="rr-pts">${r.per10k.toFixed(2)} pts / 10k gold<small>${r.pts.toFixed(3)} pts each · ${fmtNum(Math.round(r.gold))} gold${r.extra ? ' ' + r.extra : ''}</small></span></div>`).join('')
+    : '<div class="stat-sub">Everything gold can buy is already done.</div>';
+
+  document.getElementById('rtNotes').innerHTML = [
+    '<b>Completeness</b> is a weighted average of seven percentages (weights shown beside each bar): brawlers unlocked, power levels out of 11 across the whole roster, fully maxed brawlers, and gadgets, star powers, hypercharges and buffies owned out of all that exist. Locked brawlers count as zero.',
+    '<b>Skill</b> blends your overall win rate, your win rate over the last 25 battles, and your Showdown placement (1st = 100, last = 0, scored against the biggest field seen on each map: at least 10 players, 20 on the three big Solo maps). Small samples are pulled towards a neutral value so a few games cannot swing it; the confidence label reflects how many decided battles back it.',
+    'Win rates use the dashboard’s own rules (Showdown wins count by placement) and only battles the tracker captured. The skill score has no clear scale for “good”, so read it as a trend rather than a grade.',
+    'The history chart scores each snapshot day with today’s roster and buffie list, so it moves only with your progress. Skill points use the 100 battles up to that day and start once there are at least 30 decided battles.',
+    'Marginal points ignore the “fully maxed” bonus and Power Point costs. The overall weights and every other number sit in RATING_CONFIG in the page’s script.',
+  ].map(t => `<li>${t}</li>`).join('');
+}
 
 /* ===================== Navigation + back to top ===================== */
 const navEl = document.getElementById('topnav');

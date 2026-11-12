@@ -187,3 +187,5 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-12T17:27:33+00:00,2026-11-12,16000031,MR. P,power,Power 6 → 9,6,9,live
 2026-11-12T17:27:33+00:00,2026-11-12,16000031,MR. P,star_power,REVOLVING DOOR,0,1,live
 2026-11-12T17:27:33+00:00,2026-11-12,16000038,SURGE,unlock,Brawler unlocked,,,live
+2026-11-12T23:24:04+00:00,2026-11-12,16000035,GALE,prestige,Prestige 0 → 1,0,1,live
+2026-11-12T23:24:04+00:00,2026-11-12,16000041,LOU,gadget,ICE BLOCK,1,2,live

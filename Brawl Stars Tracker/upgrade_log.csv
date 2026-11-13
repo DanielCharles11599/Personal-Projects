@@ -190,3 +190,5 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-12T23:24:04+00:00,2026-11-12,16000035,GALE,prestige,Prestige 0 → 1,0,1,live
 2026-11-12T23:24:04+00:00,2026-11-12,16000041,LOU,gadget,ICE BLOCK,1,2,live
 2026-11-13T09:31:43+00:00,2026-11-13,16000031,MR. P,power,Power 9 → 10,9,10,live
+2026-11-13T21:19:08+00:00,2026-11-13,16000073,CHUCK,hypercharge,FULL STEAM AHEAD!,0,1,live
+2026-11-13T21:19:08+00:00,2026-11-13,16000031,MR. P,gadget,PORTER REINFORCEMENTS,1,2,live

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T09:31:45+00:00",
+  "generatedAt": "2026-11-13T14:20:07+00:00",
   "source": "https://api.brawlapi.com/v1/gamemodes",
   "modeIcons": {
     "soloShowdown": "https://cdn.brawlify.com/game-modes/regular/48000006.png",
@@ -43,5 +43,7 @@
     "volleyBrawl": "exact",
     "basketBrawl": "exact"
   },
-  "unmatchedModes": []
+  "unmatchedModes": [
+    "siege"
+  ]
 }

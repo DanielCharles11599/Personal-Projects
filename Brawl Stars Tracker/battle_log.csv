@@ -1722,3 +1722,28 @@ battle_time,mode,map,brawler_used,outcome,rank,trophy_change,was_star_player
 20261113T155556.000Z,heist,Printstream,NORI,victory,,16,False
 20261113T155113.000Z,heist,Printstream,NORI,victory,,15,False
 20261113T154944.000Z,heist,Printstream,NORI,victory,,14,False
+20261114T103757.000Z,bounty,Sudden Movements,GUS,victory,,10,False
+20261114T103615.000Z,bounty,Sudden Movements,GUS,defeat,,-8,False
+20261114T103318.000Z,bounty,Sudden Movements,GUS,victory,,20,False
+20261114T103050.000Z,bounty,Sudden Movements,GUS,victory,,20,True
+20261114T102819.000Z,bounty,Sudden Movements,GUS,victory,,20,False
+20261114T102520.000Z,bounty,Sudden Movements,GUS,victory,,20,False
+20261114T102244.000Z,bounty,Sudden Movements,GUS,victory,,20,False
+20261114T102022.000Z,bounty,Sudden Movements,GUS,victory,,20,False
+20261114T101756.000Z,bounty,Sudden Movements,GUS,victory,,19,False
+20261114T101512.000Z,bounty,Sudden Movements,GUS,victory,,18,False
+20261114T101225.000Z,bounty,Sudden Movements,GUS,victory,,17,False
+20261114T101017.000Z,bounty,Sudden Movements,GUS,victory,,16,False
+20261114T100416.000Z,bounty,Sudden Movements,GUS,victory,,15,True
+20261114T100143.000Z,bounty,Sudden Movements,GUS,victory,,14,False
+20261114T095935.000Z,bounty,Sudden Movements,GUS,victory,,13,False
+20261114T095649.000Z,bounty,Sudden Movements,GUS,victory,,12,False
+20261114T095013.000Z,knockout,New Perspective,LOU,victory,,10,False
+20261114T094905.000Z,knockout,New Perspective,LOU,defeat,,-3,False
+20261114T094653.000Z,knockout,New Perspective,LOU,victory,,10,True
+20261114T094512.000Z,knockout,New Perspective,LOU,defeat,,-3,False
+20261114T094229.000Z,knockout,New Perspective,LOU,victory,,14,False
+20261114T093719.000Z,duoShowdown,Quadrant Clash,SIRIUS,,3,13,False
+20261114T093345.000Z,duoShowdown,Quadrant Clash,SIRIUS,,1,19,False
+20261114T093110.000Z,duoShowdown,Quadrant Clash,PEARL,,6,1,False
+20261114T092839.000Z,duoShowdown,Quadrant Clash,PEARL,,4,8,False

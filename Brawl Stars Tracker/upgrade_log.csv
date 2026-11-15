@@ -193,3 +193,4 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-13T21:19:08+00:00,2026-11-13,16000073,CHUCK,hypercharge,FULL STEAM AHEAD!,0,1,live
 2026-11-13T21:19:08+00:00,2026-11-13,16000031,MR. P,gadget,PORTER REINFORCEMENTS,1,2,live
 2026-11-14T13:15:15+00:00,2026-11-14,16000084,MOE,unlock,Brawler unlocked,,,live
+2026-11-15T10:34:43+00:00,2026-11-15,16000031,MR. P,power,Power 10 → 11,10,11,live

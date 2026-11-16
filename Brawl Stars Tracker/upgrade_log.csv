@@ -195,3 +195,5 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-14T13:15:15+00:00,2026-11-14,16000084,MOE,unlock,Brawler unlocked,,,live
 2026-11-15T10:34:43+00:00,2026-11-15,16000031,MR. P,power,Power 10 → 11,10,11,live
 2026-11-16T10:50:42+00:00,2026-11-16,16000068,MAISIE,gadget,DISENGAGE!,0,1,live
+2026-11-16T21:50:03+00:00,2026-11-16,16000014,BO,power,Power 9 → 10,9,10,live
+2026-11-16T21:50:03+00:00,2026-11-16,16000031,MR. P,star_power,HANDLE WITH CARE,1,2,live

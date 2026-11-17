@@ -197,3 +197,5 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-16T10:50:42+00:00,2026-11-16,16000068,MAISIE,gadget,DISENGAGE!,0,1,live
 2026-11-16T21:50:03+00:00,2026-11-16,16000014,BO,power,Power 9 → 10,9,10,live
 2026-11-16T21:50:03+00:00,2026-11-16,16000031,MR. P,star_power,HANDLE WITH CARE,1,2,live
+2026-11-17T18:20:22+00:00,2026-11-17,16000101,GLOWY,unlock,Brawler unlocked,,,live
+2026-11-17T18:20:22+00:00,2026-11-17,16000098,ZIGGY,unlock,Brawler unlocked,,,live

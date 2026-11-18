@@ -199,3 +199,5 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-16T21:50:03+00:00,2026-11-16,16000031,MR. P,star_power,HANDLE WITH CARE,1,2,live
 2026-11-17T18:20:22+00:00,2026-11-17,16000101,GLOWY,unlock,Brawler unlocked,,,live
 2026-11-17T18:20:22+00:00,2026-11-17,16000098,ZIGGY,unlock,Brawler unlocked,,,live
+2026-11-18T11:23:07+00:00,2026-11-18,16000063,CHESTER,gadget,PRANKSTER'S SURPRISE,1,2,live
+2026-11-18T11:23:07+00:00,2026-11-18,16000008,NITA,buffie,Star buffie,False,True,live

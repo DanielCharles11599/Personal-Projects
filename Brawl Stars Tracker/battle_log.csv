@@ -1929,3 +1929,15 @@ battle_time,mode,map,brawler_used,outcome,rank,trophy_change,was_star_player
 20261119T203411.000Z,duoShowdown,Truth,MR. P,,2,16,False
 20261119T203159.000Z,duoShowdown,Truth,MR. P,,2,15,False
 20261119T203039.000Z,duoShowdown,Truth,MR. P,,2,14,False
+20261120T084349.000Z,brawlBall,Bustling Business,OTIS,victory,,13,False
+20261120T084211.000Z,brawlBall,Bustling Business,OTIS,victory,,12,True
+20261120T084106.000Z,brawlBall,Bustling Business,OTIS,victory,,11,False
+20261120T083914.000Z,brawlBall,Bustling Business,CHESTER,defeat,,-4,False
+20261120T083408.000Z,soloShowdown,Cavern Churn,GROM,,5,,False
+20261120T083050.000Z,soloShowdown,Cavern Churn,DYNAMIKE,,10,,False
+20261120T082827.000Z,soloShowdown,Cavern Churn,TICK,,6,,False
+20261120T082606.000Z,soloShowdown,Cavern Churn,DYNAMIKE,,8,,False
+20261120T082316.000Z,soloShowdown,Cavern Churn,DYNAMIKE,,4,,False
+20261120T082054.000Z,soloShowdown,Cavern Churn,LARRY & LAWRIE,,2,,False
+20261120T081814.000Z,soloShowdown,Cavern Churn,DYNAMIKE,,8,,False
+20261120T081600.000Z,soloShowdown,Cavern Churn,GROM,,6,,False

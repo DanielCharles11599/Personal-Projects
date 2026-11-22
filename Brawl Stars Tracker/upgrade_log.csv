@@ -217,3 +217,4 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-21T10:48:33+00:00,2026-11-21,16000035,GALE,star_power,BLUSTERY BLOW,1,2,live
 2026-11-21T10:48:33+00:00,2026-11-21,16000069,HANK,hypercharge,HOMING FISH-ILES,0,1,live
 2026-11-21T18:55:24+00:00,2026-11-21,16000031,MR. P,buffie,Gadget buffie,False,True,live
+2026-11-22T10:56:05+00:00,2026-11-22,16000014,BO,power,Power 10 → 11,10,11,live

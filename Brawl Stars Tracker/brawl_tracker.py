@@ -1,58 +1,21 @@
 #!/usr/bin/env python3
-"""
-Brawl Stars automated stat tracker.
+"""Brawl Stars stat tracker.
 
-Run this on a schedule (cron, Windows Task Scheduler, or GitHub Actions) and it
-appends your current stats to CSV files every time it runs. Over time this
-builds the exact history you want -- starting from whenever you first run it.
+Run it on a schedule (GitHub Actions here) and each run appends your current
+stats to CSV files, so the history starts from the first run.
 
-SETUP
------
-1. Get an API token:
-   - Go to https://developer.brawlstars.com, log in, create a new key.
-   - When asked to whitelist an IP, enter exactly: 128.128.128.128
-     (This is not a mistake -- it's RoyaleAPI's proxy IP. Using their proxy
-     endpoint below lets you call the API from ANY machine/IP without
-     re-whitelisting every time your home IP or a cloud runner's IP changes.)
-   - Copy the generated token.
+Setup: make a key at https://developer.brawlstars.com and whitelist 128.128.128.128
+(the RoyaleAPI proxy). Then put the token and your player tag in config.json, or
+in the BS_API_TOKEN and BS_PLAYER_TAG environment variables. Needs requests
+(pip install requests). Test with: python3 brawl_tracker.py
 
-2. Find your player tag in-game (Settings > top of profile, looks like #2ABC123).
-
-3. Fill in config.json (created next to this script on first run) with your
-   token and tag, OR set the environment variables BS_API_TOKEN and
-   BS_PLAYER_TAG instead (useful for GitHub Actions secrets).
-
-4. Install the one dependency:
-   pip install requests --break-system-packages   (or just: pip install requests)
-
-5. Run it once manually to test:
-   python3 brawl_tracker.py
-
-6. Schedule it to run automatically (see GitHub Actions workflow, or cron /
-   Task Scheduler on your own machine).
-
-WHAT IT LOGS
-------------
-- brawl_history.csv       one row per run: account-level snapshot (trophies,
-                           brawlers unlocked, victories, account level, etc).
-- brawler_history.csv     one row per brawler per run: trophies, power, the
-                           game's own rank badge, and gadget/star power/
-                           hypercharge counts owned for that brawler.
-- battle_log.csv          recent matches with brawler used, outcome, and
-                           trophy change, deduped by battle time.
-- catalog.json            NOT historical -- overwritten every run with the
-                           current full game catalog (every brawler, and how
-                           many gadgets/star powers/hypercharges each one
-                           has), used by the dashboard to compute "X out of
-                           total" completion stats.
-- upgrade_log.csv         one row per upgrade the tracker notices between runs
-                           (brawler unlocked, power level, gadget, star power,
-                           hypercharge, buffie, prestige), with the time it
-                           was first seen. Run `python brawl_tracker.py
-                           --backfill-upgrades` once to seed it from the daily
-                           snapshots that already exist.
-- assets.json             icon lookup (game mode -> icon URL) built from the
-                           public Brawlify API; failures here never fail a run.
+Files it writes:
+  brawl_history.csv    one row per run, account totals
+  brawler_history.csv  one row per brawler per run
+  battle_log.csv       recent battles, deduped on battle time
+  catalog.json         every brawler with its gadget/star power/hypercharge counts, rewritten each run
+  upgrade_log.csv      upgrades noticed between runs, seed it once with --backfill-upgrades
+  assets.json          mode icon urls from Brawlify
 """
 
 import csv
@@ -66,13 +29,13 @@ from pathlib import Path
 
 try:
     import requests
-except ImportError:  # only needed for talking to the API, not for --backfill-upgrades
+except ImportError:  # not needed for --backfill-upgrades
     requests = None
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = SCRIPT_DIR / "config.json"
 
-# Proxy base URL -- works from any IP once 128.128.128.128 is whitelisted on your token.
+# royaleapi proxy, works from any ip once 128.128.128.128 is whitelisted
 BASE_URL = "https://bsproxy.royaleapi.dev/v1"
 
 
@@ -89,7 +52,7 @@ def load_config():
             indent=2
         ))
         sys.exit(
-            f"Created {CONFIG_PATH.name} -- fill in your api_token and player_tag, "
+            f"Created {CONFIG_PATH.name}, fill in your api_token and player_tag "
             "then run this script again."
         )
 
@@ -103,16 +66,13 @@ def load_config():
     return token, tag
 
 
-# Transient failures worth retrying. The 52x codes are Cloudflare errors from
-# the proxy sitting in front of Supercell's API (e.g. 525 = the proxy's own SSL
-# handshake with its origin failed). They're not caused by anything in this
-# project and normally clear up within seconds to a few minutes.
+# retry these. the 52x ones are cloudflare errors from the proxy and usually clear up on their own
 RETRYABLE_STATUS = {429, 500, 502, 503, 504, 520, 521, 522, 523, 524, 525, 526, 527}
-RETRY_DELAYS = [5, 15, 30, 60, 120]  # seconds to wait between attempts (6 attempts total)
+RETRY_DELAYS = [5, 15, 30, 60, 120]  # seconds between attempts
 
 
 def clean_error_body(resp):
-    """Keep failure messages readable -- don't dump a whole HTML error page into the log."""
+    """Trim error bodies so a whole html page doesn't end up in the log."""
     text = resp.text.strip()
     if "<html" in text[:300].lower() or text.lower().startswith("<!doctype"):
         return "(HTML error page from the proxy/CDN)"
@@ -132,7 +92,7 @@ def api_get(path, token):
             if resp.status_code == 200:
                 return resp.json()
             if resp.status_code not in RETRYABLE_STATUS:
-                # Not transient (bad token, wrong tag, ...) -- retrying can't help.
+                # bad token, wrong tag etc, retrying won't help
                 sys.exit(f"API error {resp.status_code} calling {path}: {clean_error_body(resp)}")
             last_problem = f"HTTP {resp.status_code}"
 
@@ -145,7 +105,7 @@ def api_get(path, token):
     sys.exit(
         f"API call to {path} still failing after {len(RETRY_DELAYS) + 1} attempts "
         f"({last_problem}). This is usually the proxy or Supercell's API having a bad "
-        f"moment -- re-run the workflow later."
+        f"moment, re-run the workflow later."
     )
 
 
@@ -157,20 +117,11 @@ def normalize_tag(tag):
 
 
 def ensure_header(path, header):
-    """
-    Call once per file per run, before any append_csv() calls for it.
+    """Call once per file per run, before append_csv.
 
-    If the file already exists with an older header that's simply a prefix of
-    the current one (i.e. we only ever added columns at the end, which is how
-    every schema change here has happened so far), migrate it in place: pad
-    every existing row with blanks for the new trailing columns, under the
-    new header. This is what was missing before -- a header mismatch used to
-    silently misalign every column (e.g. a victory count landing in the
-    club_name field) instead of being caught or fixed.
-
-    If the header changed in some other way (columns removed/reordered), this
-    refuses to guess and fails loudly instead, since silent corruption is far
-    worse than a visible error on a scheduled run.
+    If the file has an older header that is a prefix of the current one (columns
+    are only ever added at the end), pad the old rows with blanks and rewrite
+    under the new header.
     """
     if not path.exists():
         return
@@ -208,19 +159,10 @@ def append_csv(path, header, row):
 
 
 def write_daily_snapshot_csv(path, header, new_rows, key_fn):
-    """
-    For periodic snapshot files (one entry expected per day, as opposed to
-    battle_log.csv's one-entry-per-event model): replace any existing row(s)
-    whose key matches one of new_rows' keys, then append new_rows. This means
-    running the tracker multiple times in the same day (e.g. while testing)
-    overwrites that day's snapshot instead of creating duplicates that distort
-    the trend charts.
+    """Replace rows whose key matches one of new_rows, then append new_rows.
 
-    Call ensure_header(path, header) before this, so the file's existing rows
-    (if any) are already guaranteed to match the current column layout.
-
-    key_fn(row) -> hashable key, e.g. the calendar date, or (date, brawler_id)
-    for files with multiple rows per snapshot.
+    For the once-a-day snapshot files, so running twice in a day overwrites
+    instead of duplicating. Call ensure_header first.
     """
     existing = []
     if path.exists():
@@ -229,9 +171,7 @@ def write_daily_snapshot_csv(path, header, new_rows, key_fn):
         if existing_rows:
             existing = existing_rows[1:]  # drop header
 
-    # Keys are compared as strings: new rows carry real numbers (e.g. brawler_id as an int)
-    # while rows read back from the CSV are text, and 16000001 != "16000001". Without this
-    # the same-day overwrite silently never matched and every run appended a duplicate.
+    # compare keys as strings, new rows hold ints but rows read from the csv are text
     def norm_key(r):
         k = key_fn(r)
         return tuple(str(x) for x in k) if isinstance(k, tuple) else str(k)
@@ -247,11 +187,7 @@ def write_daily_snapshot_csv(path, header, new_rows, key_fn):
 
 
 def fetch_catalog(token):
-    """
-    Pull the full game catalog (every brawler currently in the game) so the
-    dashboard can compute "X out of total" completion stats. Overwritten
-    fresh every run -- not historical.
-    """
+    """Fetch every brawler in the game for the "x out of total" stats. Rewritten each run."""
     data = api_get("/brawlers", token)
     catalog = {}
     total_gadgets = 0
@@ -261,9 +197,7 @@ def fetch_catalog(token):
     for b in data.get("items", []):
         gadgets = b.get("gadgets", []) or []
         star_powers = b.get("starPowers", []) or []
-        # Hypercharges aren't confirmed in the official /brawlers schema as of
-        # this script's writing. Checked defensively under both possible key
-        # spellings -- if Supercell has added this, it'll just start working.
+        # hypercharges might not be in the official schema yet, try both spellings
         hypercharges = b.get("hyperCharges") or b.get("hypercharges") or []
 
         catalog[str(b.get("id"))] = {
@@ -282,9 +216,7 @@ def fetch_catalog(token):
         total_star_powers += len(star_powers)
         total_hypercharges += len(hypercharges)
 
-    # Diagnostic: any fields on catalog entries we don't use. If Supercell ever
-    # exposes e.g. which brawlers have buffies here, it will show up in this list
-    # (and in the workflow log) rather than being silently ignored.
+    # log catalog fields we don't use yet so new ones get noticed
     known_keys = {"id", "name", "gadgets", "starPowers", "hyperCharges", "hypercharges"}
     extra_keys = sorted({k for b in data.get("items", []) for k in b.keys()} - known_keys)
     if extra_keys:
@@ -327,7 +259,7 @@ def log_player_snapshot(player, now_iso):
         player.get("soloVictories"),
         player.get("duoVictories"),
         (player.get("club") or {}).get("name", ""),
-        False,  # every row this script writes going forward is real, not backfilled
+        False,  # rows written from here on are real, not backfilled
     ]
     write_daily_snapshot_csv(path, header, [row], key_fn=lambda r: r[0][:10])
     print(f"Logged account snapshot: {player.get('trophies')} trophies "
@@ -353,7 +285,7 @@ def build_brawler_rows(player, now_iso):
             hyper = []
         buffies = b.get("buffies") or {}
 
-        # Semicolon-joined since names themselves may contain commas/spaces.
+        # joined with ; because names can contain commas
         gadget_names = ";".join(g.get("name", "") for g in gadgets)
         star_power_names = ";".join(s.get("name", "") for s in star_powers)
         hypercharge_names = ";".join(h.get("name", "") for h in hyper)
@@ -371,12 +303,11 @@ def build_brawler_rows(player, now_iso):
 def log_brawler_snapshots(rows):
     path = SCRIPT_DIR / "brawler_history.csv"
     ensure_header(path, BRAWLER_HEADER)
-    # Keyed by (date, brawler_id) since each run writes one row per brawler --
-    # only today's rows get replaced, every other day's history is untouched.
+    # keyed by (date, brawler_id), only today's rows get replaced
     write_daily_snapshot_csv(path, BRAWLER_HEADER, rows, key_fn=lambda r: (r[0][:10], r[1]))
 
 
-# ---------------------------------------------------------------- upgrade events
+# ---- upgrade events
 UPGRADE_HEADER = [
     "detected_at", "date", "brawler_id", "brawler_name", "type", "detail",
     "from_value", "to_value", "source",
@@ -396,7 +327,7 @@ def _int(v):
 
 
 def _flag(v):
-    """True / False, or None when the value is blank (the column didn't exist yet)."""
+    """True/False, or None if the value is blank."""
     if isinstance(v, bool):
         return v
     s = "" if v is None else str(v).strip().lower()
@@ -412,7 +343,7 @@ def _split_names(v):
 
 
 def load_previous_brawler_state():
-    """Latest stored row per brawler (keyed by brawler_id), or {} on the very first run."""
+    """Latest stored row per brawler_id, or {} on the first run."""
     path = SCRIPT_DIR / "brawler_history.csv"
     if not path.exists():
         return {}
@@ -429,13 +360,10 @@ def load_previous_brawler_state():
 
 
 def diff_brawler_states(prev_by_id, new_rows, detected_at, source="live"):
-    """
-    Compare the previous stored state with a new snapshot and describe what got
-    upgraded in between. Works on dict rows (keys = BRAWLER_HEADER) so the live
-    run and the one-off backfill share the exact same logic.
+    """Describe what was upgraded between the previous state and a new snapshot.
 
-    A field that was blank in the previous row (the column didn't exist yet) is
-    never treated as "just obtained" -- we only report changes we can actually see.
+    Works on dict rows so the live run and the backfill share the logic. A field
+    that was blank before (column didn't exist yet) doesn't count as newly obtained.
     """
     events = []
     if not prev_by_id:
@@ -465,7 +393,7 @@ def diff_brawler_states(prev_by_id, new_rows, detected_at, source="live"):
                 continue
             old_names = _split_names(p.get(names_col))
             gained = [n for n in _split_names(r.get(names_col)) if n not in old_names]
-            # Names are only trustworthy when the old row recorded them (or had none to record).
+            # only trust names if the old row had them
             if gained and (old_names or old_n == 0):
                 detail = ", ".join(gained)
             else:
@@ -500,10 +428,10 @@ def append_upgrade_events(events):
 
 
 def backfill_upgrade_log(force=False):
-    """
-    One-off: rebuild upgrade_log.csv from the daily snapshots already stored in
-    brawler_history.csv. Events are dated to the first daily snapshot that showed
-    them (source = "backfill"), so their precision is one day.
+    """One-off: rebuild upgrade_log.csv from the stored daily snapshots.
+
+    Each upgrade is dated to the first snapshot that shows it, so it's only
+    accurate to the day.
     """
     src_path = SCRIPT_DIR / "brawler_history.csv"
     dst_path = SCRIPT_DIR / "upgrade_log.csv"
@@ -534,17 +462,17 @@ def backfill_upgrade_log(force=False):
     print(f"Backfilled {len(events)} upgrade(s) from {len(days)} daily snapshots into {dst_path.name}.")
 
 
-# ---------------------------------------------------------------- icons (assets.json)
+# ---- icons (assets.json)
 BRAWLAPI_GAMEMODES = "https://api.brawlapi.com/v1/gamemodes"
 
-# Game modes the dashboard may show, plus whatever appears in battle_log.csv.
+# modes the dashboard may show, plus whatever is in battle_log.csv
 KNOWN_MODE_KEYS = [
     "soloShowdown", "duoShowdown", "trioShowdown", "gemGrab", "brawlBall", "bounty", "heist",
     "hotZone", "knockout", "duels", "wipeout", "lastStand", "payload", "bossFight", "roboRumble",
     "bigGame", "takedown", "volleyBrawl", "basketBrawl",
 ]
 
-# battle-log key (normalised) -> other names to try in Brawlify's list (normalised), in order.
+# battle log key -> other names to try in brawlify's list, in order
 MODE_ALIASES = {
     "soloshowdown": ["showdown"],
     "duoshowdown": ["showdown"],
@@ -557,7 +485,7 @@ def _norm(s):
 
 
 def match_mode_icons(mode_keys, gamemodes):
-    """Map each battle-log mode key to an icon URL. Returns (urls, how_matched, unmatched)."""
+    """Map battle log mode keys to icon urls. Returns (urls, how_matched, unmatched)."""
     index = []
     for gm in gamemodes:
         terms = {_norm(gm.get("name", "")), _norm(gm.get("hash", ""))} - {""}
@@ -584,7 +512,7 @@ def match_mode_icons(mode_keys, gamemodes):
                 if found:
                     break
         if not found:
-            # Last resort: the longest Brawlify name that is contained in the key (or vice versa).
+            # last resort: longest brawlify name contained in the key, or the reverse
             best = None
             for terms, url in index:
                 for t in terms:
@@ -601,11 +529,10 @@ def match_mode_icons(mode_keys, gamemodes):
 
 
 def build_assets():
-    """
-    Write assets.json (mode -> icon URL) from the public Brawlify API. Brawler,
-    gadget and star power icons need no lookup: the dashboard builds their URLs
-    straight from the IDs the official API already gives us.
-    Never fails the run -- if Brawlify is unreachable the previous file is kept.
+    """Write assets.json (mode -> icon url) from the Brawlify API.
+
+    Brawler, gadget and star power icon urls are built from ids in the dashboard.
+    Keeps the old file if Brawlify is down.
     """
     path = SCRIPT_DIR / "assets.json"
     try:
@@ -615,7 +542,7 @@ def build_assets():
         gamemodes = payload.get("list") if isinstance(payload, dict) else payload
         if not gamemodes:
             raise ValueError("response contained no game modes")
-    except Exception as e:  # noqa: BLE001 -- icons are cosmetic, never worth failing a run
+    except Exception as e:  # noqa: BLE001  icons are cosmetic, don't fail the run
         print(f"Skipped icon lookup ({type(e).__name__}: {e}); keeping any existing assets.json.")
         return
 
@@ -643,7 +570,7 @@ def build_assets():
 
 
 def find_own_brawler(battle, own_tag):
-    """Look through a battle's teams/players for our own tag and return the brawler we used."""
+    """Find our own tag in a battle's teams/players and return the brawler we used."""
     own_tag = own_tag.upper()
     entries = []
     for team in battle.get("teams", []) or []:
@@ -657,13 +584,8 @@ def find_own_brawler(battle, own_tag):
 
 
 def determine_outcome(battle):
-    """
-    Normalize the result of a battle into a consistent outcome column.
-    - Versus modes (3v3, duels, etc.) report battle['result']: victory/defeat/draw.
-    - Showdown modes (solo/duo) report battle['rank'] instead -- there's no official
-      win/loss label for these, so we keep the raw rank in its own column and leave
-      'outcome' blank.
-    """
+    """Versus modes give result (victory/defeat/draw). Showdown only gives a rank,
+    so the rank goes in its own column and outcome stays blank."""
     if "result" in battle:
         return battle.get("result", ""), ""
     if "rank" in battle:
@@ -679,7 +601,7 @@ def was_star_player(battle, own_tag):
 
 
 def log_battle_log(tag, token):
-    """Pull recent battles and log any not already recorded (dedup by battleTime)."""
+    """Log recent battles we haven't seen yet (deduped on battleTime)."""
     path = SCRIPT_DIR / "battle_log.csv"
 
     seen_times = set()
@@ -733,7 +655,7 @@ def main():
     player = api_get(f"/players/{requests.utils.quote(tag)}", token)
     catalog = fetch_catalog(token)
 
-    # Work out what changed BEFORE today's snapshot overwrites the previous state.
+    # check what changed before today's snapshot overwrites the old state
     new_brawler_rows = build_brawler_rows(player, now_iso)
     events = diff_brawler_states(
         load_previous_brawler_state(),

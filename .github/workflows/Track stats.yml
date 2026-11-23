@@ -1,33 +1,30 @@
-# Save this file to: .github/workflows/track-stats.yml  in your repo
-# (GitHub only picks up workflows that live in that exact folder.)
+# lives in .github/workflows/track-stats.yml
 
 name: Track Brawl Stars Stats
 
 on:
   schedule:
-    # Every 3 hours (UTC): 00, 03, 06, 09, ... GitHub Actions cron is always UTC --
-    # there's no "timezone" field. South Africa is UTC+2, so 08:00 UTC = 10:00 AM local.
-    # Running more often catches more battles (the API only returns the last 25 per
-    # run) and gives upgrade dates that are accurate to within a few hours.
+    # every 3 hours, cron is UTC (we're UTC+2). runs often because the api only
+    # returns the last 25 battles
     - cron: '0 */3 * * *'
-  workflow_dispatch: {}   # lets you trigger it manually from the Actions tab
+  workflow_dispatch: {}   # manual run from the Actions tab
 
-# Prevents two runs from overlapping and racing to push at the same time.
+# no overlapping runs
 concurrency:
   group: brawl-tracker
   cancel-in-progress: false
 
 permissions:
-  contents: write   # needed so the workflow can commit the updated CSVs back
-  pages: write       # needed to publish to GitHub Pages
-  id-token: write    # needed for the official Pages deploy action
+  contents: write   # commit the csvs
+  pages: write
+  id-token: write
 
 jobs:
   track:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'Brawl Stars Tracker'   # <-- files live in this subfolder
+        working-directory: 'Brawl Stars Tracker'   # files live in this folder
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -62,7 +59,7 @@ jobs:
           fi
 
   deploy-pages:
-    needs: track           # only runs once the tracker job above has finished
+    needs: track
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -71,12 +68,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          # IMPORTANT: without this, checkout defaults to github.sha -- the
-          # commit that existed when the workflow was TRIGGERED, which is
-          # fixed for the whole run. It does NOT pick up whatever the track
-          # job just pushed, even though this job runs after it. Explicitly
-          # checking out the branch instead fetches its current tip at the
-          # moment this step runs, which by now includes track's new commit.
+          # check out main, otherwise we get the commit the run started on and miss the data commit
           ref: main
 
       - name: Assemble the site
@@ -96,9 +88,7 @@ jobs:
         with:
           path: _site
 
-      # GitHub occasionally reports "Found 0 artifact(s)" for an artifact that was
-      # uploaded a split second earlier (its artifact listing lags behind the upload).
-      # The data is already committed by the track job, so only the deploy needs a retry.
+      # sometimes "Found 0 artifact(s)" right after the upload, so retry once
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

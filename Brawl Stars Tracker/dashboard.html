@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B0D17">
 <script>
-/* Apply the saved (or system) theme before first paint so there's no flash. */
+// set the theme before first paint
 (function(){
   var t = null;
   try { t = localStorage.getItem('brawlLogTheme'); } catch(e) {}
@@ -17,13 +17,13 @@
   if(m) m.setAttribute('content', t === 'light' ? '#F3F4F9' : '#0B0D17');
 })();
 </script>
-<title>Brawl Log — Dashboard</title>
+<title>Brawl Log</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
-  /* ---- Dark theme (default) ---- */
+  /* dark theme */
   :root{
     color-scheme: dark;
     --bg:#0B0D17; --panel:#121625; --panel-alt:#191E30; --line:rgba(255,255,255,0.08);
@@ -41,12 +41,12 @@
     --chart-gold:#FFC94A; --chart-gold-fill:rgba(255,201,74,0.12); --chart-gold-dim:rgba(255,201,74,0.45);
     --chart-teal:#3FE1D0; --chart-teal-fill:rgba(63,225,208,0.12); --chart-muted:#6b6b85;
     --nav-h:52px; --scroll-shadow:rgba(0,0,0,0.35);
-    /* progression-bar segment colours (tints of the dashboard's pink / green / gold / teal) */
+    /* progress bar colours */
     --pb1:#FF5C82; --pb2:#FF809E; --pb3:#FFA0B6; --pb4:#FFBECD; --pb5:#FFD5DE; --pg1:#32C132; --pg2:#80D980; --pg3:#BDEBBD; --ps1:#FFCD00; --ps2:#FFE061; --ps3:#FFEFAD; --pf1:#009888; --pf2:#4CB7AC; --pf3:#8CD1C9; --pf4:#BFE5E1;
     --locked-a:rgba(255,255,255,0.12); --locked-b:rgba(255,255,255,0.04); --seg-edge:transparent;
   }
 
-  /* ---- Light theme: text accents are deepened so they stay readable on white ---- */
+  /* light theme */
   :root[data-theme="light"]{
     color-scheme: light;
     --bg:#F3F4F9; --panel:#FFFFFF; --panel-alt:#EDEFF7; --line:rgba(22,26,52,0.12);
@@ -213,7 +213,7 @@
     }
 }
 
-  /* ===================== Navigation, theme toggle, back-to-top, responsive ===================== */
+  /* nav, theme toggle, back to top */
   html{ scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 12px); }
   :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
   .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
@@ -247,8 +247,8 @@
   .to-top:hover{ border-color:var(--text-dim); }
   .to-top svg{ width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 
-  /* Wide tables scroll sideways inside their card instead of squashing or overflowing the page. */
-  /* Edge shadows appear only on the side that still has more content to scroll to (pure CSS, no JS). */
+  /* wide tables scroll inside their card */
+  /* edge shadows only where there's more to scroll to */
   .table-scroll{
     overflow-x:auto; -webkit-overflow-scrolling:touch;
     background:
@@ -257,7 +257,7 @@
       radial-gradient(farthest-side at 0 50%,    var(--scroll-shadow), transparent) left center / 12px 100% no-repeat scroll,
       radial-gradient(farthest-side at 100% 50%, var(--scroll-shadow), transparent) right center / 12px 100% no-repeat scroll;
   }
-  /* Keep the name column visible while the numbers scroll underneath it. */
+  /* keep the name column pinned */
   table.sticky-first th:first-child, table.sticky-first td:first-child{ position:sticky; left:0; z-index:1; background:var(--panel); box-shadow:1px 0 0 var(--line); }
   table.sticky-first tr:hover td:first-child{ background-image:linear-gradient(var(--row-hover), var(--row-hover)); }
   table.min-520{ min-width:520px; }
@@ -296,7 +296,7 @@
     .icon-btn.spinning svg{ animation:none; }
   }
 
-  /* ===================== Icons, progression bars, fan notice ===================== */
+  /* icons, progress bars */
   .brawler-name-cell{ gap:10px; }
   .portrait-wrap{ position:relative; display:inline-flex; width:28px; height:28px; flex:0 0 28px; }
   .portrait-wrap.sm{ width:22px; height:22px; flex-basis:22px; }
@@ -338,7 +338,7 @@
   .fan-notice a{ color:var(--text-dim); text-decoration:underline; }
   .fan-notice a:hover{ color:var(--text); }
 
-  /* ===================== Phase 3: last-25 panel, upgrade calendar, map sorting ===================== */
+  /* last 25, calendar, map table */
   :root{
     --ev-unlock:#9B6BFF; --ev-power:#3FE1D0; --ev-gadget:#32C132; --ev-star_power:#FFCD00; --ev-hypercharge:#FF5C82; --ev-buffie:#FF9A3D; --ev-prestige:#4DA3FF;
     --pip-ink:#0B0D17;
@@ -412,7 +412,7 @@
     .cal-bgroup ul{ margin-left:8px; }
   }
 
-  /* ===================== Phase 4: maxing forecast ===================== */
+  /* forecast */
   .fc-line{ padding:14px 16px; border:1px solid var(--line); border-radius:14px; background:var(--panel-alt); margin-bottom:10px; }
   .fc-line .k{ font-size:12.5px; color:var(--text-dim); margin-bottom:2px; }
   .fc-line .v{ font-family:'Lilita One','Rubik',sans-serif; font-size:24px; line-height:1.2; }
@@ -424,7 +424,7 @@
   .fc-notes li{ margin:3px 0; }
   @media (max-width:600px){ .fc-line .v{ font-size:20px; } }
 
-  /* ===================== Phase 5: account rating ===================== */
+  /* rating */
   .rating-cols{ display:grid; grid-template-columns:1fr 1fr; gap:8px 28px; margin-bottom:6px; }
   @media (max-width:760px){ .rating-cols{ grid-template-columns:1fr; } }
   .rating-cols h3, .rating-h{ font-size:15px; margin:14px 0 6px; }
@@ -575,12 +575,12 @@
         <div class="stat-sub">for currently owned brawlers*</div>
       </div>
     </div>
-    <p class="hint" style="margin:14px 0 0;">*Uses Supercell's standard, long-stable per-level cost table. Not fetched live — if they ever rebalance it, this stays slightly off until updated.</p>
+    <p class="hint" style="margin:14px 0 0;">*Uses Supercell's standard per-level cost table. It isn't fetched live, so it may drift if they change it.</p>
   </div>
 
   <div class="card" id="forecastCard">
     <h2>Maxing forecast</h2>
-    <p class="hint">How long until everything is maxed, based on the pace you have actually been progressing at — not on a guess.</p>
+    <p class="hint">How long until everything is maxed, going by how fast you've actually been upgrading.</p>
     <div id="forecastEmpty" class="empty" style="display:none;"></div>
     <div id="forecastContent" style="display:none;">
       <div id="forecastHeadlines"></div>
@@ -601,7 +601,7 @@
 
   <div class="card" id="ratingCard">
     <h2>Account rating</h2>
-    <p class="hint">Two scores out of 100: how complete your account is, and how well you are playing. The overall rating leans towards completeness.</p>
+    <p class="hint">Two scores out of 100: how complete your account is and how well you play. Overall leans towards completeness.</p>
     <div id="ratingEmpty" class="empty" style="display:none;"></div>
     <div id="ratingContent" style="display:none;">
       <div class="hero cols-3 tight">
@@ -617,7 +617,7 @@
       <div class="rt-legend" id="rtLegend"></div>
       <div id="rtTrend"></div>
       <h3 class="rating-h">What would raise completeness most</h3>
-      <p class="hint" style="margin:0 0 8px;">Points gained per 10,000 gold, for the upgrades gold can buy. Unlocking brawlers is not priced in gold, so it is not ranked.</p>
+      <p class="hint" style="margin:0 0 8px;">Points gained per 10,000 gold. Unlocks aren't priced in gold so they're left out.</p>
       <div id="rtRaise"></div>
       <ul class="fc-notes" id="rtNotes"></ul>
     </div>
@@ -627,10 +627,10 @@
   <section id="trend">
   <div class="card">
     <h2>Trophy trend</h2>
-    <p class="hint">Shows the range selected below in "Trophy gain over a period" — defaults to your full logged history. <span id="chartRangeLabel"></span></p>
-    <div id="chartEmpty" class="empty">No account history yet — waiting on brawl_history.csv.</div>
+    <p class="hint">Follows the range picked under "Trophy gain over a period". Defaults to your full history. <span id="chartRangeLabel"></span></p>
+    <div id="chartEmpty" class="empty">No account history yet. Waiting on brawl_history.csv.</div>
     <canvas id="trophyChart" style="display:none;"></canvas>
-    <p class="hint" id="chartSyntheticNote" style="display:none; margin:12px 0 0;">The dashed, dimmer segment is an estimated backfill prior to when tracking actually began — not real logged data.</p>
+    <p class="hint" id="chartSyntheticNote" style="display:none; margin:12px 0 0;">The dashed segment is an estimated backfill from before tracking started, not logged data.</p>
   </div>
 
   <div class="card" id="periodCard">
@@ -652,8 +652,8 @@
   <section id="calendar">
   <div class="card" id="calendarCard">
     <h2>Upgrade calendar</h2>
-    <p class="hint">Every unlock, power level, gadget, star power, hypercharge, buffie and prestige the tracker has seen, by day. Several upgrades of the same type on one brawler on one day are shown as one entry.</p>
-    <div id="calEmpty" class="empty" style="display:none;">No upgrade data yet — upgrade_log.csv is missing or empty.</div>
+    <p class="hint">Every unlock, power level, gadget, star power, hypercharge, buffie and prestige the tracker has seen, by day. The same type on the same brawler on the same day shows as one entry.</p>
+    <div id="calEmpty" class="empty" style="display:none;">No upgrade data yet. upgrade_log.csv is missing or empty.</div>
     <div id="calContent" style="display:none;">
       <div class="cal-head">
         <div class="cal-nav">
@@ -664,7 +664,7 @@
         <button class="btn ghost small" id="calToday" type="button">Today</button>
       </div>
       <div class="cal-chips" id="calChips" role="group" aria-label="Filter upgrade types"></div>
-      <p class="cal-legend">Dots on a day show which types happened; the number is how many entries. <span class="hatch-sample"></span> Hatched = no snapshot was recorded that day, so upgrades made then appear on the next snapshot day.</p>
+      <p class="cal-legend">Dots show which types happened that day and the number is the entry count. <span class="hatch-sample"></span> Hatched days have no snapshot, so anything done then shows up on the next snapshot day.</p>
       <div id="calGrid" role="grid" aria-label="Upgrade calendar"></div>
       <div class="cal-detail" id="calDetail"></div>
       <p class="cal-note" id="calNote"></p>
@@ -680,7 +680,7 @@
         <p class="hint">Latest snapshot, with change since the previous one. Click a row to see its trend.</p>
       </div>
     </div>
-    <div id="brawlerEmpty" class="empty">No per-brawler data yet — waiting on brawler_history.csv.</div>
+    <div id="brawlerEmpty" class="empty">No per-brawler data yet. Waiting on brawler_history.csv.</div>
     <div class="table-scroll"><table id="brawlerTable" style="display:none;">
       <thead><tr><th>Brawler</th><th class="num">Trophies</th><th class="num">Change</th><th class="num">Power</th></tr></thead>
       <tbody id="brawlerTableBody"></tbody>
@@ -702,8 +702,8 @@
   <section id="winrate">
   <div class="card" id="winRateCard">
     <h2>Win rate</h2>
-    <p class="hint">Computed from every battle the tracker has logged — grows more accurate over time.</p>
-    <div id="winRateEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <p class="hint">Built from every battle the tracker has logged. Gets more accurate over time.</p>
+    <div id="winRateEmpty" class="empty">No battle log data yet. Waiting on battle_log.csv.</div>
     <div id="winRateContent" style="display:none;">
       <div class="hero cols-4 tight">
         <div>
@@ -769,7 +769,7 @@
   <div class="card" id="activityCard">
     <h2>Activity Patterns</h2>
     <p class="hint">When you actually play, based on every logged battle's timestamp (shown in your browser's local time).</p>
-    <div id="activityEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <div id="activityEmpty" class="empty">No battle log data yet. Waiting on battle_log.csv.</div>
     <div id="activityContent" style="display:none;">
       <div class="hero cols-4 tight">
         <div>
@@ -798,8 +798,8 @@
   <section id="maps">
   <div class="card" id="mapCard">
     <h2>Map Performance</h2>
-    <p class="hint">Per-map win rate, plus your strongest and weakest brawler on each map (minimum 3 logged battles to qualify, so one-off results don't skew the call). Maps are grouped by mode by default — click Map, Mode, Battles or Win rate to re-sort (click again to reverse).</p>
-    <div id="mapEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+    <p class="hint">Win rate per map, plus your best and worst brawler on each (needs 3+ battles). Grouped by mode by default. Click a column header to sort, click again to reverse.</p>
+    <div id="mapEmpty" class="empty">No battle log data yet. Waiting on battle_log.csv.</div>
     <div id="mapContent" style="display:none;">
       <div class="table-scroll"><table class="min-640 sticky-first" id="mapTable">
         <thead><tr><th class="sortable" data-map-sort="map" tabindex="0" aria-sort="none">Map<span class="sort-indicator"></span></th><th class="sortable" data-map-sort="mode" tabindex="0" aria-sort="none">Mode<span class="sort-indicator"></span></th><th class="num sortable" data-map-sort="battles" tabindex="0" aria-sort="none">Battles<span class="sort-indicator"></span></th><th class="num sortable" data-map-sort="winPct" tabindex="0" aria-sort="none">Win rate<span class="sort-indicator"></span></th><th>Best brawler here</th><th>Avoid here</th></tr></thead>
@@ -829,7 +829,7 @@
       <button class="btn ghost small" id="battleToggle">Hide</button>
     </div>
     <div id="battleCollapseWrap">
-      <div id="battleEmpty" class="empty">No battle log data yet — waiting on battle_log.csv.</div>
+      <div id="battleEmpty" class="empty">No battle log data yet. Waiting on battle_log.csv.</div>
       <div class="table-scroll"><table class="min-600" id="battleTable" style="display:none;">
         <thead><tr><th>Time</th><th>Mode</th><th>Map</th><th>Brawler</th><th class="num">Result</th><th class="num">Trophy change</th></tr></thead>
         <tbody id="battleTableBody"></tbody>
@@ -857,8 +857,8 @@ let accountRows = [];
 let brawlerRows = [];
 let battleRows = [];
 let catalogData = null;
-let assetsData = null;          // assets.json (game mode -> icon URL), optional
-let buffieConfig = null;        // buffie_brawlers.json (which brawlers have buffies), optional
+let assetsData = null;  // optional icon urls
+let buffieConfig = null;  // optional, who has buffies
 let brawlerIdByName = {};
 let buffieEnabledIds = new Set();
 const ICON_CDN = 'https://cdn.brawlify.com';
@@ -871,7 +871,7 @@ function cssVar(name){
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
-/** Chart colors come from the active theme's CSS variables, read at draw time. */
+// chart colours come from the theme variables
 function chartTheme(){
   return {
     tick: cssVar('--chart-tick'), grid: cssVar('--chart-grid'),
@@ -889,12 +889,7 @@ let activityChartInstance = null;
 let winRateSortKey = 'pct';
 let winRateSortDir = 'desc';
 
-/**
- * Generic comparator for the win rate table: null/not-applicable values
- * (e.g. no decided versus battles, or no showdown appearances) always sort
- * to the bottom regardless of direction, since they represent missing data
- * rather than a real low or high value.
- */
+// nulls always sort last
 function compareSortableRows(a, b, key, dir){
   const av = a[key], bv = b[key];
   const aNull = (av === null || av === undefined);
@@ -939,12 +934,7 @@ const MODE_NAMES = {
   unknown: 'Unknown',
 };
 
-/**
- * Known modes map to their real display name. Anything not in the list
- * (a new mode added to the game after this was written, say) falls back to a
- * generic camelCase -> Title Case conversion rather than breaking or showing
- * the raw API key.
- */
+// unknown modes fall back to Title Case
 function formatModeName(mode){
   if(!mode) return '—';
   if(MODE_NAMES[mode]) return MODE_NAMES[mode];
@@ -958,10 +948,7 @@ function formatHourLabel(h){
   return `${hour12}${period}`;
 }
 
-/**
- * Trophy-rank badge color per the brawler's current trophy count.
- * Two-tone tiers (1000+) get a black ring to approximate the in-game look.
- */
+// badge colour by trophy count
 function getRankBadge(trophies){
   const t = Number(trophies) || 0;
   if(t >= 3000) return { color: 'var(--badge-yellow)', twoTone: true };
@@ -982,7 +969,7 @@ function escapeHtml(s){
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
 
-/** name -> id lookups, and the set of brawlers that have buffies available. */
+// name -> id lookups and the buffie list
 function buildLookups(){
   brawlerIdByName = {};
   if(catalogData && catalogData.brawlers){
@@ -993,8 +980,7 @@ function buildLookups(){
     if(key && r.brawler_id != null && !(key in brawlerIdByName)) brawlerIdByName[key] = String(r.brawler_id);
   });
 
-  // The official API doesn't say which brawlers have buffies, so: the hand-kept list in
-  // buffie_brawlers.json, plus any brawler we can already see an owned buffie on.
+  // the api doesn't say who has buffies: hand-kept list plus anyone with one owned
   buffieEnabledIds = new Set();
   ((buffieConfig && buffieConfig.brawlers) || []).forEach(n => {
     const id = brawlerIdByName[String(n).toUpperCase()];
@@ -1007,7 +993,7 @@ function buildLookups(){
 
 function brawlerIdFor(name){ return brawlerIdByName[String(name || '').toUpperCase()]; }
 
-/* ---- icons (served from the Brawlify CDN; a failed image swaps itself for a letter tile) ---- */
+// icons come from the brawlify cdn, broken ones become a letter tile
 function brawlerPortraitHtml(id, name, trophies, small){
   const letter = escapeHtml(String(name || '?').trim().charAt(0).toUpperCase());
   const img = id != null && id !== ''
@@ -1017,7 +1003,6 @@ function brawlerPortraitHtml(id, name, trophies, small){
   return `<span class="portrait-wrap${small ? ' sm' : ''}">${img}${badge}</span>`;
 }
 
-/** Small icon + name, for places that only know the brawler's name. */
 function brawlerInlineHtml(name, suffixHtml){
   if(!name) return '—';
   return `<span class="brawler-inline">${brawlerPortraitHtml(brawlerIdFor(name), name, null, true)}<span>${escapeHtml(name)}${suffixHtml || ''}</span></span>`;
@@ -1035,7 +1020,7 @@ function modeChipHtml(modeKey){
   return `<span class="mode-chip">${icon}<span>${escapeHtml(formatModeName(modeKey))}</span></span>`;
 }
 
-// A broken image (offline CDN, an ID Brawlify doesn't have yet) must never leave a broken-image box.
+// swap broken images for a letter tile
 document.addEventListener('error', (e) => {
   const el = e.target;
   if(!(el instanceof HTMLImageElement) || !el.classList.contains('game-icon')) return;
@@ -1046,12 +1031,7 @@ document.addEventListener('error', (e) => {
   el.replaceWith(span);
 }, true);
 
-/**
- * A brawler is fully maxed when it is Power 11 AND owns every gadget, star power and
- * hypercharge that exists for it AND, if buffies have been released for it, all three
- * buffies. Things that don't exist for a brawler (no hypercharge yet, no buffies yet)
- * can't be required of it.
- */
+// maxed = power 11 and every gadget, star power and hypercharge, plus all 3 buffies where they exist
 function isBrawlerMaxed(row){
   const cat = catalogData && catalogData.brawlers ? catalogData.brawlers[String(row.brawler_id)] : null;
   if(!cat) return false;
@@ -1070,9 +1050,7 @@ function brawlerNameCellHtml(row){
   return `<span class="brawler-name-cell">${brawlerPortraitHtml(row.brawler_id, row.brawler_name, row.trophies, false)}<span class="${nameClass}">${escapeHtml(row.brawler_name)}</span></span>`;
 }
 
-// Supercell's standard, long-stable power-level cost table (Power Points, Coins
-// needed to reach that level from the previous one). If they ever rebalance
-// this, update the numbers here.
+// power level costs (power points, coins), update if supercell changes them
 const POWER_LEVEL_COSTS = {
   2:[20,20], 3:[30,35], 4:[50,75], 5:[80,140], 6:[130,290],
   7:[210,480], 8:[340,800], 9:[550,1250], 10:[890,1875], 11:[1440,2800],
@@ -1120,22 +1098,25 @@ async function loadJson(filename){
   return await res.json();
 }
 
-/**
- * The API only labels win/loss/draw for versus modes (outcome field).
- * Showdown modes only report a placement (rank), with no official win/loss
- * concept -- so we derive one from placement:
- *   - Solo Showdown: 4th place or better counts as a win.
- *   - Solo Showdown on the 20-player maps (Quadrant Clash, Patchwork Peril, Roundabout Rumble):
- *     9th place or better counts as a win.
- *   - Duo/Trio Showdown: 2nd place or better counts as a win.
- * Anything else with a rank but an unrecognized mode name is left
- * unclassified rather than guessed at.
- */
-// Solo Showdown variant with 20 players on a bigger map: these maps only exist in that variant.
+// showdown only gives a placement, so wins come from rank:
+// solo top 4, mega solo top 9, duo top 2, mega duo top 4, trio top 2
+// mega showdown maps
 const BIG_SOLO_MAPS = new Set(['quadrant clash', 'patchwork peril', 'roundabout rumble']);
 const BIG_SOLO_WIN_RANK = 9;
 const BIG_SOLO_FIELD = 20;
 function isBigSoloMap(map){ return BIG_SOLO_MAPS.has(String(map || '').trim().toLowerCase()); }
+const BIG_SOLO_STAR_RANK = 5;  // mega solo star player rank
+const MEGA_DUO_WIN_RANK = 4;  // mega duo has 10 teams
+// mega solo: known map, or solo rank above 10th
+// mega duo: known map, or duo rank above 5th
+function isMegaDuo(b){
+  if(String(b.mode || '').toLowerCase() !== 'duoshowdown') return false;
+  return isBigSoloMap(b.map) || (b.rank !== null && b.rank !== undefined && b.rank !== '' && Number(b.rank) > 5);
+}
+function isMegaSolo(b){
+  if(String(b.mode || '').toLowerCase() !== 'soloshowdown') return false;
+  return isBigSoloMap(b.map) || (b.rank !== null && b.rank !== undefined && b.rank !== '' && Number(b.rank) > 10);
+}
 
 function classifyBattle(b){
   if(b.outcome === 'victory' || b.outcome === 'defeat' || b.outcome === 'draw'){
@@ -1144,21 +1125,21 @@ function classifyBattle(b){
   if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){
     const r = Number(b.rank);
     const m = (b.mode || '').toLowerCase();
-    if(m === 'soloshowdown') return r <= (isBigSoloMap(b.map) ? BIG_SOLO_WIN_RANK : 4) ? 'victory' : 'defeat';
-    if(m === 'duoshowdown' || m === 'trioshowdown') return r <= 2 ? 'victory' : 'defeat';
+    if(m === 'soloshowdown') return r <= (isMegaSolo(b) ? BIG_SOLO_WIN_RANK : 4) ? 'victory' : 'defeat';
+    if(m === 'duoshowdown') return r <= (isMegaDuo(b) ? MEGA_DUO_WIN_RANK : 2) ? 'victory' : 'defeat';
+    if(m === 'trioshowdown') return r <= 2 ? 'victory' : 'defeat';
   }
   return null;
 }
 
-/**
- * Star Player has no equivalent in Showdown modes via the API, so 1st place
- * in any showdown counts as the equivalent achievement.
- */
+// no star player in showdown, so top placements stand in (1st, top 5 in mega solo)
 function wasEffectiveStarPlayer(b){
   if(b.was_star_player === true || b.was_star_player === 'True' || b.was_star_player === 'true') return true;
-  if(b.rank !== null && b.rank !== '' && !isNaN(b.rank) && Number(b.rank) === 1){
+  if(b.rank !== null && b.rank !== '' && !isNaN(b.rank)){
+    const r = Number(b.rank);
     const m = (b.mode || '').toLowerCase();
-    if(m === 'soloshowdown' || m === 'duoshowdown' || m === 'trioshowdown') return true;
+    if(m === 'soloshowdown') return r <= (isMegaSolo(b) ? BIG_SOLO_STAR_RANK : 1);
+    if(m === 'duoshowdown' || m === 'trioshowdown') return r === 1;
   }
   return false;
 }
@@ -1181,17 +1162,11 @@ function normalizeTimestamp(v){
   return String(v);
 }
 
-/**
- * Supercell's battlelog API returns battleTime in a compact, non-standard
- * format: "20260916T192031.000Z" (no dashes or colons). Native JS Date
- * parsing of this string is unreliable across browsers, which silently broke
- * sorting/streak calculations. This parses it explicitly and returns a
- * proper ISO 8601 string.
- */
+// battleTime comes as 20260916T192031.000Z, which Date can't parse reliably
 function parseSupercellTime(v){
   const s = String(v);
   const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/.exec(s);
-  if(!m) return normalizeTimestamp(v); // fallback for anything unexpected
+  if(!m) return normalizeTimestamp(v);  // fallback
   const [, y, mo, d, h, mi, se] = m;
   return new Date(Date.UTC(+y, +mo - 1, +d, +h, +mi, +se)).toISOString();
 }
@@ -1209,9 +1184,9 @@ async function loadAll(){
     loadCsv('brawler_history.csv'),
     loadCsv('battle_log.csv'),
     loadJson('catalog.json'),
-    loadJson('assets.json'),          // optional: icons degrade gracefully without it
-    loadJson('buffie_brawlers.json'), // optional: see buildLookups()
-    loadCsv('upgrade_log.csv'),       // optional: upgrade calendar
+    loadJson('assets.json'),  // optional
+    loadJson('buffie_brawlers.json'),  // optional
+    loadCsv('upgrade_log.csv'),  // optional
   ]);
 
   const failures = [];
@@ -1245,7 +1220,7 @@ async function loadAll(){
     errBox.innerHTML = `Couldn't fetch any CSV files. Make sure this page is being served over HTTP from the same
       folder as <code>brawl_history.csv</code>, <code>brawler_history.csv</code>, and <code>battle_log.csv</code>
       (e.g. run <code>python3 -m http.server</code> in that folder and open
-      <code>http://localhost:8000/dashboard.html</code>) — opening this file directly won't work.`;
+      <code>http://localhost:8000/dashboard.html</code>). Opening the file directly won't work.`;
   } else if(failures.length > 0){
     statusDot.className = 'ok';
     statusText.textContent = `Loaded (missing: ${failures.join(', ')})`;
@@ -1255,7 +1230,7 @@ async function loadAll(){
       (catalog.json needs at least one run with the updated script).`;
   } else {
     statusDot.className = 'ok';
-    statusText.textContent = `Loaded — ${accountRows.length} account snapshot(s), last updated ${new Date().toLocaleTimeString()}`;
+    statusText.textContent = `${accountRows.length} account snapshot(s) loaded, last updated ${new Date().toLocaleTimeString()}`;
   }
 
   render();
@@ -1300,10 +1275,7 @@ function renderWinRate(){
   }
   emptyEl.style.display = 'none'; content.style.display = 'block';
 
-  // Overall stats use ALL logged battles with a classifiable outcome -- versus
-  // modes use the API's own outcome field, showdown modes use placement
-  // thresholds via classifyBattle(). Doesn't depend on brawler_used, so a gap
-  // there doesn't blank these out.
+  // overall stats use every battle we can classify
   const classified = battleRows.map(b => classifyBattle(b)).filter(c => c !== null);
   const wins = classified.filter(c => c === 'victory').length;
   const losses = classified.filter(c => c === 'defeat').length;
@@ -1330,8 +1302,7 @@ function renderWinRate(){
 
   document.getElementById('wrTotal').textContent = fmtNum(battleRows.length);
 
-  // Per-brawler breakdown needs to know which brawler was used, so only
-  // battles with that field populated contribute here.
+  // needs brawler_used
   const usable = battleRows.filter(b => b.brawler_used);
   const latestBrawlers = getLatestBrawlerSnapshot();
   const brawlerInfo = {};
@@ -1373,7 +1344,7 @@ function renderWinRate(){
 
   document.getElementById('winRateLoadMore').style.display = rows.length > winRateDisplayCount ? 'inline-block' : 'none';
 
-  // Update header sort indicators to reflect the active column/direction.
+  // sort arrows
   document.querySelectorAll('#brawlerWinTable th.sortable').forEach(th => {
     const indicator = th.querySelector('.sort-indicator');
     if(th.dataset.sortKey === winRateSortKey){
@@ -1454,15 +1425,14 @@ function renderProgression(){
   const ownedById = {};
   latestBrawlers.forEach(b => { ownedById[String(b.brawler_id)] = b; });
 
-  // The "universe" is every brawler in the game (so locked ones are counted honestly);
-  // without the catalog we can only see what's owned.
+  // every brawler in the game, from the catalog if we have it
   const universe = catalogData && catalogData.brawlers
     ? Object.entries(catalogData.brawlers).map(([id, cat]) => ({ id, cat, row: ownedById[id] || null }))
     : latestBrawlers.map(b => ({ id: String(b.brawler_id), cat: null, row: b }));
 
   const blocks = [];
 
-  // ---- brawlers: maxed / P11 / P9-10 / P7-8 / P6 or lower / not unlocked
+  // brawler tiers
   const bb = { maxed: 0, p11: 0, p9: 0, p7: 0, p6: 0, locked: 0 };
   universe.forEach(u => {
     if(!u.row){ bb.locked++; return; }
@@ -1489,13 +1459,13 @@ function renderProgression(){
   }));
 
   if(catalogData && catalogData.brawlers){
-    // ---- gadgets / star powers: both / one / none / not unlocked (counted in brawlers)
+    // gadgets and star powers
     const itemBlock = (kind, ownedCol, title, noun, classes) => {
       const bk = { all: 0, some: 0, none: 0, locked: 0 };
       let ownedItems = 0, totalItems = 0, lockedItems = 0, uniform = true;
       universe.forEach(u => {
         const need = u.cat[kind] || 0;
-        if(need === 0) return;               // this brawler has none of these, so it isn't part of the bar
+        if(need === 0) return;
         if(need !== 2) uniform = false;
         totalItems += need;
         if(!u.row){ bk.locked++; lockedItems += need; return; }
@@ -1519,7 +1489,7 @@ function renderProgression(){
     blocks.push(itemBlock('gadgets', 'gadgets_owned', 'Gadgets', 'gadget', ['seg-g1', 'seg-g2', 'seg-g3']));
     blocks.push(itemBlock('starPowers', 'star_powers_owned', 'Star Powers', 'star power', ['seg-s1', 'seg-s2', 'seg-s3']));
 
-    // ---- buffies: 3 / 2 / 1 / none / not unlocked (only brawlers that have buffies released)
+    // buffies
     const fb = { three: 0, two: 0, one: 0, none: 0, locked: 0 };
     let buffiesOwned = 0, buffiesTotal = 0, ownedWithout = 0;
     universe.forEach(u => {
@@ -1549,7 +1519,7 @@ function renderProgression(){
   }
   barsEl.innerHTML = blocks.join('');
 
-  // ---- the remaining totals, unchanged in spirit: hypercharges, prestige, power points, gold
+  // the rest
   let hyperOwned = 0, ppNeeded = 0, goldNeeded = 0;
   latestBrawlers.forEach(b => {
     hyperOwned += Number(b.hypercharge_owned) || 0;
@@ -1638,14 +1608,12 @@ function renderPeriodSelectors(){
   emptyEl.style.display = 'none';
   resultEl.style.display = 'flex';
 
-  // FROM: oldest snapshot first
   const fromOptions = accountRows
-    .map((r, i) => `<option value="${i}">${fmtDateTime(r.timestamp)} — ${fmtNum(r.total_trophies)}</option>`)
+    .map((r, i) => `<option value="${i}">${fmtDateTime(r.timestamp)}, ${fmtNum(r.total_trophies)}</option>`)
     .join('');
 
-  // TO: most recent snapshot first
   const toOptions = [...accountRows]
-    .map((r, i) => `<option value="${i}">${fmtDateTime(r.timestamp)} — ${fmtNum(r.total_trophies)}</option>`)
+    .map((r, i) => `<option value="${i}">${fmtDateTime(r.timestamp)}, ${fmtNum(r.total_trophies)}</option>`)
     .reverse()
     .join('');
 
@@ -1676,9 +1644,7 @@ function renderPeriodSelectors(){
     document.getElementById('periodRate').innerHTML =
       `<span class="delta ${cls}">${sign}${rate.toFixed(1)}</span>`;
 
-    // Keep the trend chart in sync with whatever range is selected here.
-    // When From/To sit at the full extremes (the default), this renders the
-    // complete history, same as page load.
+    // keep the trend chart on the selected range
     renderTrophyChart(Math.min(fromIdx, toIdx), Math.max(fromIdx, toIdx));
   };
 
@@ -1788,7 +1754,7 @@ function renderBrawlerDetail(row){
     groupsHtml += `<div class="detail-group"><h4>Loadout</h4><div class="detail-item missing"><span class="mark">—</span>Catalog data unavailable</div></div>`;
   }
 
-  // Buffies are permanent per-brawler unlocks (not a rotating buff), and only exist for some brawlers so far.
+  // buffies are permanent unlocks and only some brawlers have them so far
   if(buffieEnabledIds.has(String(row.brawler_id))){
     const buffyItems = [
       { name: 'Gadget Buffie', owned: isTrue(row.buffy_gadget) },
@@ -1810,7 +1776,7 @@ function showBrawlerTrend(name){
   const title = document.getElementById('brawlerTrendTitle');
   const canvas = document.getElementById('brawlerTrendChart');
   card.style.display = 'block';
-  title.innerHTML = `${brawlerInlineHtml(name)} <span style="font-weight:400">— trophy trend</span>`;
+  title.innerHTML = `${brawlerInlineHtml(name)} <span style="font-weight:400">trophy trend</span>`;
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const latestRow = getLatestBrawlerSnapshot().find(r => r.brawler_name === name);
@@ -1914,9 +1880,9 @@ function renderMapPerformance(){
   const MIN_SAMPLE = 3;
   const byMap = {};
   usableRows.forEach(b => {
-    const map = b.map;
-    if(!byMap[map]) byMap[map] = { mode: b.mode, battles: 0, wins: 0, losses: 0, byBrawler: {} };
-    const entry = byMap[map];
+    const key = mapKey(b.mode, b.map);
+    if(!byMap[key]) byMap[key] = { map: b.map, mode: b.mode, battles: 0, wins: 0, losses: 0, byBrawler: {} };
+    const entry = byMap[key];
     entry.battles++;
     const cls = classifyBattle(b);
     if(cls === 'victory') entry.wins++;
@@ -1931,7 +1897,7 @@ function renderMapPerformance(){
     }
   });
 
-  const rows = Object.entries(byMap).map(([map, e]) => {
+  const rows = Object.entries(byMap).map(([key, e]) => {
     const decided = e.wins + e.losses;
     const winPct = decided > 0 ? (e.wins / decided * 100) : null;
 
@@ -1949,16 +1915,16 @@ function renderMapPerformance(){
       if(best === worst) worst = null;
     }
 
-    return { map, mode: e.mode, battles: e.battles, winPct, best, worst };
+    return { key, map: e.map, mode: e.mode, battles: e.battles, winPct, best, worst };
   });
 
   rows.sort(compareMapRows);
 
   const visible = rows.slice(0, mapDisplayCount);
   document.getElementById('mapTableBody').innerHTML = visible.map(r => `
-    <tr class="clickable-row" data-map="${r.map}">
-      <td>${r.map}</td>
-      <td>${modeChipHtml(r.mode)}</td>
+    <tr class="clickable-row" data-map-key="${escapeHtml(r.key)}">
+      <td>${escapeHtml(r.map)}</td>
+      <td>${modeChipHtml(r.mode)}${String(r.mode).toLowerCase() === 'soloshowdown' && isBigSoloMap(r.map) ? ' <span class="fc-badge" title="20-player Mega Showdown">Mega</span>' : ''}</td>
       <td class="num">${r.battles}</td>
       <td class="num">${r.winPct !== null ? r.winPct.toFixed(0) + '%' : '—'}</td>
       <td>${r.best ? brawlerInlineHtml(r.best.name, ` (${r.best.pct.toFixed(0)}%)`) : 'Not enough data'}</td>
@@ -1966,8 +1932,8 @@ function renderMapPerformance(){
     </tr>
   `).join('');
 
-  document.querySelectorAll('#mapTableBody tr[data-map]').forEach(row => {
-    row.addEventListener('click', () => showMapDetail(row.dataset.map));
+  document.querySelectorAll('#mapTableBody tr[data-map-key]').forEach(row => {
+    row.addEventListener('click', () => showMapDetail(row.dataset.mapKey));
   });
 
   loadMoreBtn.style.display = rows.length > mapDisplayCount ? 'inline-block' : 'none';
@@ -1979,21 +1945,25 @@ function renderMapPerformance(){
   });
 }
 
-function showMapDetail(mapName){
+// rows are keyed by mode and map since a map is played in several modes
+function mapKey(mode, map){ return String(mode) + '|' + String(map); }
+
+function showMapDetail(key){
+  const sep = key.indexOf('|');
+  const modeKey = key.slice(0, sep), mapName = key.slice(sep + 1);
   const card = document.getElementById('mapDetailCard');
   const title = document.getElementById('mapDetailTitle');
   const summaryEl = document.getElementById('mapDetailSummary');
   const rankingsEl = document.getElementById('mapDetailRankings');
 
-  const rows = battleRows.filter(b => b.map === mapName);
+  const rows = battleRows.filter(b => b.map === mapName && String(b.mode) === modeKey);
   if(rows.length === 0){ card.style.display = 'none'; return; }
 
-  const mode = rows[0].mode;
+  const mode = modeKey;
   card.style.display = 'block';
-  title.innerHTML = `${escapeHtml(mapName)} <span style="font-weight:400">— ${modeChipHtml(mode)}</span>`;
+  title.innerHTML = `${escapeHtml(mapName)} <span style="font-weight:400">${modeChipHtml(mode)}</span>`;
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  // Map-wide summary
   const classified = rows.map(classifyBattle).filter(c => c !== null);
   const wins = classified.filter(c => c === 'victory').length;
   const losses = classified.filter(c => c === 'defeat').length;
@@ -2030,7 +2000,6 @@ function showMapDetail(mapName){
     </div>
   `;
 
-  // Per-brawler ranking on this map
   const byBrawler = {};
   rows.forEach(b => {
     if(!b.brawler_used) return;
@@ -2059,7 +2028,7 @@ function showMapDetail(mapName){
   }
 
   if(ranked.length === 0){
-    rankingsEl.innerHTML = `<p class="hint">Not enough data yet for brawler rankings on this map — need at least ${MIN_SAMPLE} logged battles with the same brawler here.</p>`;
+    rankingsEl.innerHTML = `<p class="hint">Not enough data for brawler rankings here yet, need at least ${MIN_SAMPLE} battles with the same brawler.</p>`;
   } else if(ranked.length <= 6){
     rankingsEl.innerHTML = `
       <h3 style="font-size:15px; margin:0 0 10px;">All qualifying brawlers on this map</h3>
@@ -2134,7 +2103,7 @@ document.querySelectorAll('#brawlerWinTable th.sortable').forEach(th => {
       winRateSortDir = winRateSortDir === 'asc' ? 'desc' : 'asc';
     } else {
       winRateSortKey = key;
-      // Names read naturally A-Z first; numeric columns read naturally highest-first.
+      // names A-Z, numbers highest first
       winRateSortDir = key === 'name' ? 'asc' : 'desc';
     }
     winRateDisplayCount = PAGE_SIZE;
@@ -2159,7 +2128,7 @@ document.getElementById('battleToggle').addEventListener('click', (e) => {
   e.target.textContent = collapsed ? 'Hide' : 'Show';
 });
 
-/* ===================== Theme toggle ===================== */
+// theme toggle
 const THEME_KEY = 'brawlLogTheme';
 function currentTheme(){ return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
 
@@ -2173,8 +2142,7 @@ function updateThemeUi(){
   if(meta) meta.setAttribute('content', cssVar('--bg') || (light ? '#F3F4F9' : '#0B0D17'));
 }
 
-// Charts bake their colors in when drawn, so redraw them (keeping the current
-// date range / selected brawler) whenever the theme changes.
+// charts bake colours in, so redraw on theme change
 function refreshChartsForTheme(){
   try{ renderTrophyChart(trophyRange.from, trophyRange.to); }catch(e){ console.error(e); }
   try{ renderActivityPatterns(); }catch(e){ console.error(e); }
@@ -2195,7 +2163,7 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   setTheme(currentTheme() === 'light' ? 'dark' : 'light', true);
 });
 
-// Follow the OS setting live, but only until the user picks a theme themselves.
+// follow the os setting until the user picks one
 if(window.matchMedia){
   const mq = window.matchMedia('(prefers-color-scheme: light)');
   const onSystemChange = (e) => {
@@ -2208,8 +2176,8 @@ if(window.matchMedia){
 }
 updateThemeUi();
 
-/* ===================== Map table sorting ===================== */
-let mapSortKey = 'mode';   // default: all maps of a mode together
+// map table sorting
+let mapSortKey = 'mode';  // default: group by mode
 let mapSortDir = 'asc';
 
 function compareMapRows(a, b){
@@ -2222,12 +2190,12 @@ function compareMapRows(a, b){
     case 'winPct': {
       const an = a.winPct === null, bn = b.winPct === null;
       if(an && bn) return modeCmp || mapCmp;
-      if(an) return 1;            // maps with no decided battles always sink to the bottom
+      if(an) return 1;  // no decided battles: always last
       if(bn) return -1;
       return dir * (a.winPct - b.winPct) || (b.battles - a.battles) || mapCmp;
     }
     case 'mode':
-    default:        return dir * modeCmp || (b.battles - a.battles) || mapCmp;   // within a mode: most-played first
+    default:        return dir * modeCmp || (b.battles - a.battles) || mapCmp;
   }
 }
 
@@ -2238,7 +2206,7 @@ document.querySelectorAll('#mapTable th[data-map-sort]').forEach(th => {
       mapSortDir = mapSortDir === 'asc' ? 'desc' : 'asc';
     } else {
       mapSortKey = key;
-      mapSortDir = (key === 'winPct' || key === 'battles') ? 'desc' : 'asc';   // numbers: highest first; text: A-Z
+      mapSortDir = (key === 'winPct' || key === 'battles') ? 'desc' : 'asc';
     }
     mapDisplayCount = PAGE_SIZE;
     renderMapPerformance();
@@ -2247,7 +2215,7 @@ document.querySelectorAll('#mapTable th[data-map-sort]').forEach(th => {
   th.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); } });
 });
 
-/* ===================== Last 25 battles ===================== */
+// last 25
 let l25Filter = 'all';
 let l25Selected = null;
 let l25Current = null;
@@ -2271,7 +2239,7 @@ function meanRank(rows){
   return r.length ? r.reduce((a, b) => a + b, 0) / r.length : null;
 }
 
-/** Pure: rows must be newest-first. "Last 25 of that kind" for the Versus/Showdown filters. */
+// rows newest first
 function computeLast25(rows, kind, n){
   n = n || 25;
   const pool = kind === 'showdown' ? rows.filter(isShowdownBattle)
@@ -2295,7 +2263,7 @@ function computeLast25(rows, kind, n){
 }
 
 function l25Describe(b, c){
-  const parts = [fmtDateTime(b.battle_time), formatModeName(b.mode) + (b.map ? ' – ' + b.map : '')];
+  const parts = [fmtDateTime(b.battle_time), formatModeName(b.mode) + (b.map ? ' on ' + b.map : '')];
   parts.push(b.brawler_used || 'unknown brawler');
   if(isShowdownBattle(b)) parts.push(ordinal(Number(b.rank)) + ' place' + (c ? ' (' + (c === 'victory' ? 'win' : 'loss') + ')' : ''));
   else parts.push(c === 'victory' ? 'Victory' : c === 'defeat' ? 'Defeat' : c === 'draw' ? 'Draw' : 'No result recorded');
@@ -2347,9 +2315,9 @@ function renderLast25(){
   }
   document.getElementById('l25Detail').textContent = l25Selected !== null ? l25Describe(m.last[l25Selected], m.cls[l25Selected]) : '';
   document.getElementById('l25Foot').textContent =
-    `Only battles the tracker captured are counted (the API shows 25 per run, runs happen about every 3 hours).` +
+    `Only battles the tracker caught are counted (the API shows 25 per run and it runs about every 3 hours).` +
     (m.n && m.n < 25 ? ` Only ${m.n} ${l25Filter === 'all' ? '' : l25Filter + ' '}battle${m.n === 1 ? '' : 's'} logged so far.` : '') +
-    (l25Filter !== 'all' ? ` Filtered view = the last 25 ${l25Filter} battles, not a subset of the last 25 overall.` : '');
+    (l25Filter !== 'all' ? ` This is the last 25 ${l25Filter} battles, not a filter on the last 25 overall.` : '');
 }
 
 document.getElementById('l25Toggle').addEventListener('click', (e) => {
@@ -2368,7 +2336,7 @@ document.getElementById('l25Strip').addEventListener('click', (e) => {
   if(again) again.focus();
 });
 
-/* ===================== Upgrade calendar ===================== */
+// upgrade calendar
 const UPGRADE_TYPES = [
   { key:'unlock', label:'Unlock' }, { key:'power', label:'Power level' }, { key:'gadget', label:'Gadget' },
   { key:'star_power', label:'Star power' }, { key:'hypercharge', label:'Hypercharge' }, { key:'buffie', label:'Buffie' }, { key:'prestige', label:'Prestige' },
@@ -2388,7 +2356,7 @@ function localDateKey(iso){
 }
 function dayKeyParts(key){ const [y, m, d] = key.split('-').map(Number); return new Date(y, m - 1, d); }
 
-/** Pure: raw upgrade_log rows -> one entry per (local day, brawler, type). */
+// one entry per day, brawler and type
 function coalesceUpgradeEvents(rows){
   const groups = new Map();
   rows.forEach((r, idx) => {
@@ -2429,7 +2397,7 @@ function coalesceUpgradeEvents(rows){
   return out;
 }
 
-/** Pure: entries -> month grid (Monday start by default). month is 0-based. Filters affect cells, not the per-type month totals. */
+// month grid, monday first
 function buildCalendarModel(entries, year, month, filters, mondayStart){
   if(mondayStart === undefined) mondayStart = true;
   const prefix = year + '-' + calPad(month + 1) + '-';
@@ -2487,7 +2455,7 @@ function renderCalendar(){
       const short = dayKeyParts(c.key).toLocaleDateString(undefined, { day:'numeric', month:'short' });
       const tip = c.count
         ? UPGRADE_TYPES.filter(t => c.types.includes(t.key)).map(t => `${c.entries.filter(e => e.type === t.key).length} ${t.label.toLowerCase()}`).join(', ')
-        : (nosnap ? 'No snapshot this day — upgrades made then appear on the next snapshot day' : 'No upgrades');
+        : (nosnap ? 'No snapshot this day, upgrades made then show up on the next snapshot day' : 'No upgrades');
       const aria = (c.count ? `${c.count} upgrade${c.count === 1 ? '' : 's'} on ${short}` : `No upgrades on ${short}`) + (nosnap ? ', no snapshot that day' : '');
       return `<button type="button" role="gridcell" class="cal-cell${c.key === todayKey ? ' today' : ''}${c.key === calSelectedDay ? ' sel' : ''}${nosnap ? ' nosnap' : ''}" data-key="${c.key}" title="${escapeHtml(tip)}" aria-label="${escapeHtml(aria)}">` +
         `<span class="cal-num">${c.day}</span><span class="cal-meta"><span class="cal-dots">${c.types.slice(0, 4).map(k => `<i style="--c:var(--ev-${k})"></i>`).join('')}</span>` +
@@ -2496,7 +2464,6 @@ function renderCalendar(){
   });
   document.getElementById('calGrid').innerHTML = html;
 
-  // detail panel
   const detail = document.getElementById('calDetail');
   if(calSelectedDay && calSelectedDay.startsWith(calYear + '-' + calPad(calMonth + 1) + '-')){
     const cell = model.weeks.flat().find(c => c && c.key === calSelectedDay);
@@ -2508,11 +2475,11 @@ function renderCalendar(){
       detail.innerHTML = `<h3>${escapeHtml(label)}</h3><p class="sub">${cell.count} upgrade${cell.count === 1 ? '' : 's'} across ${groups.size} brawler${groups.size === 1 ? '' : 's'}</p>` +
         [...groups.values()].map(g => `<div class="cal-bgroup">${brawlerInlineHtml(g.name)}<ul>` + g.list.map(e =>
           `<li class="cal-li"><span class="sw" style="--c:var(--ev-${e.type})"></span><b>${UPGRADE_TYPE_LABEL[e.type]}</b>${e.detail ? `<span>${escapeHtml(e.detail)}</span>` : ''}` +
-          (e.backfilled ? `<span class="tag" title="Backfilled from daily snapshots — obtained on or shortly before this day">backfilled</span>` : '') + '</li>').join('') + '</ul></div>').join('') +
-        (cell.entries.some(e => e.backfilled) ? '<p class="sub">“Backfilled” = reconstructed from daily snapshots: obtained on or shortly before this day.</p>' : '');
+          (e.backfilled ? `<span class="tag" title="Backfilled from daily snapshots, obtained on or just before this day">backfilled</span>` : '') + '</li>').join('') + '</ul></div>').join('') +
+        (cell.entries.some(e => e.backfilled) ? '<p class="sub">Backfilled means rebuilt from daily snapshots, so it was obtained on or just before this day.</p>' : '');
     } else {
       const filtered = UPGRADE_TYPES.some(t => !calFilters[t.key]);
-      detail.innerHTML = `<h3>${escapeHtml(label)}</h3><p class="sub">${nosnap ? 'No snapshot was recorded this day — upgrades made then appear on the next snapshot day.' : 'No upgrades recorded' + (filtered ? ' for the selected types.' : ' this day.')}</p>`;
+      detail.innerHTML = `<h3>${escapeHtml(label)}</h3><p class="sub">${nosnap ? 'No snapshot was recorded this day. Upgrades made then show up on the next snapshot day.' : 'No upgrades recorded' + (filtered ? ' for the selected types.' : ' this day.')}</p>`;
     }
   } else {
     detail.innerHTML = `<p class="sub">${model.monthTotal ? `${model.monthTotal} upgrade${model.monthTotal === 1 ? '' : 's'} this month. Select a day to see them.` : 'No upgrades recorded this month.'}</p>`;
@@ -2520,9 +2487,9 @@ function renderCalendar(){
 
   const firstKey = snap.first ? dayKeyParts(snap.first).toLocaleDateString(undefined, { day:'numeric', month:'long', year:'numeric' }) : null;
   document.getElementById('calNote').textContent =
-    (firstKey ? `Snapshot history starts on ${firstKey}; nothing earlier can appear here. ` : '') +
-    'Dates use your browser’s time zone. Live entries are accurate to about 3 hours; backfilled ones are accurate to the day. ' +
-    'Buffies, prestige and the names of gadgets, star powers and hypercharges are only captured from when those fields started being logged (early October 2026), so earlier gadget, star power and hypercharge entries show “name not recorded”.';
+    (firstKey ? `History starts on ${firstKey}, nothing earlier shows up. ` : '') +
+    'Dates use your browser time zone. Live entries are good to about 3 hours, backfilled ones to the day. ' +
+    'Buffies, prestige and the gadget, star power and hypercharge names only started being logged in early October 2026, so older entries show "name not recorded".';
 }
 
 document.getElementById('calPrev').addEventListener('click', () => { calMonth--; if(calMonth < 0){ calMonth = 11; calYear--; } renderCalendar(); });
@@ -2545,14 +2512,14 @@ document.getElementById('calGrid').addEventListener('click', (e) => {
   const again = document.querySelector(`#calGrid .cal-cell[data-key="${key}"]`); if(again) again.focus();
 });
 
-/* ===================== Phase 4: maxing forecast ===================== */
+// maxing forecast
 const FC_CATS = [
   { key:'unlock', label:'Unlock brawlers' }, { key:'power', label:'Power levels' }, { key:'gadget', label:'Gadgets' },
   { key:'star', label:'Star powers' }, { key:'hyper', label:'Hypercharges' }, { key:'buffie', label:'Buffies' },
 ];
-const FC_GOLD = { gadget: 1000, star: 2000, hyper: 5000, buffieGold: 1000, buffiePP: 2000 };   // user-confirmed in-game costs
+const FC_GOLD = { gadget: 1000, star: 2000, hyper: 5000, buffieGold: 1000, buffiePP: 2000 };  // in-game costs
 const FC_MIN_SPAN_DAYS = 7;
-const FC_WINDOWS = [14, 30, 60, null];   // null = since tracking began
+const FC_WINDOWS = [14, 30, 60, null];  // null = all history
 const FC_PRIMARY_WINDOW = 30;
 
 function fcDayDiff(a, b){
@@ -2560,7 +2527,7 @@ function fcDayDiff(a, b){
   return Math.round((Date.UTC(pb[0], pb[1] - 1, pb[2]) - Date.UTC(pa[0], pa[1] - 1, pa[2])) / 86400000);
 }
 
-/** Pure: brawler_history rows -> last known state of every brawler on every snapshot day (local date). */
+// last known state of each brawler per snapshot day
 function fcDailyStates(rows, catalog){
   const byDay = {};
   [...rows].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)).forEach(r => {
@@ -2576,7 +2543,7 @@ function fcDailyStates(rows, catalog){
   return { days: Object.keys(byDay).sort(), byDay };
 }
 
-/** Pure: power level newly unlocked brawlers arrive at (median of those first seen after tracking began). */
+// power level new brawlers start at (median)
 function fcAssumedStartPower(daily){
   const first = {};
   daily.days.forEach(d => Object.entries(daily.byDay[d]).forEach(([id, s]) => { if(!(id in first)) first[id] = { day: d, power: s.power }; }));
@@ -2587,7 +2554,7 @@ function fcAssumedStartPower(daily){
   return { power: Math.round(med), n: vals.length };
 }
 
-/** Pure: units still needed, for owned brawlers only and for the whole roster. */
+// what is left, owned only and whole roster
 function fcRemaining(state, catalog, buffieSet, startPower){
   const zero = () => ({ unlock:0, power:0, gadget:0, star:0, hyper:0, buffie:0, coins:0 });
   const owned = zero(), roster = zero();
@@ -2611,8 +2578,7 @@ function fcRemaining(state, catalog, buffieSet, startPower){
   return { owned, roster };
 }
 
-/** Pure: progress per day over a window (null = whole history). Baseline per brawler = its first snapshot inside the window,
- *  so a brawler unlocked mid-window doesn't get its starting level counted as progress, but later upgrades do. */
+// pace per day over a window, baseline is the first snapshot inside it
 function fcRates(daily, windowDays){
   const days = daily.days;
   if(days.length < 2) return { ok: false, span: 0 };
@@ -2620,7 +2586,7 @@ function fcRates(daily, windowDays){
   let start = days[0];
   if(windowDays !== null && windowDays !== undefined){
     start = days.find(d => fcDayDiff(d, end) <= windowDays) || days[0];
-    if(start === end) start = days[days.length - 2];   // sparse history: fall back to the last snapshot before the window
+    if(start === end) start = days[days.length - 2];  // sparse history: use the snapshot before the window
   }
   const span = fcDayDiff(start, end);
   if(span < FC_MIN_SPAN_DAYS) return { ok: false, span, start, end };
@@ -2642,7 +2608,7 @@ function fcRates(daily, windowDays){
   return { ok: true, span, start, end, rates, totals: t };
 }
 
-/** Pure: per-category ETA; overall = slowest category. Never invents a date when a needed category has zero pace. */
+// slowest category sets the date, no date if one has no pace
 function fcEta(remaining, rateInfo){
   const cats = {}; const blockers = []; let worst = null;
   FC_CATS.forEach(c => {
@@ -2666,7 +2632,6 @@ function fcGold(rem){
   return g;
 }
 
-/** Pure: everything the card shows. */
 function computeForecast(rows, catalog, buffieSet){
   const daily = fcDailyStates(rows, catalog);
   if(!daily.days.length) return { ok: false, reason: 'No brawler snapshots yet.' };
@@ -2719,7 +2684,7 @@ function renderForecast(){
     } else {
       v = `${fcFmtDays(e.overallDays)} · ${fcFmtDate(e.overallDays)}`;
       s = `Slowest category: <b>${fcLabel(e.bottleneck)}</b>.` +
-        (rangeInfo && Math.ceil(rangeInfo.min) !== Math.ceil(rangeInfo.max) ? ` Range across the 14 / 30 / 60-day and all-time paces: ${fcFmtDays(rangeInfo.min)} – ${fcFmtDays(rangeInfo.max)} (${fcFmtDate(rangeInfo.min)} – ${fcFmtDate(rangeInfo.max)}).` : '');
+        (rangeInfo && Math.ceil(rangeInfo.min) !== Math.ceil(rangeInfo.max) ? ` Across the 14, 30 and 60 day and all-time paces it comes to ${fcFmtDays(rangeInfo.min)} to ${fcFmtDays(rangeInfo.max)} (${fcFmtDate(rangeInfo.min)} to ${fcFmtDate(rangeInfo.max)}).` : '');
     }
     return `<div class="fc-line"><div class="k">${title}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   };
@@ -2744,40 +2709,42 @@ function renderForecast(){
     `<tr><td>Power Points for buffies (2,000 each)</td><td class="num">${fmtNum(go.buffiePP)}</td><td class="num">${fmtNum(gr.buffiePP)}</td></tr>`;
   const gp = p.rates.gold;
   document.getElementById('forecastGoldNote').textContent = gp > 0
-    ? `You have been converting about ${fmtNum(Math.round(gp))} gold a day into upgrades (last ${FC_PRIMARY_WINDOW} days). If gold were the only limit, that finishes the owned brawlers in about ${fcFmtDays(p.goldOwnedDays)} and the whole roster in about ${fcFmtDays(p.goldRosterDays)}. The category dates above are the safer guide: gold is only one of the things holding you back.`
-    : 'No gold-priced upgrades were bought in the last 30 days, so no gold-based pace is available.';
+    ? `You've been turning about ${fmtNum(Math.round(gp))} gold a day into upgrades over the last ${FC_PRIMARY_WINDOW} days. If gold were the only limit that would finish owned brawlers in about ${fcFmtDays(p.goldOwnedDays)} and the whole roster in about ${fcFmtDays(p.goldRosterDays)}. The category dates above are the safer guide.`
+    : "No gold-priced upgrades in the last 30 days, so there's no gold-based pace.";
 
-  const lowPower = f.startPower.n >= 3 ? `Locked brawlers are assumed to arrive at Power ${f.startPower.power} (the typical starting level of the ${f.startPower.n} you unlocked since tracking began), so they need ${11 - f.startPower.power} power levels each.` : 'Too few unlocks seen yet to know the starting level of new brawlers, so locked ones are assumed to start at Power 1.';
+  const lowPower = f.startPower.n >= 3
+    ? `Locked brawlers are assumed to arrive at Power ${f.startPower.power}, where the ${f.startPower.n} you unlocked since tracking began started, so each needs ${11 - f.startPower.power} more levels.`
+    : "Too few unlocks so far to know where new brawlers start, so locked ones are assumed to start at Power 1.";
   document.getElementById('forecastNotes').innerHTML = [
-    `<b>Method:</b> pace = what you actually gained between ${p.start} and ${p.end} (${p.span} days) in the daily snapshots; days left = what is left ÷ pace for each category, and the overall date is set by the slowest category. If a category still needed has made no progress in the window, no date is shown for it.`,
-    'Brawlers unlocked inside the window count from their first snapshot, so their starting level is not treated as progress.',
+    `Pace is what you actually gained between ${p.start} and ${p.end} (${p.span} days) in the daily snapshots. Days left = what's left divided by pace, per category, and the slowest category sets the overall date. If a category still needs work but hasn't moved in the window, there's no date for it.`,
+    `Brawlers unlocked during the window count from their first snapshot, so their starting level doesn't count as progress.`,
     lowPower,
-    '“Owned” counts only brawlers you have unlocked; “roster” adds every locked brawler (one unlock each, its power levels, all its gadgets, star powers, hypercharges and, if released, buffies).',
-    'It assumes today’s roster and buffie list. New brawlers, gadgets, star powers, hypercharges or buffies from Supercell move the finish line.',
-    'Buffies are random Claw Machine pulls, so that category is the least predictable. Unlocks depend on your trophy and box luck.',
-    'Pace reflects your past gold income, so it already includes gold being your bottleneck.',
-    '*Power-up coin costs come from a community cost table that is not fetched live, so treat that row as approximate.',
+    `Owned = brawlers you've unlocked. Roster adds every locked brawler: the unlock, its power levels, and all its gadgets, star powers, hypercharges and buffies.`,
+    `This uses today's roster and buffie list. New brawlers or items from Supercell move the finish line.`,
+    `Buffies are random pulls, so that category is the hardest to predict.`,
+    `Pace comes from your past gold income, so gold being the bottleneck is already baked in.`,
+    `*Power-up coin costs come from a cost table that isn't fetched live, so that row is approximate.`,
   ].map(t => `<li>${t}</li>`).join('');
 }
 
-/* ===================== Phase 5: account rating ===================== */
-// All the tunable numbers live here. Weights inside each score are relative (they are re-normalised).
+// account rating
+// tunables, weights are relative
 const RATING_CONFIG = {
-  overallWeights: { build: 0.6, form: 0.4 },   // overall leans towards completeness
+  overallWeights: { build: 0.6, form: 0.4 },  // completeness weighs more
   build: { unlocked: 20, power: 25, maxed: 10, gadgets: 15, starPowers: 15, hypercharges: 5, buffies: 10 },
   form:  { overall: 40, recent: 30, placement: 30 },
-  recentBattles: 25,       // "recent form" window
-  overallPrior: 20,        // pseudo-battles at 50% so a handful of games can't swing the overall win rate
-  recentPrior: 10,         // pseudo-battles at your overall rate, so 25 games can't swing recent form
-  placementPrior: 10,      // pseudo-battles at a neutral 50
-  minFieldSize: 10,        // smallest Showdown field assumed when scoring placements
-  trendWindow: 100,        // battles in each rolling window of the history chart
-  trendMinDecided: 30,     // don't plot a Form point with fewer decided battles than this
+  recentBattles: 25,  // recent form window
+  overallPrior: 20,  // pull towards 50%
+  recentPrior: 10,  // pull towards overall rate
+  placementPrior: 10,  // pull towards 50
+  minFieldSize: 10,  // smallest showdown field
+  trendWindow: 100,  // history chart window
+  trendMinDecided: 30,  // min battles to plot
 };
 const RATING_BUILD_LABELS = { unlocked:'Brawlers unlocked', power:'Power levels', maxed:'Fully maxed brawlers', gadgets:'Gadgets', starPowers:'Star powers', hypercharges:'Hypercharges', buffies:'Buffies' };
 const RATING_FORM_LABELS = { overall:'Overall win rate', recent:'Recent win rate', placement:'Showdown placement' };
 
-/** Pure: completeness from one day's brawler states (see fcDailyStates). Returns 0-100 plus the components. */
+// completeness score for one day
 function ratingBuild(state, catalog, buffieSet, cfg){
   cfg = cfg || RATING_CONFIG;
   const ids = Object.keys(catalog), U = ids.length;
@@ -2802,9 +2769,13 @@ function ratingBuild(state, catalog, buffieSet, cfg){
   return { score: num / den, comps, denoms: { U, power: 11 * U, gadgets: totG, starPowers: totS, hypercharges: totH, buffies: 3 * B }, counts: { owned: ownedN, maxed } };
 }
 
-function ratingMinField(b, cfg){ return String(b.mode).toLowerCase() === 'soloshowdown' && isBigSoloMap(b.map) ? BIG_SOLO_FIELD : cfg.minFieldSize; }
+function ratingMinField(b, cfg){
+  if(isMegaSolo(b)) return BIG_SOLO_FIELD;
+  if(String(b.mode).toLowerCase() === 'duoshowdown') return isMegaDuo(b) ? 10 : 5;  // teams
+  return cfg.minFieldSize;
+}
 
-/** Pure: biggest placement ever seen per mode+map (at least minFieldSize) = the field size to score against. */
+// field size per mode and map
 function ratingFieldSizes(rows, cfg){
   cfg = cfg || RATING_CONFIG;
   const m = {};
@@ -2812,14 +2783,14 @@ function ratingFieldSizes(rows, cfg){
   return m;
 }
 
-/** Pure: skill from battles (newest first). Shrinks towards neutral values when the sample is small. */
+// skill score from battles, newest first
 function ratingForm(rows, fieldSizes, cfg){
   cfg = cfg || RATING_CONFIG;
   const cls = rows.map(classifyBattle);
   const wins = cls.filter(c => c === 'victory').length, losses = cls.filter(c => c === 'defeat').length;
   const decided = wins + losses;
   if(decided === 0) return null;
-  const overall = (wins + cfg.overallPrior / 2) / (decided + cfg.overallPrior);          // 0-1
+  const overall = (wins + cfg.overallPrior / 2) / (decided + cfg.overallPrior);
   let rw = 0, rd = 0;
   rows.slice(0, cfg.recentBattles).forEach(b => { const c = classifyBattle(b); if(c === 'victory'){ rw++; rd++; } else if(c === 'defeat') rd++; });
   const recent = (rw + cfg.recentPrior * overall) / (rd + cfg.recentPrior);
@@ -2845,7 +2816,7 @@ function ratingOverall(build, form, cfg){
   return (w.build * build + w.form * form) / (w.build + w.form);
 }
 
-/** Pure: Build per snapshot day, Form over a rolling window of battles ending that day. */
+// build per day, form over a rolling window
 function ratingTrend(brawlerRowsIn, battleRowsNewestFirst, catalog, buffieSet, cfg){
   cfg = cfg || RATING_CONFIG;
   const daily = fcDailyStates(brawlerRowsIn, catalog);
@@ -2861,7 +2832,7 @@ function ratingTrend(brawlerRowsIn, battleRowsNewestFirst, catalog, buffieSet, c
   });
 }
 
-/** Pure: Build points gained by one more of each purchasable upgrade, and per 10,000 gold. */
+// points per upgrade and per 10k gold
 function ratingMarginals(build, fcOwned, cfg){
   cfg = cfg || RATING_CONFIG;
   const wsum = Object.values(cfg.build).reduce((a, b) => a + b, 0);
@@ -2965,15 +2936,15 @@ function renderRating(){
     : '<div class="stat-sub">Everything gold can buy is already done.</div>';
 
   document.getElementById('rtNotes').innerHTML = [
-    '<b>Completeness</b> is a weighted average of seven percentages (weights shown beside each bar): brawlers unlocked, power levels out of 11 across the whole roster, fully maxed brawlers, and gadgets, star powers, hypercharges and buffies owned out of all that exist. Locked brawlers count as zero.',
-    '<b>Skill</b> blends your overall win rate, your win rate over the last 25 battles, and your Showdown placement (1st = 100, last = 0, scored against the biggest field seen on each map: at least 10 players, 20 on the three big Solo maps). Small samples are pulled towards a neutral value so a few games cannot swing it; the confidence label reflects how many decided battles back it.',
-    'Win rates use the dashboard’s own rules (Showdown wins count by placement) and only battles the tracker captured. The skill score has no clear scale for “good”, so read it as a trend rather than a grade.',
-    'The history chart scores each snapshot day with today’s roster and buffie list, so it moves only with your progress. Skill points use the 100 battles up to that day and start once there are at least 30 decided battles.',
-    'Marginal points ignore the “fully maxed” bonus and Power Point costs. The overall weights and every other number sit in RATING_CONFIG in the page’s script.',
+    `Completeness is a weighted average of seven percentages (weights next to each bar): brawlers unlocked, power levels out of 11 across the whole roster, fully maxed brawlers, and gadgets, star powers, hypercharges and buffies owned out of all that exist. Locked brawlers count as zero.`,
+    `Skill mixes your overall win rate, your win rate over the last 25 battles and your Showdown placement (1st = 100, last = 0, scored against the biggest field seen on each map). Small samples get pulled towards a neutral value, and the confidence label shows how many battles it rests on.`,
+    `Win rates use the same rules as the rest of the dashboard and only count battles the tracker caught. There's no real scale for what a good skill score is, so watch the trend more than the number.`,
+    `The history chart scores each snapshot day with today's roster and buffie list, so it only moves with your progress. Skill on the chart uses the 100 battles up to that day and starts once there are 30 decided battles.`,
+    `Points per upgrade ignore the fully maxed bonus and Power Point costs.`,
   ].map(t => `<li>${t}</li>`).join('');
 }
 
-/* ===================== Navigation + back to top ===================== */
+// navigation, back to top
 const navEl = document.getElementById('topnav');
 const navLinksEl = document.getElementById('navLinks');
 const navMenuBtn = document.getElementById('navMenuBtn');
@@ -2990,7 +2961,7 @@ navLinkEls.forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
 document.addEventListener('click', (e) => { if(!navEl.contains(e.target)) setMenuOpen(false); });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') setMenuOpen(false); });
 
-// Highlight whichever section currently sits under the sticky nav.
+// highlight the section under the nav
 function updateActiveSection(){
   if(!navSections.length) return;
   const offset = navEl.offsetHeight + 28;

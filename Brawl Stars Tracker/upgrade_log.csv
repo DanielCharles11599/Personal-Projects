@@ -226,3 +226,6 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-24T23:48:51+00:00,2026-11-24,16000031,MR. P,prestige,Prestige 0 → 1,0,1,live
 2026-11-25T19:03:23+00:00,2026-11-25,16000021,GENE,hypercharge,HYPER HANDS,0,1,live
 2026-11-25T19:03:23+00:00,2026-11-25,16000078,MELODIE,unlock,Brawler unlocked,,,live
+2026-11-26T16:39:29+00:00,2026-11-26,16000106,BOLT,gadget,OIL CHANGE,1,2,live
+2026-11-26T16:39:29+00:00,2026-11-26,16000023,LEON,gadget,LOLLIPOP DROP,1,2,live
+2026-11-26T16:39:29+00:00,2026-11-26,16000097,MINA,unlock,Brawler unlocked,,,live

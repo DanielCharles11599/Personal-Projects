@@ -2,7 +2,7 @@
   "total_brawlers": 111,
   "total_gadgets": 222,
   "total_star_powers": 222,
-  "total_hypercharges": 108,
+  "total_hypercharges": 109,
   "hypercharge_data_available": true,
   "unused_item_fields": [
     "gears"
@@ -3036,7 +3036,7 @@
       "name": "THUNDER FROGS",
       "gadgets": 2,
       "starPowers": 2,
-      "hyperCharges": 0,
+      "hyperCharges": 1,
       "gadgetNames": [
         "DOUBLE JUMPERS",
         "SOOTHING SHOCK"
@@ -3045,7 +3045,9 @@
         "LEECH LANDING",
         "SWAMP STOMPS"
       ],
-      "hyperChargeNames": [],
+      "hyperChargeNames": [
+        "TRIPLE THE TRICKS"
+      ],
       "gadgetIds": [
         23001498,
         23001499
@@ -3054,7 +3056,9 @@
         23001496,
         23001497
       ],
-      "hyperChargeIds": []
+      "hyperChargeIds": [
+        23001500
+      ]
     },
     "16000112": {
       "name": "REY",

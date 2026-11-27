@@ -238,3 +238,4 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-27T11:55:15+00:00,2026-11-27,16000050,GRIFF,power,Power 10 → 11,10,11,live
 2026-11-27T11:55:15+00:00,2026-11-27,16000038,SURGE,buffie,Gadget buffie,False,True,live
 2026-11-27T11:55:15+00:00,2026-11-27,16000038,SURGE,buffie,Star buffie,False,True,live
+2026-11-27T20:55:53+00:00,2026-11-27,16000003,BROCK,gadget,ROCKET FUEL,1,2,live

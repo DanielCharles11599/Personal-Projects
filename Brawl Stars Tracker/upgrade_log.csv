@@ -229,3 +229,12 @@ detected_at,date,brawler_id,brawler_name,type,detail,from_value,to_value,source
 2026-11-26T16:39:29+00:00,2026-11-26,16000106,BOLT,gadget,OIL CHANGE,1,2,live
 2026-11-26T16:39:29+00:00,2026-11-26,16000023,LEON,gadget,LOLLIPOP DROP,1,2,live
 2026-11-26T16:39:29+00:00,2026-11-26,16000097,MINA,unlock,Brawler unlocked,,,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000039,COLETTE,buffie,Gadget buffie,False,True,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000039,COLETTE,buffie,Star buffie,False,True,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000039,COLETTE,power,Power 7 → 10,7,10,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000030,EMZ,buffie,Gadget buffie,False,True,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000030,EMZ,buffie,Star buffie,False,True,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000030,EMZ,power,Power 9 → 11,9,11,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000050,GRIFF,power,Power 10 → 11,10,11,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000038,SURGE,buffie,Gadget buffie,False,True,live
+2026-11-27T11:55:15+00:00,2026-11-27,16000038,SURGE,buffie,Star buffie,False,True,live
